@@ -1,41 +1,160 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
 <div class="app-body">
-  <main class="main d-flex align-items-center">
+  <main class="main d-flex align-items-center mt-4">
     <div class="container">
       <div class="row">
         <div class="col-md-6 mx-auto">
           <div class="card mx-4">
             <div class="card-body p-4">
-              <form>
+              <form [formGroup]="userRegister" (ngSubmit)="register()">
                 <h1>Register</h1>
                 <p class="text-muted">Create your account</p>
+
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="icon-user"></i></span>
+                    <span class="input-group-text"
+                      ><i class="icon-user"></i
+                    ></span>
                   </div>
-                  <input type="text" class="form-control" placeholder="Username" autocomplete="username" required>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="First Name"
+                    formControlName="First_Name"
+                    [ngClass]="{
+                      'is-invalid':
+                        First_Name.invalid &&
+                        First_Name.dirty &&
+                        First_Name.touched,
+                      'is-valid': !First_Name.invalid
+                    }"
+                  />
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="First_Name"
+                  ></app-error-message>
                 </div>
+
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text">@</span>
+                    <span class="input-group-text"
+                      ><i class="icon-user"></i
+                    ></span>
                   </div>
-                  <input type="text" class="form-control" placeholder="Email" autocomplete="email" required>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Last Name"
+                    formControlName="Last_Name"
+                    [ngClass]="{
+                      'is-invalid':
+                        Last_Name.invalid &&
+                        Last_Name.dirty &&
+                        Last_Name.touched,
+                      'is-valid': !Last_Name.invalid
+                    }"
+                  />
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Last_Name"
+                  ></app-error-message>
                 </div>
+
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="icon-lock"></i></span>
+                    <span class="input-group-text"
+                      ><i class="icon-user"></i
+                    ></span>
                   </div>
-                  <input type="password" class="form-control" placeholder="Password" autocomplete="new-password" required>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Username"
+                    formControlName="Username"
+                    [ngClass]="{
+                      'is-invalid':
+                        Username.invalid && Username.dirty && Username.touched,
+                      'is-valid': !Username.invalid
+                    }"
+                  />
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Username"
+                  ></app-error-message>
                 </div>
-                <div class="input-group mb-4">
+
+                <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="icon-lock"></i></span>
+                    <span class="input-group-text"
+                      ><i class="icon-lock"></i
+                    ></span>
                   </div>
-                  <input type="password" class="form-control" placeholder="Repeat password" autocomplete="new-password" required>
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Password"
+                    formControlName="Password"
+                    [ngClass]="{
+                      'is-invalid':
+                        Password.invalid && Password.dirty && Password.touched,
+                      'is-valid': !Password.invalid
+                    }"
+                  />
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Password"
+                  ></app-error-message>
                 </div>
-                <button type="button" class="btn btn-block btn-success">Create Account</button>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="icon-lock"></i
+                    ></span>
+                  </div>
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Repeat password"
+                    formControlName="Re_Password"
+                    [ngClass]="{
+                      'is-invalid':
+                        Re_Password.invalid &&
+                        Re_Password.dirty &&
+                        Re_Password.touched,
+                      'is-valid': !Re_Password.invalid
+                    }"
+                  />
+                  <app-error-message
+                    [control]="Re_Password"
+                    class="d-block w-100"
+                  ></app-error-message>
+                </div>
+                <button
+                  type="submit"
+                  class="btn btn-block btn-success"
+                  [disabled]="!userRegister.valid"
+                >
+                  Create Account
+                </button>
+
+                <div class="row mt-4">
+                  <div class="col-12 text-center">
+                    Already have an account?
+                    <a
+                      routerLink="/login"
+                      type="button"
+                      class="btn btn-link px-0"
+                    >
+                      Login!
+                    </a>
+                  </div>
+                </div>
               </form>
             </div>
-            <div class="card-footer p-4">
+            <!-- <div class="card-footer p-4">
               <div class="row">
                 <div class="col-6">
                   <button class="btn btn-block btn-facebook" type="button"><span>facebook</span></button>
@@ -44,7 +163,7 @@
                   <button class="btn btn-block btn-twitter" type="button"><span>twitter</span></button>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

@@ -1,0 +1,380 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="qualityMaster" (ngSubmit)="onSubmit()">
+            <div class="card">
+              <div class="card-header text-center">
+                <span class="h4">Quality Master</span>
+              </div>
+
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Design Name"
+                        formControlName="Design_Name"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Design_Name"
+                      ></app-error-message>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-header text-center">
+                    <span class="h4">WARF</span>
+                  </div>
+
+                  <div class="card-body">
+                    <table
+                      class="table table-responsive-sm table-hover table-outline mb-0 table-bordered"
+                    >
+                      <thead class="thead-dark">
+                        <tr>
+                          <th class="text-center">SUT</th>
+                          <th class="text-center">COUNT</th>
+                          <th class="text-center">COLOR</th>
+                          <th class="text-center">TARA</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                      </thead>
+
+                      <tbody formArrayName="warpList">
+                        <tr
+                          *ngFor="let item of warpGroup.controls; let i = index"
+                        >
+                          <ng-container [formGroupName]="i">
+                            <td>
+                              <select
+                                class="form-control"
+                                formControlName="SUT_WARP"
+                              >
+                                <option value="">Select SUT</option>
+                                <option
+                                  value="{{ sut._id }}"
+                                  *ngFor="let sut of sutList"
+                                  >{{ sut.SUT_Name }}</option
+                                >
+                              </select>
+
+                              <!-- <app-error-message
+                                class="d-block w-100"
+                                [control]="SUT_WARP"
+                              ></app-error-message> -->
+                            </td>
+
+                            <td>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="COUNT"
+                                formControlName="Count_WARP"
+                              />
+
+                              <!-- <app-error-message
+                                class="d-block w-100"
+                                [control]="Count_WARP"
+                              ></app-error-message> -->
+                            </td>
+
+                            <td>
+                              <input
+                                type="text"
+                                class="form-control"
+                                placeholder="COLOR"
+                                formControlName="Color_WARP"
+                              />
+
+                              <!-- <app-error-message
+                                class="d-block w-100"
+                                [control]="Color_WARP"
+                              ></app-error-message> -->
+                            </td>
+
+                            <td>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="TARA"
+                                formControlName="Tara_WARP"
+                              />
+
+                              <!-- <app-error-message
+                                class="d-block w-100"
+                                [control]="Tara_WARP"
+                              ></app-error-message> -->
+                            </td>
+
+                            <td class="text-center">
+                              <button
+                                type="button"
+                                class="btn btn-danger"
+                                (click)="removeWarp(i)"
+                              >
+                                <i class="fa fa-remove"></i>
+                              </button>
+                            </td>
+                          </ng-container>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="card-footer text-center">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="addWarp()"
+                    >
+                      <i class="fa fa-plus"></i> Add WARP
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-header text-center">
+                    <span class="h4">WEFT</span>
+                  </div>
+                  <div class="card-body">
+                    <table
+                      class="table table-responsive-sm table-hover table-outline mb-0 table-bordered"
+                    >
+                      <thead class="thead-dark">
+                        <tr>
+                          <th class="text-center">SUT</th>
+                          <th class="text-center">COUNT</th>
+                          <th class="text-center">COLOR</th>
+                          <th class="text-center">PICK</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                      </thead>
+
+                      <tbody formArrayName="weftList">
+                        <tr
+                          *ngFor="let item of weftGroup.controls; let i = index"
+                        >
+                          <ng-container [formGroupName]="i">
+                            <td>
+                              <select
+                                class="form-control"
+                                formControlName="SUT_WEFT"
+                              >
+                                <option value="">Select SUT</option>
+                                <option
+                                  value="{{ sut._id }}"
+                                  *ngFor="let sut of sutList"
+                                  >{{ sut.SUT_Name }}</option
+                                >
+                              </select>
+
+                              <!-- <app-error-message
+                                class="d-block w-100"
+                                [control]="SUT_WEFT"
+                              ></app-error-message> -->
+                            </td>
+
+                            <td>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="COUNT"
+                                formControlName="Count_WEFT"
+                              />
+
+                              <!-- <app-error-message
+                                class="d-block w-100"
+                                [control]="Count_WEFT"
+                              ></app-error-message> -->
+                            </td>
+
+                            <td>
+                              <input
+                                type="text"
+                                class="form-control"
+                                placeholder="COLOR"
+                                formControlName="Color_WEFT"
+                              />
+
+                              <!-- <app-error-message
+                                class="d-block w-100"
+                                [control]="Color_WEFT"
+                              ></app-error-message> -->
+                            </td>
+
+                            <td>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="PICK"
+                                formControlName="Pick_WEFT"
+                              />
+
+                              <!-- <app-error-message
+                                class="d-block w-100"
+                                [control]="Pick_WEFT"
+                              ></app-error-message> -->
+                            </td>
+
+                            <td class="text-center">
+                              <button
+                                type="button"
+                                class="btn btn-danger"
+                                (click)="removeWeft(i)"
+                              >
+                                <i class="fa fa-remove"></i>
+                              </button>
+                            </td>
+                          </ng-container>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="card-footer text-center">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="addWeft()"
+                    >
+                      <i class="fa fa-plus"></i> Add WEFT
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="PART"
+                            formControlName="Part"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Part"
+                          ></app-error-message>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="LASA"
+                            formControlName="Lasa"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Lasa"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="PANNA"
+                                formControlName="Panna"
+                              />
+
+                              <app-error-message
+                                class="d-block w-100"
+                                [control]="Panna"
+                              ></app-error-message>
+                            </div>
+                          </div>
+
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="METER"
+                                formControlName="Meter"
+                              />
+
+                              <app-error-message
+                                class="d-block w-100"
+                                [control]="Meter"
+                              ></app-error-message>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="WESTAGE"
+                            formControlName="Westage"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Westage"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-footer text-center">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  [disabled]="!qualityMaster.valid"
+                >
+                  <i class="fa fa-dot-circle-o"></i> {{ buttonText }}
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="onCancel()"
+                >
+                  <i class="fa fa-ban"></i> Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

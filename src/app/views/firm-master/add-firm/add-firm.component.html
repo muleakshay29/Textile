@@ -1,0 +1,261 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="firmMaster" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Firm Master</span>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Company Name"
+                    formControlName="Company_Name"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Company_Name"
+                  ></app-error-message>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Owner Name"
+                    formControlName="Owner_Name"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Owner_Name"
+                  ></app-error-message>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <textarea
+                        cols="30"
+                        rows="4"
+                        class="form-control"
+                        placeholder="Address"
+                        formControlName="Address"
+                      ></textarea>
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Address"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Mobile No."
+                            formControlName="Mobile_No"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Mobile_No"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Alternate No."
+                            formControlName="Alternate_No"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Alternate_No"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="GST"
+                            formControlName="GST_No"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="GST_No"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Pan No."
+                            formControlName="Pan_No"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Pan_No"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <select class="form-control" formControlName="State">
+                        <option value="">Select State</option>
+                        <option
+                          value="{{ state.CMC_Name }}"
+                          *ngFor="let state of stateList"
+                          >{{ state.CMC_Name }}</option
+                        >
+                      </select>
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="State"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <input
+                        type="email"
+                        class="form-control"
+                        placeholder="Email ID"
+                        formControlName="Email_ID"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Email_ID"
+                      ></app-error-message>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Bank Name"
+                        formControlName="Bank_Name"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Bank_Name"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Branch"
+                        formControlName="Branch"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Branch"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Account No."
+                        formControlName="Account_No"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Account_No"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="IFSC Code"
+                        formControlName="IFSC_Code"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="IFSC_Code"
+                      ></app-error-message>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!firmMaster.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> Submit
+            </button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

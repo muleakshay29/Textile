@@ -1,1 +1,16 @@
 // Here you can add other styles
+
+.modal-content {
+  margin: 1.75rem auto;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    margin: 0 auto;
+  }
+}
+
+.table-responsive,
+.table-responsive-sm {
+  display: table;
+}

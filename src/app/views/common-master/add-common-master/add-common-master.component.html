@@ -1,0 +1,49 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="commonMaster" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Common Master</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="CM_Name"
+                    placeholder="Enter Name"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="CM_Name"
+                  ></app-error-message>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!commonMaster.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> {{ buttonText }}
+            </button>
+
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,351 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="employeeMaster" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Employee Master</span>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Employee Name"
+                    formControlName="Employee_Name"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Employee_Name"
+                  ></app-error-message>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <textarea
+                        cols="30"
+                        rows="4"
+                        class="form-control"
+                        placeholder="Address"
+                        formControlName="Address"
+                      ></textarea>
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Address"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Mobile No."
+                            formControlName="Mobile_No"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Mobile_No"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Alternate No."
+                            formControlName="Alternate_No"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Alternate_No"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <select
+                            class="form-control"
+                            formControlName="Location"
+                          >
+                            <option value="">Select Location</option>
+                            <option
+                              value="{{ location.CMC_Name }}"
+                              *ngFor="let location of locationList"
+                              >{{ location.CMC_Name }}</option
+                            >
+                          </select>
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Location"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <select
+                            class="form-control"
+                            formControlName="Employee_Type"
+                          >
+                            <option value="">Select Employee Type</option>
+                            <option
+                              value="{{ emp.CMC_Name }}"
+                              *ngFor="let emp of empTypeList"
+                              >{{ emp.CMC_Name }}</option
+                            >
+                          </select>
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Employee_Type"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Bank Name"
+                        formControlName="Bank_Name"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Bank_Name"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Branch"
+                        formControlName="Branch"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Branch"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Account No."
+                        formControlName="Account_No"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Account_No"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="IFSC Code"
+                        formControlName="IFSC_Code"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="IFSC_Code"
+                      ></app-error-message>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Username"
+                        formControlName="Username"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Username"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <input
+                        type="password"
+                        class="form-control"
+                        placeholder="Password"
+                        formControlName="Password"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Password"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <input
+                        type="password"
+                        class="form-control"
+                        placeholder="Re-Password"
+                        formControlName="Re_Password"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Re_Password"
+                      ></app-error-message>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Advance Balance"
+                        formControlName="Advance_Balance"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Advance_Balance"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <select
+                        class="form-control"
+                        formControlName="Advance_Balance_Type"
+                      >
+                        <option value="">Select Balance Type</option>
+                        <option
+                          value="{{ balance.CMC_Name }}"
+                          *ngFor="let balance of balanceTypeList"
+                          >{{ balance.CMC_Name }}</option
+                        >
+                      </select>
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Advance_Balance_Type"
+                      ></app-error-message>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Baki Balance"
+                        formControlName="Baki_Balance"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Baki_Balance"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <select
+                        class="form-control"
+                        formControlName="Baki_Balance_Type"
+                      >
+                        <option value="">Select Balance Type</option>
+                        <option
+                          value="{{ balance.CMC_Name }}"
+                          *ngFor="let balance of balanceTypeList"
+                          >{{ balance.CMC_Name }}</option
+                        >
+                      </select>
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Baki_Balance_Type"
+                      ></app-error-message>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!employeeMaster.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> Submit
+            </button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -16,8 +16,8 @@ const httpOptions = {
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-  API_URL = `http://localhost:3000/`;
-  // API_URL = `https://textile-app95.herokuapp.com/`;
+  // API_URL = `http://localhost:3000/`;
+  API_URL = `https://textile-app95.herokuapp.com/`;
 
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<User>(

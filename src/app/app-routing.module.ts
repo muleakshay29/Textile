@@ -53,9 +53,9 @@ const routes: Routes = [
           import("./views/master.module").then((m) => m.MasterModule),
       },
       {
-        path: "icons",
+        path: "inwards",
         loadChildren: () =>
-          import("./views/icons/icons.module").then((m) => m.IconsModule),
+          import("./views/inwards/inwards.module").then((m) => m.InwardsModule),
       },
     ],
   },

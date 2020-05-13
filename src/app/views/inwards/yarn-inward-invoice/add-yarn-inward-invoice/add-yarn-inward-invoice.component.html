@@ -1,0 +1,669 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="yarnInward" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Yarn Inward Invoice</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Invoice No"
+                  formControlName="Invoice_No"
+                  readonly
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Invoice_No"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="GETPASS"
+                  formControlName="GETPASS"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="GETPASS"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="Date"
+                  formControlName="Date"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Date"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <select
+                  class="form-control"
+                  formControlName="Party_Name"
+                  (change)="showHidePanel($event)"
+                >
+                  <option value="">Select Party Name</option>
+                  <option
+                    value="{{ party.Company_Name }}"
+                    *ngFor="let party of partyList"
+                    >{{ party.Company_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Party_Name"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <select class="form-control" formControlName="Shed_Name">
+                  <option value="">Select SHED Name</option>
+                  <option
+                    value="{{ shed.SHED_Name }}"
+                    *ngFor="let shed of shedList"
+                    >{{ shed.SHED_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Shed_Name"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <select class="form-control" formControlName="Firm_Name">
+                  <option value="">Select Firm Name</option>
+                  <option
+                    value="{{ firm.Company_Name }}"
+                    *ngFor="let firm of firmList"
+                    >{{ firm.Company_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Firm_Name"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="form-group col-sm-6">
+                    <select
+                      class="form-control"
+                      formControlName="SUT_Name"
+                      (change)="setGST($event)"
+                    >
+                      <option value="">Select SUT Name</option>
+                      <option
+                        value="{{ yarn.SUT_Name }}"
+                        *ngFor="let yarn of yarnList"
+                        >{{ yarn.SUT_Name }}</option
+                      >
+                    </select>
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="SUT_Name"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-6">
+                    <select class="form-control" formControlName="SUT_Type">
+                      <option value="">Select SUT Type</option>
+                      <option
+                        value="{{ type.CMC_Name }}"
+                        *ngFor="let type of sutTypeList"
+                        >{{ type.CMC_Name }}</option
+                      >
+                    </select>
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="SUT_Type"
+                    ></app-error-message>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-6">
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="COUNT"
+                      formControlName="Count"
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Count"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="COLOR"
+                      formControlName="Color"
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Color"
+                    ></app-error-message>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <table
+                          class="table table-responsive-sm table-outline mb-0 table-bordered"
+                        >
+                          <thead>
+                            <tr>
+                              <th class="text-center">&nbsp;</th>
+                              <th class="text-center">Bag</th>
+                              <th class="text-center">KON</th>
+                              <th class="text-center">NET WEIGHT</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th class="text-center">GODAWON</th>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="GODAWON_Bag"
+                                    (change)="
+                                      calculateBagTotal(
+                                        GODAWONBag.value,
+                                        KARKHANABag.value
+                                      )
+                                    "
+                                    #GODAWONBag
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="GODAWON_Bag"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="GODAWON_Kon"
+                                    (change)="
+                                      calculateKonTotal(
+                                        GODAWONKon.value,
+                                        KARKHANAKon.value
+                                      )
+                                    "
+                                    #GODAWONKon
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="GODAWON_Kon"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="GODAWON_Weight"
+                                    (change)="
+                                      calculateWeightTotal(
+                                        GODAWONWeight.value,
+                                        KARKHANAWeight.value
+                                      )
+                                    "
+                                    #GODAWONWeight
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="GODAWON_Weight"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <th class="text-center">KARKHANA</th>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="KARKHANA_Bag"
+                                    (change)="
+                                      calculateBagTotal(
+                                        GODAWONBag.value,
+                                        KARKHANABag.value
+                                      )
+                                    "
+                                    #KARKHANABag
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="KARKHANA_Bag"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="KARKHANA_Kon"
+                                    (change)="
+                                      calculateKonTotal(
+                                        GODAWONKon.value,
+                                        KARKHANAKon.value
+                                      )
+                                    "
+                                    #KARKHANAKon
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="KARKHANA_Kon"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="KARKHANA_Weight"
+                                    (change)="
+                                      calculateWeightTotal(
+                                        GODAWONWeight.value,
+                                        KARKHANAWeight.value
+                                      )
+                                    "
+                                    #KARKHANAWeight
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="KARKHANA_Weight"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <th class="text-center">TOTAL</th>
+
+                              <td class="text-center">
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  placeholder="0"
+                                  formControlName="Bag_TOTAL"
+                                  readonly
+                                  [value]="bagTotal"
+                                />
+                              </td>
+
+                              <td class="text-center">
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  placeholder="0"
+                                  formControlName="Kon_TOTAL"
+                                  readonly
+                                  [value]="konTotal"
+                                />
+                              </td>
+
+                              <td class="text-center">
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  placeholder="0"
+                                  formControlName="Weight_TOTAL"
+                                  readonly
+                                  [value]="weightTotal"
+                                />
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="form-group">
+                              <div class="input-group">
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  placeholder="Gross Weight"
+                                  formControlName="Gross_Weight"
+                                />
+                                <div class="input-group-append">
+                                  <span class="input-group-text">KG</span>
+                                </div>
+                              </div>
+
+                              <app-error-message
+                                class="d-block w-100"
+                                [control]="Gross_Weight"
+                              ></app-error-message>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="form-group">
+                              <select
+                                class="form-control"
+                                formControlName="Package_Type"
+                              >
+                                <option value="">Select Package Type</option>
+                                <option
+                                  value="{{ pkg.CMC_Name }}"
+                                  *ngFor="let pkg of pkgList"
+                                  >{{ pkg.CMC_Name }}</option
+                                >
+                              </select>
+
+                              <app-error-message
+                                class="d-block w-100"
+                                [control]="Package_Type"
+                              ></app-error-message>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12">
+                    <div class="card" *ngIf="hideShowPanel">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label for="Rate/KG">RATE/KG</label>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="RATE/KG"
+                                formControlName="Rate_KG"
+                                (keyup)="calculateAmount($event)"
+                              />
+
+                              <app-error-message
+                                class="d-block w-100"
+                                [control]="Rate_KG"
+                              ></app-error-message>
+                            </div>
+                          </div>
+
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label for="Amount">Amount</label>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="AMOUNT"
+                                formControlName="Amount"
+                                readonly
+                              />
+
+                              <app-error-message
+                                class="d-block w-100"
+                                [control]="Amount"
+                              ></app-error-message>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm-4">
+                            <div class="row">
+                              <div class="col-sm-5 pr-0">
+                                <label for="CGST">CGST</label>
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  placeholder="CGST"
+                                  formControlName="CGST"
+                                  readonly
+                                />
+                              </div>
+
+                              <div class="col-sm-7 pl-1">
+                                <div class="form-group">
+                                  <label for="CGSTAMOUNT">CGST AMOUNT</label>
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="CGST AMOUNT"
+                                    formControlName="CGST_AMOUNT"
+                                    readonly
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="CGST_AMOUNT"
+                                  ></app-error-message>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-sm-4">
+                            <div class="row">
+                              <div class="col-sm-5 pr-0">
+                                <label for="SGST">SGST</label>
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  placeholder="SGST"
+                                  formControlName="SGST"
+                                  readonly
+                                />
+                              </div>
+
+                              <div class="col-sm-7 pl-1">
+                                <div class="form-group">
+                                  <label for="SGSTAMOUNT">SGST AMOUNT</label>
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="SGST AMOUNT"
+                                    formControlName="SGST_AMOUNT"
+                                    readonly
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="SGST_AMOUNT"
+                                  ></app-error-message>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-sm-4">
+                            <div class="row">
+                              <div class="col-sm-5 pr-0">
+                                <label for="IGST">IGST</label>
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  placeholder="IGST"
+                                  formControlName="IGST"
+                                  readonly
+                                />
+                              </div>
+
+                              <div class="col-sm-7 pl-1">
+                                <div class="form-group">
+                                  <label for="IGSTAMOUNT">IGST AMOUNT</label>
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="IGST AMOUNT"
+                                    formControlName="IGST_AMOUNT"
+                                    readonly
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="IGST_AMOUNT"
+                                  ></app-error-message>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm-4">
+                            <div class="form-group">
+                              <label for="GSTTOTAL">GST TOTAL</label>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="GST TOTAL"
+                                formControlName="GST_TOTAL"
+                                readonly
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-sm-4">
+                            <div class="form-group">
+                              <label for="TOTALAMOUNT">TOTAL AMOUNT</label>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="TOTAL AMOUNT"
+                                formControlName="TOTAL_AMOUNT"
+                                readonly
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-sm-4">
+                            <div class="form-group">
+                              <label for="R/OFF">R/OFF</label>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="R/OFF"
+                                formControlName="Round_OFF"
+                                readonly
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm-4 offset-md-4">
+                            <div class="form-group">
+                              <label for="GrandTotal">Grand Total</label>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="Grand Total"
+                                formControlName="Grand_Total"
+                                readonly
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!yarnInward.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> {{ buttonText }}
+            </button>
+
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -15,6 +15,7 @@ import { SharedModule } from "./_shared/shared.module";
 import { RegisterComponent } from "./views/register/register.component";
 import { JwtInterceptor } from "./_helper/jwt.interceptor";
 import { DeleteConfirmationComponent } from "./_helper/delete-confirmation/delete-confirmation.component";
+import { InwardsModule } from "./views/inwards/inwards.module";
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { DeleteConfirmationComponent } from "./_helper/delete-confirmation/delet
     AppRoutingModule,
     MasterModule,
     SharedModule,
+    InwardsModule,
   ],
   declarations: [
     AppComponent,

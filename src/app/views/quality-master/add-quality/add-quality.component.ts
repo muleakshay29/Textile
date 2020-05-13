@@ -334,7 +334,7 @@ export class AddQualityComponent implements OnInit {
     if (this.editMode) {
       this.spinner.show();
       this.fetchWarpDetails();
-      this.fetchWeftDetails();
+      // this.fetchWeftDetails();
       this.master
         .fetchDetails(this.qualityID, "quality-details")
         .subscribe((details) => {
@@ -359,7 +359,6 @@ export class AddQualityComponent implements OnInit {
       .fetchDetails(this.qualityID, "fetch-quality-warf")
       .subscribe((warfData) => {
         let i = 0;
-        this.removeWarp(i);
         for (const iterator of warfData) {
           this.warp.push(this.createWarp());
 

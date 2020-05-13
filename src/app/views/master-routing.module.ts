@@ -20,6 +20,7 @@ import { CommonMasterComponent } from "./common-master/common-master.component";
 import { CommonMasterChildComponent } from "./common-master-child/common-master-child.component";
 import { AddCommonMasterComponent } from "./common-master/add-common-master/add-common-master.component";
 import { AddMasterChildComponent } from "./common-master-child/add-master-child/add-master-child.component";
+import { EditQualityComponent } from "./quality-master/edit-quality/edit-quality.component";
 
 const routes: Routes = [
   {
@@ -129,8 +130,8 @@ const routes: Routes = [
         },
       },
       {
-        path: "add-quality/:id",
-        component: AddQualityComponent,
+        path: "edit-quality/:id",
+        component: EditQualityComponent,
         data: {
           title: "Edit Quality Master",
         },

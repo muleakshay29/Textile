@@ -13,14 +13,14 @@ const httpOptions = {
   providedIn: "root",
 })
 export class MasterService {
-  // API_URL = `http://localhost:3000/`;
-  API_URL = `https://textile-app95.herokuapp.com/`;
+  API_URL = `http://localhost:3000/`;
+  // API_URL = `https://textile-app95.herokuapp.com/`;
 
   constructor(private http: HttpClient) {}
 
-  addData(formData, customURL): Observable<Yarn> {
+  addData(formData, customURL): Observable<any> {
     const URL = `${this.API_URL}${customURL}`;
-    return this.http.post<Yarn>(URL, formData, httpOptions);
+    return this.http.post<any>(URL, formData, httpOptions);
   }
 
   getItemCount(customURL): Observable<any> {

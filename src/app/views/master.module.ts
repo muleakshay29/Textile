@@ -22,6 +22,7 @@ import { CommonMasterComponent } from "./common-master/common-master.component";
 import { CommonMasterChildComponent } from "./common-master-child/common-master-child.component";
 import { AddCommonMasterComponent } from "./common-master/add-common-master/add-common-master.component";
 import { AddMasterChildComponent } from "./common-master-child/add-master-child/add-master-child.component";
+import { EditQualityComponent } from './quality-master/edit-quality/edit-quality.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { AddMasterChildComponent } from "./common-master-child/add-master-child/
     CommonMasterChildComponent,
     AddCommonMasterComponent,
     AddMasterChildComponent,
+    EditQualityComponent,
   ],
   imports: [MasterRoutingModule, SharedModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

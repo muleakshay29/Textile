@@ -46,4 +46,31 @@ export const navItems: INavData[] = [
     url: "/masters/account-master",
     icon: "icon-arrow-right",
   },
+  {
+    name: "Inward-Outward",
+    url: "/winding-inward",
+    icon: "icon-cursor",
+    children: [
+      {
+        name: "Winding-Inward",
+        url: "/inwards/winding-inward",
+        icon: "icon-cursor",
+      },
+      {
+        name: "Yarn-Inward",
+        url: "/inwards/yarn-inward",
+        icon: "icon-cursor",
+      },
+      {
+        name: "Yarn-Inward Invoice",
+        url: "/inwards/yarn-inward-invoice",
+        icon: "icon-cursor",
+      },
+      {
+        name: "Yarn-Outwards",
+        url: "/inwards/yarn-outward",
+        icon: "icon-cursor",
+      },
+    ],
+  },
 ];

@@ -78,6 +78,7 @@ export class LoomMasterComponent implements OnInit {
   deleteLoom(_id) {
     this.master.deleteData(_id, "delete-loom").subscribe((result) => {
       if (result != null) {
+        this.deleteLoomDetails(_id);
         this.toastr.success("Record deleted successfuly", "Success");
         this.fetchLooms();
         this.spinner.hide();
@@ -88,12 +89,19 @@ export class LoomMasterComponent implements OnInit {
     });
   }
 
+  deleteLoomDetails(_id) {
+    this.master.deleteData(_id, "delete-loom-details").subscribe((result) => {
+      console.log(result);
+    });
+  }
+
   openModal(Name: string, _id: string) {
     const result = this.cmservice.openModalWithComponent(Name, _id);
     result.content.onClose.subscribe((result: boolean) => {
       if (result == true) {
         this.spinner.show();
-        this.deleteLoom(_id);
+        // this.deleteLoom(_id);
+        this.deleteLoomDetails(_id);
       }
     });
   }

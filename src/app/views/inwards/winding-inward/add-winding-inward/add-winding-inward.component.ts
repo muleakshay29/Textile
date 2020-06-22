@@ -17,6 +17,7 @@ export class AddWindingInwardComponent implements OnInit {
   buttonText: string;
   partyList = [];
   shedList = [];
+  yarnList = [];
   sutTypeList = [];
   defaultZero = 0;
   bagTotal = 0;
@@ -41,6 +42,7 @@ export class AddWindingInwardComponent implements OnInit {
     this.createForm();
     this.fetchParty();
     this.fetchShed();
+    this.fetchYarn();
     this.fetchSutType("5ead05572a1e063f14ea6c17");
 
     this.route.params.subscribe((params: Params) => {
@@ -59,8 +61,9 @@ export class AddWindingInwardComponent implements OnInit {
       Shed_Name: ["", Validators.required],
       Outward_GETPASS: ["", Validators.required],
       Outward_Date: ["", Validators.required],
+      SUT_Name: ["", Validators.required],
       SUT_Type: ["", Validators.required],
-      Color: ["", Validators.required],
+      Color: [""],
       Count: ["", Validators.required],
       Total_Outward_Kon: [this.defaultZero],
       Total_Outward_Weight: [this.defaultZero],
@@ -99,6 +102,10 @@ export class AddWindingInwardComponent implements OnInit {
 
   get Shed_Name() {
     return this.windingInward.get("Shed_Name");
+  }
+
+  get SUT_Name() {
+    return this.windingInward.get("SUT_Name");
   }
 
   get SUT_Type() {
@@ -277,6 +284,7 @@ export class AddWindingInwardComponent implements OnInit {
             Shed_Name: details.Shed_Name,
             Outward_GETPASS: details.Outward_GETPASS,
             Outward_Date: outwardgetpassDate,
+            SUT_Name: details.SUT_Name,
             SUT_Type: details.SUT_Type,
             Color: details.Color,
             Count: details.Count,
@@ -318,6 +326,12 @@ export class AddWindingInwardComponent implements OnInit {
     });
   }
 
+  fetchYarn() {
+    this.inoutservice.fetchData(0, 0, "fetch-yarn").subscribe((list) => {
+      this.yarnList = list;
+    });
+  }
+
   fetchSutType(_id: string) {
     this.inoutservice
       .fetchDataFrom(_id, "fetch-commonchild-fromCM")
@@ -334,11 +348,15 @@ export class AddWindingInwardComponent implements OnInit {
   calculateKonTotal(GODAWONKon, KARKHANAKon) {
     this.konTotal = parseFloat(GODAWONKon) + parseFloat(KARKHANAKon);
     this.Kon_TOTAL.patchValue(this.konTotal);
+    const totalOutwardKon = this.windingInward.get("Total_Outward_Kon").value;
+    this.totalKon = totalOutwardKon - this.konTotal;
+    this.Total_Kon.patchValue(this.totalKon);
   }
 
   calculateWeightTotal(GODAWONWeight, KARKHANAWeight) {
     this.weightTotal = parseFloat(GODAWONWeight) + parseFloat(KARKHANAWeight);
     this.Weight_TOTAL.patchValue(this.weightTotal);
+    this.calculateRedusedWeight();
   }
 
   calculateEmptyKonTotal(GODAWONEmptyKon, KARKHANAEmptyKon) {
@@ -351,6 +369,74 @@ export class AddWindingInwardComponent implements OnInit {
     this.emptyKonWeightTotal =
       parseFloat(GODAWONEmptyKonWeight) + parseFloat(KARKHANAEmptyKonWeight);
     this.Empty_Kon_Weight_Total.patchValue(this.emptyKonWeightTotal);
+    this.calculateRedusedWeight();
+  }
+
+  calculateRedusedWeight() {
+    const totalOutwardWeight = this.windingInward.get("Total_Outward_Weight")
+      .value;
+
+    const totalWeight =
+      this.weightTotal +
+      this.emptyKonWeightTotal +
+      parseFloat(this.Westage.value);
+
+    this.redusedWeight = totalOutwardWeight - totalWeight;
+    this.Redused_Weight.patchValue(this.redusedWeight);
+  }
+
+  fetchTotalOutwards(SUTNAME, SUTTYPE, COUNT, COLOR) {
+    const findData = {
+      SUT_Name: SUTNAME,
+      SUT_Type: SUTTYPE,
+      Count: COUNT,
+      Color: COLOR,
+    };
+
+    this.inoutservice
+      .findData(findData, "fetch-outward-stock")
+      .subscribe((data) => {
+        const totalData = this.filterData(data);
+
+        this.windingInward
+          .get("Total_Outward_Kon")
+          .patchValue(totalData.Kon_TOTAL);
+        this.windingInward
+          .get("Total_Outward_Weight")
+          .patchValue(totalData.Weight_TOTAL);
+      });
+  }
+
+  filterData(app) {
+    const keys = Object.keys(app[0]);
+
+    const sum = app.reduce((output, element) => {
+      return keys.reduce((obj, key) => {
+        obj[key] = (obj[key] || 0) + output[key] + element[key];
+        return obj;
+      }, {});
+    });
+
+    /* const result = Object.keys(sum).reduce((output, key) => {
+      if (key.includes("GODAWON")) {
+        output["GODAWON"] = {
+          [key]: sum[key],
+          ...(output["GODAWON"] || {}),
+        };
+      }
+      if (key.includes("KARKHANA")) {
+        output["KARKHANA"] = {
+          [key]: sum[key],
+          ...(output["KARKHANA"] || {}),
+        };
+      }
+      if (key.includes("TOTAL")) {
+        output["TOTAL"] = { [key]: sum[key], ...(output["TOTAL"] || {}) };
+      }
+      return output;
+    }, {}); */
+
+    return sum;
   }
 
   onCancel() {

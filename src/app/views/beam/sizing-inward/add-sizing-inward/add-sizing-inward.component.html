@@ -1,0 +1,755 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="sizingInward" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Sizing Inward</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Invoice No"
+                  formControlName="Invoice_No"
+                  readonly
+                />
+              </div>
+
+              <div class="form-group col-sm-6">
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="Date"
+                  formControlName="Date"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Date"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <select class="form-control" formControlName="Firm_Name">
+                  <option value="">Select Firm Name</option>
+                  <option
+                    value="{{ firm.Company_Name }}"
+                    *ngFor="let firm of firmList"
+                    >{{ firm.Company_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Firm_Name"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <select class="form-control" formControlName="Party_Name">
+                  <option value="">Select Party Name</option>
+                  <option
+                    value="{{ party.Company_Name }}"
+                    *ngFor="let party of partyList"
+                    >{{ party.Company_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Party_Name"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="COUNTMILL">COUNT/MILL</label>
+
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input
+                          type="number"
+                          formControlName="COUNT"
+                          class="form-control"
+                          placeholder="COUNT"
+                        />
+
+                        <app-error-message
+                          class="d-block w-100"
+                          [control]="COUNT"
+                        ></app-error-message>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <input
+                          type="text"
+                          formControlName="Mill"
+                          class="form-control"
+                          placeholder="MILL"
+                        />
+
+                        <app-error-message
+                          class="d-block w-100"
+                          [control]="Mill"
+                        ></app-error-message>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="HSN_SAC_Code">HSN/SAC Code</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="HSN/SAC Code"
+                      formControlName="HSN_SAC_Code"
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="HSN_SAC_Code"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="Ends_Section">Ends/Section</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Ends/Section"
+                      formControlName="Ends_Section"
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Ends_Section"
+                    ></app-error-message>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="Part">Part</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Part"
+                      formControlName="Part"
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Part"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="MeasureYards">Measure Yards</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Measure Yards"
+                      formControlName="Measure_Yards"
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Measure_Yards"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="CutMark">Cut Mark</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Cut Mark"
+                      formControlName="Cut_Mark"
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Cut_Mark"
+                    ></app-error-message>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="TotalCuts">Total Cuts</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Total Cuts"
+                      formControlName="Total_Cuts"
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Total_Cuts"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="TotalMeasures">Total Measures</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Total Measures"
+                      formControlName="Total_Measures"
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Total_Measures"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="Quality">Quality</label>
+                    <select class="form-control" formControlName="Quality">
+                      <option value="">Select Quality</option>
+                      <option
+                        value="{{ quality.Design_Name }}"
+                        *ngFor="let quality of qualityList"
+                        >{{ quality.Design_Name }}</option
+                      >
+                    </select>
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Quality"
+                    ></app-error-message>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="Shade">Shade</label>
+                    <select class="form-control" formControlName="Shade">
+                      <option value="">Select SHED Name</option>
+                      <option
+                        value="{{ shed.SHED_Name }}"
+                        *ngFor="let shed of shedList"
+                        >{{ shed.SHED_Name }}</option
+                      >
+                    </select>
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Shade"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="BROKER">Broker</label>
+                    <select class="form-control" formControlName="Broker">
+                      <option value="">Select Broker</option>
+                      <option
+                        value="{{ broker.Broker_Name }}"
+                        *ngFor="let broker of brokerList"
+                        >{{ broker.Broker_Name }}</option
+                      >
+                    </select>
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Broker"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="RATEPICK">Rate / Pick</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Rate/Pick"
+                      formControlName="Rate_Pick"
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Rate_Pick"
+                    ></app-error-message>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="card">
+                  <div class="card-body">
+                    <table
+                      class="table table-responsive-sm table-hover table-outline mb-0 table-bordered"
+                    >
+                      <thead class="thead-dark">
+                        <tr>
+                          <th class="text-center">BI No.</th>
+                          <th class="text-center">CUT</th>
+                          <th class="text-center">BORDER</th>
+                          <th class="text-center">SAT NO.</th>
+                          <th class="text-center">BI CODE</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                      </thead>
+
+                      <tbody formArrayName="sizingList">
+                        <tr
+                          *ngFor="
+                            let item of sizingGroup.controls;
+                            let i = index
+                          "
+                        >
+                          <ng-container [formGroupName]="i">
+                            <td>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="Bill No"
+                                formControlName="Bill_No"
+                              />
+
+                              <!-- <app-error-message
+                                class="d-block w-100"
+                                [control]="Bill_No"
+                              ></app-error-message> -->
+                            </td>
+
+                            <td>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="CUT"
+                                formControlName="CUT"
+                              />
+
+                              <!-- <app-error-message
+                                class="d-block w-100"
+                                [control]="CUT"
+                              ></app-error-message> -->
+                            </td>
+
+                            <td>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="Border"
+                                formControlName="Border"
+                              />
+
+                              <!-- <app-error-message
+                                class="d-block w-100"
+                                [control]="Border"
+                              ></app-error-message> -->
+                            </td>
+
+                            <td>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="SAT NO"
+                                formControlName="SAT_NO"
+                              />
+
+                              <!-- <app-error-message
+                                class="d-block w-100"
+                                [control]="SAT_NO"
+                              ></app-error-message> -->
+                            </td>
+
+                            <td>
+                              <input
+                                type="text"
+                                class="form-control"
+                                placeholder="BI Code"
+                                formControlName="BI_Code"
+                                readonly
+                              />
+                            </td>
+
+                            <td class="text-center">
+                              <button
+                                type="button"
+                                class="btn btn-danger"
+                                (click)="removeSizing(i)"
+                              >
+                                <i class="fa fa-remove"></i>
+                              </button>
+                            </td>
+                          </ng-container>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="card-footer text-center">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="addSizing()"
+                    >
+                      <i class="fa fa-plus"></i> Add Sizing
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="form-group col-sm-4">
+                        <label for="Sizing_KG">Sizing KG</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="Sizing KG"
+                          formControlName="Sizing_KG"
+                          (blur)="
+                            calculateAmount(
+                              SizingKG.value,
+                              SizingKGRate.value,
+                              1
+                            )
+                          "
+                          #SizingKG
+                        />
+
+                        <app-error-message
+                          class="d-block w-100"
+                          [control]="Sizing_KG"
+                        ></app-error-message>
+                      </div>
+
+                      <div class="form-group col-sm-4">
+                        <label for="Sizing_KG_Rate">Rate</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="Rate"
+                          formControlName="Sizing_KG_Rate"
+                          (blur)="
+                            calculateAmount(
+                              SizingKG.value,
+                              SizingKGRate.value,
+                              1
+                            )
+                          "
+                          #SizingKGRate
+                        />
+
+                        <app-error-message
+                          class="d-block w-100"
+                          [control]="Sizing_KG_Rate"
+                        ></app-error-message>
+                      </div>
+
+                      <div class="form-group col-sm-4">
+                        <label for="Sizing_KG_Amount">Amount</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="Amount"
+                          formControlName="Sizing_KG_Amount"
+                          readonly
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group col-sm-4">
+                        <label for="Warping_MTR">Warping MTR</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="Warping MTR"
+                          formControlName="Warping_MTR"
+                          (blur)="
+                            calculateAmount(
+                              WarpingMTR.value,
+                              WarpingMTRRate.value,
+                              2
+                            )
+                          "
+                          #WarpingMTR
+                        />
+
+                        <app-error-message
+                          class="d-block w-100"
+                          [control]="Warping_MTR"
+                        ></app-error-message>
+                      </div>
+
+                      <div class="form-group col-sm-4">
+                        <label for="Warping_MTR_Rate">Rate</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="Rate"
+                          formControlName="Warping_MTR_Rate"
+                          (blur)="
+                            calculateAmount(
+                              WarpingMTR.value,
+                              WarpingMTRRate.value,
+                              2
+                            )
+                          "
+                          #WarpingMTRRate
+                        />
+
+                        <app-error-message
+                          class="d-block w-100"
+                          [control]="Warping_MTR_Rate"
+                        ></app-error-message>
+                      </div>
+
+                      <div class="form-group col-sm-4">
+                        <label for="Warping_MTR_Amount">Amount</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="Amount"
+                          formControlName="Warping_MTR_Amount"
+                          readonly
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group col-sm-3">
+                        <label for="TOTAL">TOTAL</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="TOTAL"
+                          formControlName="TOTAL"
+                          readonly
+                        />
+                      </div>
+
+                      <div class="form-group col-sm-3">
+                        <label for="Discount">Discount</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="Discount"
+                          formControlName="Discount"
+                        />
+
+                        <app-error-message
+                          class="d-block w-100"
+                          [control]="Discount"
+                        ></app-error-message>
+                      </div>
+
+                      <div class="form-group col-sm-3">
+                        <label for="Add_Less">Add/Less</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="Add/Less"
+                          formControlName="Add_Less"
+                        />
+
+                        <app-error-message
+                          class="d-block w-100"
+                          [control]="Add_Less"
+                        ></app-error-message>
+                      </div>
+
+                      <div class="form-group col-sm-3">
+                        <label for="Taxable_Amount">Taxable Amount</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="Taxable Amount"
+                          formControlName="Taxable_Amount"
+                          readonly
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="row">
+                          <div class="col-sm-5 pr-0">
+                            <label for="CGST">CGST</label>
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="CGST"
+                              formControlName="CGST"
+                              (blur)="
+                                calculateGST(CGSTval.value, SGSTval.value)
+                              "
+                              #CGSTval
+                            />
+                          </div>
+
+                          <div class="col-sm-7 pl-1">
+                            <div class="form-group">
+                              <label for="CGSTAMOUNT">CGST AMOUNT</label>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="CGST AMOUNT"
+                                formControlName="CGST_AMOUNT"
+                                readonly
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="row">
+                          <div class="col-sm-5 pr-0">
+                            <label for="SGST">SGST</label>
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="SGST"
+                              formControlName="SGST"
+                              (blur)="
+                                calculateGST(CGSTval.value, SGSTval.value)
+                              "
+                              #SGSTval
+                            />
+                          </div>
+
+                          <div class="col-sm-7 pl-1">
+                            <div class="form-group">
+                              <label for="SGSTAMOUNT">SGST AMOUNT</label>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="SGST AMOUNT"
+                                formControlName="SGST_AMOUNT"
+                                readonly
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="row">
+                          <div class="col-sm-5 pr-0">
+                            <label for="IGST">IGST</label>
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="IGST"
+                              formControlName="IGST"
+                              readonly
+                            />
+                          </div>
+
+                          <div class="col-sm-7 pl-1">
+                            <div class="form-group">
+                              <label for="IGSTAMOUNT">IGST AMOUNT</label>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="IGST AMOUNT"
+                                formControlName="IGST_AMOUNT"
+                                readonly
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="GSTTOTAL">GST TOTAL</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="GST TOTAL"
+                            formControlName="GST_TOTAL"
+                            readonly
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="TOTALAMOUNT">TOTAL AMOUNT</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="TOTAL AMOUNT"
+                            formControlName="TOTAL_AMOUNT"
+                            readonly
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="R/OFF">R/OFF</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="R/OFF"
+                            formControlName="R_OFF"
+                            readonly
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-4 offset-md-4">
+                        <div class="form-group">
+                          <label for="GrandTotal">Grand Total</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Grand Total"
+                            formControlName="Grand_Total"
+                            readonly
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!sizingInward.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> {{ buttonText }}
+            </button>
+
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

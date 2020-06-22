@@ -113,8 +113,48 @@
             <div class="card">
               <div class="card-body">
                 <div class="row">
-                  <div class="form-group col-sm-4">
-                    <select class="form-control" formControlName="SUT_Type">
+                  <div class="form-group col-sm-6">
+                    <select
+                      class="form-control"
+                      formControlName="SUT_Name"
+                      (change)="
+                        fetchTotalOutwards(
+                          SUTNAME.value,
+                          SUTTYPE.value,
+                          COUNT.value,
+                          COLOR.value
+                        )
+                      "
+                      #SUTNAME
+                    >
+                      <option value="">Select SUT Name</option>
+                      <option
+                        value="{{ yarn.SUT_Name }}"
+                        *ngFor="let yarn of yarnList"
+                        >{{ yarn.SUT_Name }}</option
+                      >
+                    </select>
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="SUT_Name"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-6">
+                    <select
+                      class="form-control"
+                      formControlName="SUT_Type"
+                      (change)="
+                        fetchTotalOutwards(
+                          SUTNAME.value,
+                          SUTTYPE.value,
+                          COUNT.value,
+                          COLOR.value
+                        )
+                      "
+                      #SUTTYPE
+                    >
                       <option value="">Select SUT Type</option>
                       <option
                         value="{{ type.CMC_Name }}"
@@ -128,13 +168,24 @@
                       [control]="SUT_Type"
                     ></app-error-message>
                   </div>
+                </div>
 
-                  <div class="form-group col-sm-4">
+                <div class="row">
+                  <div class="form-group col-sm-6">
                     <input
                       type="number"
                       class="form-control"
                       placeholder="COUNT"
                       formControlName="Count"
+                      (change)="
+                        fetchTotalOutwards(
+                          SUTNAME.value,
+                          SUTTYPE.value,
+                          COUNT.value,
+                          COLOR.value
+                        )
+                      "
+                      #COUNT
                     />
 
                     <app-error-message
@@ -143,18 +194,22 @@
                     ></app-error-message>
                   </div>
 
-                  <div class="form-group col-sm-4">
+                  <div class="form-group col-sm-6">
                     <input
                       type="text"
                       class="form-control"
                       placeholder="COLOR"
                       formControlName="Color"
+                      (change)="
+                        fetchTotalOutwards(
+                          SUTNAME.value,
+                          SUTTYPE.value,
+                          COUNT.value,
+                          COLOR.value
+                        )
+                      "
+                      #COLOR
                     />
-
-                    <app-error-message
-                      class="d-block w-100"
-                      [control]="Color"
-                    ></app-error-message>
                   </div>
                 </div>
 
@@ -534,6 +589,7 @@
                               class="form-control"
                               placeholder="Westage"
                               formControlName="Westage"
+                              (change)="calculateRedusedWeight()"
                             />
 
                             <app-error-message

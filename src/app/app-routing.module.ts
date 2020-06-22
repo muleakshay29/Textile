@@ -57,6 +57,23 @@ const routes: Routes = [
         loadChildren: () =>
           import("./views/inwards/inwards.module").then((m) => m.InwardsModule),
       },
+      {
+        path: "beam",
+        loadChildren: () =>
+          import("./views/beam/beam.module").then((m) => m.BeamModule),
+      },
+      {
+        path: "weaving",
+        loadChildren: () =>
+          import("./views/weaving/weaving.module").then((m) => m.WeavingModule),
+      },
+      {
+        path: "production",
+        loadChildren: () =>
+          import("./views/production/production.module").then(
+            (m) => m.ProductionModule
+          ),
+      },
     ],
   },
   { path: "**", component: P404Component },

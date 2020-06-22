@@ -21,6 +21,7 @@ export class Validations {
       minlength: `Minimum length ${validatorValue.requiredLength}`,
       maxlength: `Maximum length ${validatorValue.requiredLength}`,
       max: `Maximum length ${validatorValue.requiredLength}`,
+      invalidStock: `Enter value should be less than or equal to Stock`,
     };
     return config[validatorName];
   }

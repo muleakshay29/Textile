@@ -72,6 +72,18 @@ export class AddLoomComponent implements OnInit {
       const formData = this.loomMaster.value;
       this.master.addData(formData, "add-loom").subscribe((data) => {
         if (data != null) {
+          for (let i = 1; i <= formData.No_of_Looms; i++) {
+            const loomDetailData = {
+              LoomID: data._id,
+              SHED_Name: formData.SHED_Name,
+              Location: formData.Location,
+              Loom_Type: formData.Loom_Type,
+              Loom_No: i,
+            };
+
+            this.master.addData(loomDetailData, "add-loom-details").subscribe();
+          }
+
           this.toastr.success("Record added successfuly", "Success");
           this.loomMaster.reset();
           this.router.navigate(["/masters/loom-master"]);

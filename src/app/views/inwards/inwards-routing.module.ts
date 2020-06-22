@@ -8,6 +8,8 @@ import { YarnInwardInvoiceComponent } from "./yarn-inward-invoice/yarn-inward-in
 import { AddYarnInwardInvoiceComponent } from "./yarn-inward-invoice/add-yarn-inward-invoice/add-yarn-inward-invoice.component";
 import { AddWindingInwardComponent } from "./winding-inward/add-winding-inward/add-winding-inward.component";
 import { AddYarnOutwardComponent } from "./yarn-outward/add-yarn-outward/add-yarn-outward.component";
+import { WindingOutwardComponent } from "./winding-outward/winding-outward.component";
+import { AddWindingOutwardComponent } from "./winding-outward/add-winding-outward/add-winding-outward.component";
 
 const routes: Routes = [
   {
@@ -40,6 +42,28 @@ const routes: Routes = [
         component: AddWindingInwardComponent,
         data: {
           title: "Winding Inward",
+        },
+      },
+
+      {
+        path: "winding-outward",
+        component: WindingOutwardComponent,
+        data: {
+          title: "Winding outward",
+        },
+      },
+      {
+        path: "add-winding-outward",
+        component: AddWindingOutwardComponent,
+        data: {
+          title: "Winding outward",
+        },
+      },
+      {
+        path: "add-winding-outward/:id",
+        component: AddWindingOutwardComponent,
+        data: {
+          title: "Winding outward",
         },
       },
 

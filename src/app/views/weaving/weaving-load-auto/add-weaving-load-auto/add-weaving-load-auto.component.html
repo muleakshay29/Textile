@@ -131,9 +131,9 @@
                 >
                   <option value="">Select SAT NO</option>
                   <option
-                    value="{{ sat.SAT_NO }}"
-                    *ngFor="let sat of satList"
-                    >{{ sat.SAT_NO }}</option
+                    value="{{ sat }}"
+                    *ngFor="let sat of satList; let i = index"
+                    >{{ sat }}</option
                   >
                 </select>
 

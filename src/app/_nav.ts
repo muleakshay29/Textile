@@ -143,11 +143,28 @@ export const navItems: INavData[] = [
         url: "/production/auto-production",
         icon: "icon-cursor",
       },
-      {
+      /* {
         name: "Mag Production",
         url: "/production/auto-production",
         icon: "icon-cursor",
+      }, */
+    ],
+  },
+  {
+    name: "Transaction",
+    url: "/transaction/delivery-chalan",
+    icon: "icon-arrow-right",
+    children: [
+      {
+        name: "Delivery Chalan",
+        url: "/transaction/delivery-chalan",
+        icon: "icon-cursor",
       },
+      /* {
+        name: "Mag Production",
+        url: "/production/auto-production",
+        icon: "icon-cursor",
+      }, */
     ],
   },
 ];

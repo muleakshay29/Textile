@@ -1,22 +1,20 @@
 import { Component, OnInit } from "@angular/core";
 import { PageChangedEvent } from "ngx-bootstrap/pagination";
-import { WeavingService } from "../../../_services/weaving.service";
 import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
-  selector: "app-auto-production",
-  templateUrl: "./auto-production.component.html",
-  styleUrls: ["./auto-production.component.css"],
+  selector: "app-delivery-chalan",
+  templateUrl: "./delivery-chalan.component.html",
+  styleUrls: ["./delivery-chalan.component.css"],
 })
-export class AutoProductionComponent implements OnInit {
+export class DeliveryChalanComponent implements OnInit {
   returnedArray: any[];
   dataLength: number;
   itemsPerPage: number = 10;
 
   constructor(
-    private weaving: WeavingService,
     private cmservice: CommonService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
@@ -24,21 +22,21 @@ export class AutoProductionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getItemCount();
-    this.fetchAutoProduction();
+    this.fetchDeliveryChalan();
   }
 
   getItemCount() {
     this.spinner.show();
-    this.weaving.getItemCount("auto-production-count").subscribe((count) => {
+    this.cmservice.getItemCount("delivery-chalan-count").subscribe((count) => {
       this.dataLength = count.count;
       this.spinner.hide();
     });
   }
 
-  fetchAutoProduction(pageIndex = 0, pageSize = this.itemsPerPage) {
+  fetchDeliveryChalan(pageIndex = 0, pageSize = this.itemsPerPage) {
     this.spinner.show();
-    this.weaving
-      .fetchData(pageIndex, pageSize, "fetch-auto-production")
+    this.cmservice
+      .fetchData(pageIndex, pageSize, "fetch-delivery-chalan")
       .subscribe((list) => {
         this.returnedArray = list.slice(0, this.itemsPerPage);
         this.spinner.hide();
@@ -46,27 +44,27 @@ export class AutoProductionComponent implements OnInit {
   }
 
   pageChanged(event: PageChangedEvent): void {
-    this.fetchAutoProduction(event.page - 1, this.itemsPerPage);
+    this.fetchDeliveryChalan(event.page - 1, this.itemsPerPage);
   }
 
   setItemPerPage(event) {
     this.itemsPerPage = event.target.value;
-    this.fetchAutoProduction(event.page - 1, this.itemsPerPage);
+    this.fetchDeliveryChalan(event.page - 1, this.itemsPerPage);
   }
 
   searchRecord(event) {
     const searchTxt = event.target.value;
 
     if (searchTxt == "" || searchTxt.length == 0) {
-      this.fetchAutoProduction();
+      this.fetchDeliveryChalan();
       this.getItemCount();
       this.spinner.hide();
     }
 
     if (searchTxt.length >= 3) {
       this.spinner.show();
-      this.weaving
-        .findData({ Shed: searchTxt }, "find-auto-production")
+      this.cmservice
+        .findData({ Firm_Name: searchTxt }, "find-delivery-chalan")
         .subscribe((result) => {
           this.returnedArray = result;
           this.dataLength = result.length;
@@ -75,13 +73,13 @@ export class AutoProductionComponent implements OnInit {
     }
   }
 
-  deleteAutoProduction(_id) {
-    this.weaving
-      .deleteData(_id, "delete-auto-production")
+  deleteDeliveryChalan(_id) {
+    this.cmservice
+      .deleteData(_id, "delete-delivery-chalan")
       .subscribe((result) => {
         if (result != null) {
           this.toastr.success("Record deleted successfuly", "Success");
-          this.fetchAutoProduction();
+          this.fetchDeliveryChalan();
           this.spinner.hide();
         } else {
           this.toastr.error("Error deleting record", "Error");
@@ -90,17 +88,19 @@ export class AutoProductionComponent implements OnInit {
       });
   }
 
-  deleteStockTaga(_id) {
-    this.weaving.deleteData(_id, "delete-stock-taga").subscribe((result) => {
-      if (result != null) {
-        this.toastr.success("Record deleted successfuly", "Success");
-        this.fetchAutoProduction();
-        this.spinner.hide();
-      } else {
-        this.toastr.error("Error deleting record", "Error");
-        this.spinner.hide();
-      }
-    });
+  deleteDeliveryChalanDetails(_id) {
+    this.cmservice
+      .deleteData(_id, "delete-delivery-chalan-details")
+      .subscribe((result) => {
+        if (result != null) {
+          this.toastr.success("Record deleted successfuly", "Success");
+          this.fetchDeliveryChalan();
+          this.spinner.hide();
+        } else {
+          this.toastr.error("Error deleting record", "Error");
+          this.spinner.hide();
+        }
+      });
   }
 
   openModal(Name: string, _id: string) {
@@ -108,8 +108,8 @@ export class AutoProductionComponent implements OnInit {
     result.content.onClose.subscribe((result: boolean) => {
       if (result == true) {
         this.spinner.show();
-        this.deleteAutoProduction(_id);
-        this.deleteStockTaga(_id);
+        this.deleteDeliveryChalan(_id);
+        this.deleteDeliveryChalanDetails(_id);
       }
     });
   }

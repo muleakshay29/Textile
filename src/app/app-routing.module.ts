@@ -74,6 +74,13 @@ const routes: Routes = [
             (m) => m.ProductionModule
           ),
       },
+      {
+        path: "transaction",
+        loadChildren: () =>
+          import("./views/transaction/transaction.module").then(
+            (m) => m.TransactionModule
+          ),
+      },
     ],
   },
   { path: "**", component: P404Component },

@@ -42,7 +42,7 @@ export class AddWeavingLoadMagComponent implements OnInit {
     this.fetchQuality();
     this.fetchParty();
     this.fetchLoomTypes("5ea1271697f4150c8cf37a52");
-    this.fetchBeamInward();
+    // this.fetchBeamInward();
 
     this.route.params.subscribe((params: Params) => {
       this.weavingLoadMagID = params["id"] ? params["id"] : "";
@@ -209,14 +209,9 @@ export class AddWeavingLoadMagComponent implements OnInit {
     });
   }
 
-  fetchBeamInward() {
-    this.inoutservice.fetchData(0, 0, "fetch-beam-inward").subscribe((list) => {
-      this.satList = list;
-    });
-  }
-
   fetchLoomNo(event, shed = "") {
     if (this.editMode) {
+      this.fetchBeamInward(shed);
       this.inoutservice
         .findData({ SHED_Name: shed }, "find-all-looms")
         .subscribe((result) => {
@@ -224,12 +219,26 @@ export class AddWeavingLoadMagComponent implements OnInit {
         });
     } else {
       const shed = event.target.value;
+      this.fetchBeamInward(shed);
       this.inoutservice
         .findData({ SHED_Name: shed }, "find-all-looms")
         .subscribe((result) => {
           this.loomList = result;
         });
     }
+  }
+
+  /* fetchBeamInward() {
+    this.inoutservice.fetchData(0, 0, "fetch-beam-inward").subscribe((list) => {
+      this.satList = list;
+    });
+  } */
+
+  fetchBeamInward(SHED_Name) {
+    console.log(SHED_Name);
+    this.inoutservice.findData(SHED_Name, "fetch-sat").subscribe((list) => {
+      this.satList = list;
+    });
   }
 
   fetchBeamDetails(event, satno = "") {

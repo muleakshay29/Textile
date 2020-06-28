@@ -41,7 +41,7 @@ export class AddWeavingLoadAutoComponent implements OnInit {
     this.fetchQuality();
     this.fetchParty();
     this.fetchLoomTypes("5ea1271697f4150c8cf37a52");
-    this.fetchBeamInward();
+    // this.fetchBeamInward();
 
     this.route.params.subscribe((params: Params) => {
       this.weavingLoadAutoID = params["id"] ? params["id"] : "";
@@ -208,14 +208,23 @@ export class AddWeavingLoadAutoComponent implements OnInit {
     });
   }
 
-  fetchBeamInward() {
+  /* fetchBeamInward() {
     this.inoutservice.fetchData(0, 0, "fetch-beam-inward").subscribe((list) => {
       this.satList = list;
     });
+  } */
+
+  fetchBeamInward(SHED_Name) {
+    this.inoutservice
+      .findData({ Shed: SHED_Name }, "fetch-sat")
+      .subscribe((list) => {
+        this.satList = list;
+      });
   }
 
   fetchLoomNo(event, shed = "") {
     if (this.editMode) {
+      this.fetchBeamInward(shed);
       this.inoutservice
         .findData({ SHED_Name: shed }, "find-all-looms")
         .subscribe((result) => {
@@ -223,6 +232,7 @@ export class AddWeavingLoadAutoComponent implements OnInit {
         });
     } else {
       const shed = event.target.value;
+      this.fetchBeamInward(shed);
       this.inoutservice
         .findData({ SHED_Name: shed }, "find-all-looms")
         .subscribe((result) => {
@@ -233,15 +243,18 @@ export class AddWeavingLoadAutoComponent implements OnInit {
 
   fetchBeamDetails(event, satno = "") {
     if (this.editMode) {
+      const shed = this.Shed.value;
       this.inoutservice
-        .findData({ SAT_NO: satno }, "beam-details")
+        .findData({ SAT_NO: satno, Shed: shed }, "beam-details")
         .subscribe((result) => {
           this.biList = result;
         });
     } else {
       const satno = event.target.value;
+      const shed = this.Shed.value;
+      console.log(shed);
       this.inoutservice
-        .findData({ SAT_NO: satno }, "beam-details")
+        .findData({ SAT_NO: satno, Shed: shed }, "beam-details")
         .subscribe((result) => {
           this.biList = result;
         });

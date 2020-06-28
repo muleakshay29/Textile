@@ -7,10 +7,10 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <span class="h4">Auto Production</span>
+          <span class="h4">Delivery Chalan</span>
           <div class="card-header-actions">
             <a
-              routerLink="/production/add-auto-production"
+              routerLink="/transaction/add-delivery-chalan"
               class="btn btn-info font-weight-bold"
             >
               <i class="nav-icon icon-plus font-weight-bold"></i> &nbsp;Add New
@@ -36,17 +36,19 @@
             <thead class="thead-dark">
               <tr>
                 <th class="text-center">Actions</th>
-                <th class="text-center">Shed</th>
-                <th class="text-center">Loom No.</th>
-                <th class="text-center">Available Meters</th>
-                <th class="text-center">Total Beam Meters</th>
+                <th class="text-center">Chalan No.</th>
+                <th class="text-center">Firm Name</th>
+                <th class="text-center">Broker Name</th>
+                <th class="text-center">Party Name</th>
+                <th class="text-center">Pieces</th>
+                <th class="text-center">Meters</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let content of returnedArray">
                 <td class="text-center">
-                  <a
-                    routerLink="/production/add-auto-production/{{
+                  <!-- <a
+                    routerLink="/transaction/add-delivery-chalan/{{
                       content._id
                     }}"
                     title="Edit"
@@ -54,10 +56,10 @@
                   >
                     <i class="cui-pencil icons font-xl d-inline"></i>
                   </a>
-                  &nbsp; &nbsp;
+                  &nbsp; &nbsp; -->
                   <a
                     href="javascript:void(0)"
-                    (click)="openModal(content.Shed, content._id)"
+                    (click)="openModal(content.Chalan_No, content._id)"
                     title="Delete"
                     class="text-decoration-none"
                   >
@@ -65,16 +67,22 @@
                   </a>
                 </td>
                 <td class="text-center">
-                  {{ content.Shed }}
+                  {{ content.Chalan_No }}
                 </td>
                 <td class="text-center">
-                  {{ content.Loom_No }}
+                  {{ content.Firm_Name }}
                 </td>
                 <td class="text-center">
-                  {{ content.Available_Mtrs }}
+                  {{ content.Broker_Name }}
                 </td>
                 <td class="text-center">
-                  {{ content.Total_Beam_Mtrs }}
+                  {{ content.Party_Name }}
+                </td>
+                <td class="text-center">
+                  {{ content.Pieces }}
+                </td>
+                <td class="text-center">
+                  {{ content.Meters }}
                 </td>
               </tr>
             </tbody>

@@ -69,12 +69,22 @@ export class BeamInwardComponent implements OnInit {
       });
   }
 
+  deleteBeamInwardChild(_id) {
+    this.inoutservice.deleteData(_id, "delete-beam-inward-child").subscribe();
+  }
+
+  deleteBeamInwardDetails(_id) {
+    this.inoutservice.deleteData(_id, "delete-beam-inward-details").subscribe();
+  }
+
   openModal(Name: string, _id: string) {
     const result = this.cmservice.openModalWithComponent(Name, _id);
     result.content.onClose.subscribe((result: boolean) => {
       if (result == true) {
         this.spinner.show();
         this.deleteBeamInward(_id);
+        this.deleteBeamInwardChild(_id);
+        this.deleteBeamInwardDetails(Name);
       }
     });
   }

@@ -6,7 +6,8 @@
     text: 'Textile'
   }"
   [sidebarToggler]="'lg'"
-  [asideMenuToggler]="'lg'"
+  [asideMenuToggler]="false"
+  [mobileAsideMenuToggler]="false"
 >
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item dropdown" dropdown placement="bottom right">
@@ -20,11 +21,12 @@
         dropdownToggle
         (click)="(false)"
       >
-        <img
+        <!-- <img
           src="assets/img/avatars/7.jpg"
           class="img-avatar"
           alt="admin@bootstrapmaster.com"
-        />
+        /> -->
+        <span style="font-size: 25px;"><i class="fa fa-user-circle"></i></span>
       </a>
       <div
         class="dropdown-menu dropdown-menu-right"

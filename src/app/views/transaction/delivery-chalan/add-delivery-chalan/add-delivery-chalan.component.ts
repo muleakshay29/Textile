@@ -172,6 +172,74 @@ export class AddDeliveryChalanComponent implements OnInit {
                 });
             });
 
+            this.warfList.forEach((element) => {
+              const yarnStockData = {
+                Invoice_No: formData.Chalan_No,
+                Date: formData.Date,
+                Party_Name: formData.Party_Name,
+                Shed_Name: formData.Shade_Name,
+                SUT_Name: element.SUT_WARP,
+                SUT_Type: "WARF",
+                SutUse: "warf",
+                Color: element.Color_WARP,
+                Count: element.Count_WARP,
+                Location: formData.Place,
+                BagIn: 0,
+                KonIn: 0,
+                WeightIn: 0,
+                EmptyKonIn: 0,
+                BagOut: 0,
+                KonOut: 0,
+                WeightOut: element.WarfConsumption,
+                EmptyKonOut: 0,
+                EntryFrom: "Delivery Chalan",
+                Quality: formData.Design,
+              };
+              this.commonservice
+                .addData(yarnStockData, "add-stock-yarn")
+                .subscribe((stock) => {
+                  if (stock !== null) {
+                    errorArr.push(0);
+                  } else {
+                    errorArr.push(-1);
+                  }
+                });
+            });
+
+            this.weftList.forEach((element) => {
+              const yarnStockData = {
+                Invoice_No: formData.Chalan_No,
+                Date: formData.Date,
+                Party_Name: formData.Party_Name,
+                Shed_Name: formData.Shade_Name,
+                SUT_Name: element.SUT_WEFT,
+                SUT_Type: "WEFT",
+                SutUse: "weft",
+                Color: element.Color_WEFT,
+                Count: element.Count_WEFT,
+                Location: formData.Place,
+                BagIn: 0,
+                KonIn: 0,
+                WeightIn: 0,
+                EmptyKonIn: 0,
+                BagOut: 0,
+                KonOut: 0,
+                WeightOut: element.WeftConsumption,
+                EmptyKonOut: 0,
+                EntryFrom: "Delivery Chalan",
+                Quality: formData.Design,
+              };
+              this.commonservice
+                .addData(yarnStockData, "add-stock-yarn")
+                .subscribe((stock) => {
+                  if (stock !== null) {
+                    errorArr.push(0);
+                  } else {
+                    errorArr.push(-1);
+                  }
+                });
+            });
+
             if (errorArr.includes(-1)) {
               this.toastr.error(
                 "Error adding record. Please try again.",

@@ -141,7 +141,7 @@
                       <select class="form-control" formControlName="State">
                         <option value="">Select State</option>
                         <option
-                          value="{{ state.CMC_Name }}"
+                          value="{{ state._id }}"
                           *ngFor="let state of stateList"
                           >{{ state.CMC_Name }}</option
                         >

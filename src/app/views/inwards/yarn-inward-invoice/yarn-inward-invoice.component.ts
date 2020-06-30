@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { PageChangedEvent } from "ngx-bootstrap/pagination";
-import { InwardOutwardService } from "../../../_services/inward-outward.service";
 import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -16,7 +15,6 @@ export class YarnInwardInvoiceComponent implements OnInit {
   itemsPerPage: number = 10;
 
   constructor(
-    private inoutservice: InwardOutwardService,
     private cmservice: CommonService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
@@ -29,7 +27,7 @@ export class YarnInwardInvoiceComponent implements OnInit {
 
   getItemCount() {
     this.spinner.show();
-    this.inoutservice
+    this.cmservice
       .getItemCount("yarn-inward-invoice-count")
       .subscribe((count) => {
         this.dataLength = count.count;
@@ -39,7 +37,7 @@ export class YarnInwardInvoiceComponent implements OnInit {
 
   fetchYarnInwardInvoice(pageIndex = 0, pageSize = this.itemsPerPage) {
     this.spinner.show();
-    this.inoutservice
+    this.cmservice
       .fetchData(pageIndex, pageSize, "fetch-yarn-inward-invoice")
       .subscribe((list) => {
         this.returnedArray = list.slice(0, this.itemsPerPage);
@@ -57,7 +55,7 @@ export class YarnInwardInvoiceComponent implements OnInit {
   }
 
   deleteYarnInwardInvoice(_id) {
-    this.inoutservice
+    this.cmservice
       .deleteData(_id, "delete-yarn-inward-invoice")
       .subscribe((result) => {
         if (result != null) {

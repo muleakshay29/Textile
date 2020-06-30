@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { MasterService } from "../../../_services/master.service";
+import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Validations } from "../../../_helper/validations";
@@ -16,19 +16,21 @@ export class AddFirmComponent implements OnInit {
   firmID: string;
   editMode = false;
   buttonText: string;
+  Year_Id: any;
   stateList = [];
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private master: MasterService,
+    private cmaster: CommonService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
     this.createForm();
+    this.getYearId();
     this.fetchState("5ea035da1492733c189e6ff2");
 
     this.route.params.subscribe((params: Params) => {
@@ -55,6 +57,16 @@ export class AddFirmComponent implements OnInit {
       Account_No: ["", Validators.required],
       IFSC_Code: ["", Validators.required],
     });
+  }
+
+  getYearId() {
+    let today = new Date();
+    const year = today.getFullYear();
+    this.cmaster
+      .findData({ CMC_Name: year }, "find-cmcname")
+      .subscribe((result) => {
+        this.Year_Id = result[0]._id;
+      });
   }
 
   get Company_Name() {
@@ -111,9 +123,15 @@ export class AddFirmComponent implements OnInit {
 
   onSubmit() {
     this.spinner.show();
+    const formData = this.firmMaster.value;
+
     if (!this.editMode) {
-      const formData = this.firmMaster.value;
-      this.master.addData(formData, "add-firm").subscribe((data) => {
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Created_By = this.cmaster.currentUser.Company_Id;
+      formData.Created_Date = new Date();
+
+      this.cmaster.addData(formData, "add-firm").subscribe((data) => {
         if (data != null) {
           this.toastr.success("Record added successfuly", "Success");
           this.firmMaster.reset();
@@ -125,23 +143,12 @@ export class AddFirmComponent implements OnInit {
         }
       });
     } else {
-      const formData = {
-        Company_Name: this.Company_Name.value,
-        Owner_Name: this.Owner_Name.value,
-        Address: this.Address.value,
-        Mobile_No: this.Mobile_No.value,
-        Alternate_No: this.Alternate_No.value,
-        GST_No: this.GST_No.value,
-        Pan_No: this.Pan_No.value,
-        State: this.State.value,
-        Email_ID: this.Email_ID.value,
-        Bank_Name: this.Bank_Name.value,
-        Branch: this.Branch.value,
-        Account_No: this.Account_No.value,
-        IFSC_Code: this.IFSC_Code.value,
-      };
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Updated_By = this.cmaster.currentUser.Company_Id;
+      formData.Updated_Date = new Date();
 
-      this.master
+      this.cmaster
         .updateData(this.firmID, formData, "update-firm")
         .subscribe((data) => {
           if (data != null) {
@@ -159,7 +166,7 @@ export class AddFirmComponent implements OnInit {
   private initForm() {
     if (this.editMode) {
       this.spinner.show();
-      this.master
+      this.cmaster
         .fetchDetails(this.firmID, "firm-details")
         .subscribe((details) => {
           this.firmMaster.setValue({
@@ -183,7 +190,7 @@ export class AddFirmComponent implements OnInit {
   }
 
   fetchState(_id: string) {
-    this.master
+    this.cmaster
       .fetchDataFrom(_id, "fetch-commonchild-fromCM")
       .subscribe((list) => {
         this.stateList = list;

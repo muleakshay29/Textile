@@ -1,3 +1,7 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-sm-12">
@@ -32,7 +36,7 @@
                       <select class="form-control" formControlName="Location">
                         <option value="">Select Location</option>
                         <option
-                          value="{{ state.CMC_Name }}"
+                          value="{{ state._id }}"
                           *ngFor="let state of stateList"
                           >{{ state.CMC_Name }}</option
                         >
@@ -50,7 +54,7 @@
                       <select class="form-control" formControlName="Loom_Type">
                         <option value="">Loom Type</option>
                         <option
-                          value="{{ type.CMC_Name }}"
+                          value="{{ type._id }}"
                           *ngFor="let type of loomTypes"
                           >{{ type.CMC_Name }}</option
                         >
@@ -84,9 +88,14 @@
           </div>
 
           <div class="card-footer text-center">
-            <button type="submit" class="btn btn-primary">
-              <i class="fa fa-dot-circle-o"></i> Submit
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!loomMaster.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> {{ buttonText }}
             </button>
+
             <button type="button" class="btn btn-danger" (click)="onCancel()">
               <i class="fa fa-ban"></i> Cancel
             </button>

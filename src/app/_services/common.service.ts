@@ -3,6 +3,7 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { DeleteConfirmationComponent } from "../_helper/delete-confirmation/delete-confirmation.component";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { AuthenticationService } from "./authentication.service";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -17,8 +18,19 @@ export class CommonService {
   bsModalRef: BsModalRef;
   API_URL = `http://localhost:3000/`;
   // API_URL = `https://textile-app95.herokuapp.com/`;
+  currentUser: any;
 
-  constructor(private modalService: BsModalService, private http: HttpClient) {}
+  constructor(
+    private modalService: BsModalService,
+    private http: HttpClient,
+    private auth: AuthenticationService
+  ) {
+    this.auth.currentUser.subscribe((x) => {
+      if (x) {
+        this.currentUser = x["user"];
+      }
+    });
+  }
 
   openModalWithComponent(Name: string, _id: string) {
     const initialState = {

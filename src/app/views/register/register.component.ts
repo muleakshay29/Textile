@@ -5,6 +5,7 @@ import { AuthenticationService } from "../../_services/authentication.service";
 import { Validations } from "../../_helper/validations";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
+import { CommonService } from "../../_services/common.service";
 
 @Component({
   selector: "app-register",
@@ -12,6 +13,7 @@ import { ToastrService } from "ngx-toastr";
 })
 export class RegisterComponent implements OnInit {
   userRegister: FormGroup;
+  companyList = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -19,10 +21,13 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private auth: AuthenticationService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cmservice: CommonService
   ) {}
 
   ngOnInit() {
+    this.fetchCompany();
+
     this.userRegister = this.fb.group(
       {
         First_Name: [
@@ -31,6 +36,7 @@ export class RegisterComponent implements OnInit {
         ],
         Last_Name: ["", [Validators.required, Validations.alphaNumericPattern]],
         Username: ["", [Validators.required, Validations.alphaNumericPattern]],
+        Company_Id: ["", Validators.required],
         Password: ["", [Validators.required, Validations.passwordValidator]],
         Re_Password: ["", Validators.required],
       },
@@ -50,6 +56,10 @@ export class RegisterComponent implements OnInit {
 
   get Username() {
     return this.userRegister.get("Username");
+  }
+
+  get Company_Id() {
+    return this.userRegister.get("Company_Id");
   }
 
   get Password() {
@@ -74,6 +84,14 @@ export class RegisterComponent implements OnInit {
         this.toastr.error("Error Registering User. Please try again.", "Error");
         this.spinner.hide();
       }
+    });
+  }
+
+  fetchCompany() {
+    this.spinner.show();
+    this.cmservice.fetchData(0, 0, "fetch-company").subscribe((list) => {
+      this.companyList = list;
+      this.spinner.hide();
     });
   }
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { PageChangedEvent } from "ngx-bootstrap/pagination";
-import { MasterService } from "../../_services/master.service";
 import { CommonService } from "../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -16,7 +15,6 @@ export class LoomMasterComponent implements OnInit {
   itemsPerPage: number = 10;
 
   constructor(
-    private master: MasterService,
     private cmservice: CommonService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
@@ -29,7 +27,7 @@ export class LoomMasterComponent implements OnInit {
 
   getItemCount() {
     this.spinner.show();
-    this.master.getItemCount("loom-count").subscribe((count) => {
+    this.cmservice.getItemCount("loom-count").subscribe((count) => {
       this.dataLength = count.count;
       this.spinner.hide();
     });
@@ -37,7 +35,7 @@ export class LoomMasterComponent implements OnInit {
 
   fetchLooms(pageIndex = 0, pageSize = this.itemsPerPage) {
     this.spinner.show();
-    this.master
+    this.cmservice
       .fetchData(pageIndex, pageSize, "fetch-loom")
       .subscribe((list) => {
         this.returnedArray = list.slice(0, this.itemsPerPage);
@@ -65,7 +63,7 @@ export class LoomMasterComponent implements OnInit {
 
     if (searchTxt.length >= 3) {
       this.spinner.show();
-      this.master
+      this.cmservice
         .findData({ SHED_Name: searchTxt }, "find-loom")
         .subscribe((result) => {
           this.returnedArray = result;
@@ -76,7 +74,7 @@ export class LoomMasterComponent implements OnInit {
   }
 
   deleteLoom(_id) {
-    this.master.deleteData(_id, "delete-loom").subscribe((result) => {
+    this.cmservice.deleteData(_id, "delete-loom").subscribe((result) => {
       if (result != null) {
         this.deleteLoomDetails(_id);
         this.toastr.success("Record deleted successfuly", "Success");
@@ -90,9 +88,7 @@ export class LoomMasterComponent implements OnInit {
   }
 
   deleteLoomDetails(_id) {
-    this.master.deleteData(_id, "delete-loom-details").subscribe((result) => {
-      console.log(result);
-    });
+    this.cmservice.deleteData(_id, "delete-loom-details").subscribe();
   }
 
   openModal(Name: string, _id: string) {
@@ -100,8 +96,7 @@ export class LoomMasterComponent implements OnInit {
     result.content.onClose.subscribe((result: boolean) => {
       if (result == true) {
         this.spinner.show();
-        // this.deleteLoom(_id);
-        this.deleteLoomDetails(_id);
+        this.deleteLoom(_id);
       }
     });
   }

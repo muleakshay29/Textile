@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { MasterService } from "../../../_services/master.service";
+import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 
@@ -15,19 +15,20 @@ export class AddYarnComponent implements OnInit {
   yarnID: string;
   editMode = false;
   buttonText: string;
-  showSpinner = false;
+  Year_Id: any;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private master: MasterService,
+    private cmaster: CommonService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
     this.createForm();
+    this.getYearId();
 
     this.route.params.subscribe((params: Params) => {
       this.yarnID = params["id"] ? params["id"] : "";
@@ -62,11 +63,27 @@ export class AddYarnComponent implements OnInit {
     return this.yarnMaster.get("IGST");
   }
 
+  getYearId() {
+    let today = new Date();
+    const year = today.getFullYear();
+    this.cmaster
+      .findData({ CMC_Name: year }, "find-cmcname")
+      .subscribe((result) => {
+        this.Year_Id = result[0]._id;
+      });
+  }
+
   onSubmit() {
     this.spinner.show();
+    const formData = this.yarnMaster.value;
+
     if (!this.editMode) {
-      const formData = this.yarnMaster.value;
-      this.master.addData(formData, "add-yarn").subscribe((data) => {
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Created_By = this.cmaster.currentUser.Company_Id;
+      formData.Created_Date = new Date();
+
+      this.cmaster.addData(formData, "add-yarn").subscribe((data) => {
         if (data != null) {
           this.toastr.success("Record added successfuly", "Success");
           this.yarnMaster.reset();
@@ -78,14 +95,12 @@ export class AddYarnComponent implements OnInit {
         }
       });
     } else {
-      const formData = {
-        SUT_Name: this.SUT_Name.value,
-        CGST: this.CGST.value,
-        SGST: this.SGST.value,
-        IGST: this.IGST.value,
-      };
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Updated_By = this.cmaster.currentUser.Company_Id;
+      formData.Updated_Date = new Date();
 
-      this.master
+      this.cmaster
         .updateData(this.yarnID, formData, "update-yarn")
         .subscribe((data) => {
           if (data != null) {
@@ -103,7 +118,7 @@ export class AddYarnComponent implements OnInit {
   private initForm() {
     if (this.editMode) {
       this.spinner.show();
-      this.master
+      this.cmaster
         .fetchDetails(this.yarnID, "yarn-details")
         .subscribe((details) => {
           this.yarnMaster.setValue({

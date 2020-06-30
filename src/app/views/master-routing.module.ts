@@ -21,6 +21,8 @@ import { CommonMasterChildComponent } from "./common-master-child/common-master-
 import { AddCommonMasterComponent } from "./common-master/add-common-master/add-common-master.component";
 import { AddMasterChildComponent } from "./common-master-child/add-master-child/add-master-child.component";
 import { EditQualityComponent } from "./quality-master/edit-quality/edit-quality.component";
+import { CompanyMasterComponent } from "./company-master/company-master.component";
+import { AddCompanyMasterComponent } from "./company-master/add-company-master/add-company-master.component";
 
 const routes: Routes = [
   {
@@ -80,6 +82,33 @@ const routes: Routes = [
         component: AddMasterChildComponent,
         data: {
           title: "Edit Common Master Child",
+        },
+      },
+
+      {
+        path: "",
+        redirectTo: "company-master",
+        pathMatch: "full",
+      },
+      {
+        path: "company-master",
+        component: CompanyMasterComponent,
+        data: {
+          title: "Company Master",
+        },
+      },
+      {
+        path: "add-company-master",
+        component: AddCompanyMasterComponent,
+        data: {
+          title: "Add Company Master",
+        },
+      },
+      {
+        path: "add-company-master/:id",
+        component: AddCompanyMasterComponent,
+        data: {
+          title: "Edit Company Master",
         },
       },
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { MasterService } from "../../../_services/master.service";
+import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Validations } from "../../../_helper/validations";
@@ -16,6 +16,7 @@ export class AddEmployeeComponent implements OnInit {
   empID: string;
   editMode = false;
   buttonText: string;
+  Year_Id: any;
   locationList = [];
   empTypeList = [];
   balanceTypeList = [];
@@ -24,13 +25,14 @@ export class AddEmployeeComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private master: MasterService,
+    private cmaster: CommonService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
     this.createForm();
+    this.getYearId();
     this.fetchState("5ea035da1492733c189e6ff2");
     this.fetchEmployee("5ea15659f27507241406257b");
     this.fetchBalanceType("5ea15662f27507241406257c");
@@ -68,6 +70,16 @@ export class AddEmployeeComponent implements OnInit {
         validator: Validations.passwordMatchValidator,
       }
     );
+  }
+
+  getYearId() {
+    let today = new Date();
+    const year = today.getFullYear();
+    this.cmaster
+      .findData({ CMC_Name: year }, "find-cmcname")
+      .subscribe((result) => {
+        this.Year_Id = result[0]._id;
+      });
   }
 
   get Employee_Name() {
@@ -140,9 +152,15 @@ export class AddEmployeeComponent implements OnInit {
 
   onSubmit() {
     this.spinner.show();
+    const formData = this.employeeMaster.value;
+
     if (!this.editMode) {
-      const formData = this.employeeMaster.value;
-      this.master.addData(formData, "add-employee").subscribe((data) => {
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Created_By = this.cmaster.currentUser.Company_Id;
+      formData.Created_Date = new Date();
+
+      this.cmaster.addData(formData, "add-employee").subscribe((data) => {
         if (data != null) {
           this.toastr.success("Record added successfuly", "Success");
           this.employeeMaster.reset();
@@ -154,26 +172,13 @@ export class AddEmployeeComponent implements OnInit {
         }
       });
     } else {
-      const formData = {
-        Employee_Name: this.Employee_Name.value,
-        Address: this.Address.value,
-        Mobile_No: this.Mobile_No.value,
-        Alternate_No: this.Alternate_No.value,
-        Location: this.Location.value,
-        Employee_Type: this.Employee_Type.value,
-        Bank_Name: this.Bank_Name.value,
-        Branch: this.Branch.value,
-        Account_No: this.Account_No.value,
-        IFSC_Code: this.IFSC_Code.value,
-        Username: this.Username.value,
-        Password: this.Password.value,
-        Advance_Balance: this.Advance_Balance.value,
-        Advance_Balance_Type: this.Advance_Balance_Type.value,
-        Baki_Balance: this.Baki_Balance.value,
-        Baki_Balance_Type: this.Baki_Balance_Type.value,
-      };
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Updated_By = this.cmaster.currentUser.Company_Id;
+      formData.Updated_Date = new Date();
+      delete formData.Re_Password;
 
-      this.master
+      this.cmaster
         .updateData(this.empID, formData, "update-employee")
         .subscribe((data) => {
           if (data != null) {
@@ -191,7 +196,7 @@ export class AddEmployeeComponent implements OnInit {
   private initForm() {
     if (this.editMode) {
       this.spinner.show();
-      this.master
+      this.cmaster
         .fetchDetails(this.empID, "employee-details")
         .subscribe((details) => {
           this.employeeMaster.setValue({
@@ -219,7 +224,7 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   fetchState(_id: string) {
-    this.master
+    this.cmaster
       .fetchDataFrom(_id, "fetch-commonchild-fromCM")
       .subscribe((list) => {
         this.locationList = list;
@@ -227,7 +232,7 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   fetchEmployee(_id: string) {
-    this.master
+    this.cmaster
       .fetchDataFrom(_id, "fetch-commonchild-fromCM")
       .subscribe((list) => {
         this.empTypeList = list;
@@ -235,7 +240,7 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   fetchBalanceType(_id: string) {
-    this.master
+    this.cmaster
       .fetchDataFrom(_id, "fetch-commonchild-fromCM")
       .subscribe((list) => {
         this.balanceTypeList = list;

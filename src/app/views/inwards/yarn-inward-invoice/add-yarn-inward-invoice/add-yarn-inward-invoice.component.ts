@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { InwardOutwardService } from "../../../../_services/inward-outward.service";
+import { CommonService } from "../../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 
@@ -15,6 +15,7 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
   yarnInwardID: string;
   editMode = false;
   buttonText: string;
+  Year_Id: any;
   invoiceNo: any;
   partyList = [];
   shedList = [];
@@ -37,13 +38,14 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private inoutservice: InwardOutwardService,
+    private cmaster: CommonService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
     this.createForm();
+    this.getYearId();
     this.generateInvoice();
     this.fetchParty();
     this.fetchShed();
@@ -105,6 +107,16 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
       Round_OFF: [""],
       Grand_Total: [""],
     });
+  }
+
+  getYearId() {
+    let today = new Date();
+    const year = today.getFullYear();
+    this.cmaster
+      .findData({ CMC_Name: year }, "find-cmcname")
+      .subscribe((result) => {
+        this.Year_Id = result[0]._id;
+      });
   }
 
   generateInvoice() {
@@ -230,9 +242,15 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
 
   onSubmit() {
     this.spinner.show();
+    const formData = this.yarnInward.value;
+
     if (!this.editMode) {
-      const formData = this.yarnInward.value;
-      this.inoutservice
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Created_By = this.cmaster.currentUser.Company_Id;
+      formData.Created_Date = new Date();
+
+      this.cmaster
         .addData(formData, "add-yarn-inward-invoice")
         .subscribe((data) => {
           if (data != null) {
@@ -249,9 +267,12 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
           }
         });
     } else {
-      const formData = this.yarnInward.value;
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Updated_By = this.cmaster.currentUser.Company_Id;
+      formData.Updated_Date = new Date();
 
-      this.inoutservice
+      this.cmaster
         .updateData(this.yarnInwardID, formData, "update-yarn-inward-invoice")
         .subscribe((data) => {
           if (data != null) {
@@ -271,11 +292,11 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
       this.spinner.show();
       this.hideShowPanel = true;
 
-      this.inoutservice
+      this.cmaster
         .fetchDetails(this.yarnInwardID, "yarn-inward-invoice-details")
         .subscribe((details) => {
           this.selectedSUT = this.yarnList.filter((e) => {
-            return e.SUT_Name === details.SUT_Name;
+            return e._id === details.SUT_Name;
           });
 
           const date = new Date(details.Date);
@@ -331,31 +352,31 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
   }
 
   fetchParty() {
-    this.inoutservice.fetchData(0, 0, "fetch-party").subscribe((list) => {
+    this.cmaster.fetchData(0, 0, "fetch-party").subscribe((list) => {
       this.partyList = list;
     });
   }
 
   fetchShed() {
-    this.inoutservice.fetchData(0, 0, "fetch-loom").subscribe((list) => {
+    this.cmaster.fetchData(0, 0, "fetch-loom").subscribe((list) => {
       this.shedList = list;
     });
   }
 
   fetchFirm() {
-    this.inoutservice.fetchData(0, 0, "fetch-firm").subscribe((list) => {
+    this.cmaster.fetchData(0, 0, "fetch-firm").subscribe((list) => {
       this.firmList = list;
     });
   }
 
   fetchYarn() {
-    this.inoutservice.fetchData(0, 0, "fetch-yarn").subscribe((list) => {
+    this.cmaster.fetchData(0, 0, "fetch-yarn").subscribe((list) => {
       this.yarnList = list;
     });
   }
 
   fetchSutType(_id: string) {
-    this.inoutservice
+    this.cmaster
       .fetchDataFrom(_id, "fetch-commonchild-fromCM")
       .subscribe((list) => {
         this.sutTypeList = list;
@@ -363,22 +384,24 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
   }
 
   fetchPkg(_id: string) {
-    this.inoutservice
+    this.cmaster
       .fetchDataFrom(_id, "fetch-commonchild-fromCM")
       .subscribe((list) => {
         this.pkgList = list;
       });
   }
 
-  setGST(event) {
+  setGST(sut) {
     if (!this.Party_Name.value) {
       this.toastr.error("Please select Party first", "Error");
       this.SUT_Name.patchValue("");
     } else {
-      const sut = event.target.value;
+      // const sut = event.target.value;
       this.selectedSUT = this.yarnList.filter((e) => {
-        return e.SUT_Name === sut;
+        return e._id === sut;
       });
+
+      console.log(this.selectedSUT);
 
       this.yarnInward.get("CGST").patchValue(this.selectedSUT[0]["CGST"]);
       this.yarnInward.get("SGST").patchValue(this.selectedSUT[0]["SGST"]);
@@ -399,11 +422,11 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
   calculateWeightTotal(GODAWONWeight, KARKHANAWeight) {
     this.weightTotal = parseFloat(GODAWONWeight) + parseFloat(KARKHANAWeight);
     this.Weight_TOTAL.patchValue(this.weightTotal);
+
+    this.calculateAmount(this.Rate_KG.value);
   }
 
-  calculateAmount(event) {
-    const rateKG = event.target.value;
-
+  calculateAmount(rateKG) {
     if (!this.SUT_Name.value) {
       this.toastr.error("Please select SUT Name first", "Error");
     } else if (this.Weight_TOTAL.value == 0) {
@@ -428,7 +451,7 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
         parseFloat(cgst.toFixed(2)) +
         parseFloat(sgst.toFixed(2)) +
         parseFloat(igst.toFixed(2));
-      this.yarnInward.get("GST_TOTAL").patchValue(total_gst);
+      this.yarnInward.get("GST_TOTAL").patchValue(total_gst.toFixed(2));
 
       const totalAmt = amt + total_gst;
       this.yarnInward.get("TOTAL_AMOUNT").patchValue(totalAmt.toFixed(2));

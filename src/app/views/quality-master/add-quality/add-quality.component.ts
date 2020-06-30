@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Validators, FormGroup, FormBuilder, FormArray } from "@angular/forms";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { MasterService } from "../../../_services/master.service";
+import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Validations } from "../../../_helper/validations";
@@ -18,6 +18,7 @@ export class AddQualityComponent implements OnInit {
   qualityID: string;
   editMode = false;
   buttonText: string;
+  Year_Id: any;
   sutList = [];
   warfErr = 0;
   weftErr = 0;
@@ -26,7 +27,7 @@ export class AddQualityComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private master: MasterService,
+    private cmaster: CommonService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) {}
@@ -34,6 +35,7 @@ export class AddQualityComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.fetchYarn();
+    this.getYearId();
 
     this.route.params.subscribe((params: Params) => {
       this.qualityID = params["id"] ? params["id"] : "";
@@ -91,6 +93,16 @@ export class AddQualityComponent implements OnInit {
 
   get Pick_WEFT() {
     return this.weft.get("Pick_WEFT");
+  }
+
+  getYearId() {
+    let today = new Date();
+    const year = today.getFullYear();
+    this.cmaster
+      .findData({ CMC_Name: year }, "find-cmcname")
+      .subscribe((result) => {
+        this.Year_Id = result[0]._id;
+      });
   }
 
   createForm() {
@@ -159,9 +171,15 @@ export class AddQualityComponent implements OnInit {
 
   onSubmit() {
     this.spinner.show();
+    const formData = this.qualityMaster.value;
+
     if (!this.editMode) {
-      const formData = this.qualityMaster.value;
-      this.master.addData(formData, "add-quality").subscribe(
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Created_By = this.cmaster.currentUser.Company_Id;
+      formData.Created_Date = new Date();
+
+      this.cmaster.addData(formData, "add-quality").subscribe(
         (data) => {
           if (data != null) {
             formData.warpList.forEach((element) => {
@@ -173,7 +191,7 @@ export class AddQualityComponent implements OnInit {
                 Tara_WARP: element.Tara_WARP,
               };
 
-              this.master.addData(warfData, "add-quality-warf").subscribe(
+              this.cmaster.addData(warfData, "add-quality-warf").subscribe(
                 (warfResult) => {
                   if (warfResult != null) {
                     this.warfErr = 0;
@@ -196,7 +214,7 @@ export class AddQualityComponent implements OnInit {
                 Pick_WEFT: element.Pick_WEFT,
               };
 
-              this.master.addData(weftData, "add-quality-weft").subscribe(
+              this.cmaster.addData(weftData, "add-quality-weft").subscribe(
                 (weftResult) => {
                   if (weftResult != null) {
                     this.weftErr = 0;
@@ -236,9 +254,12 @@ export class AddQualityComponent implements OnInit {
         }
       );
     } else {
-      const formData = this.qualityMaster.value;
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Updated_By = this.cmaster.currentUser.Company_Id;
+      formData.Updated_Date = new Date();
 
-      this.master
+      this.cmaster
         .updateData(this.qualityID, formData, "update-quality")
         .subscribe(
           (data) => {
@@ -252,60 +273,7 @@ export class AddQualityComponent implements OnInit {
                   Color_WARP: element.Color_WARP,
                   Tara_WARP: element.Tara_WARP,
                 };
-
-                /* this.master.updateData(warfData, "update-quality-warf").subscribe(
-                  (warfResult) => {
-                    if (warfResult != null) {
-                      this.warfErr = 0;
-                    } else {
-                      this.warfErr = -1;
-                    }
-                  },
-                  (error) => {
-                    this.warfErr = -1;
-                  }
-                ); */
               });
-
-              /* formData.weftList.forEach((element) => {
-                const weftData = {
-                  QualityID: this.qualityID,
-                  SUT_WEFT: element.SUT_WEFT,
-                  Count_WEFT: element.Count_WEFT,
-                  Color_WEFT: element.Color_WEFT,
-                  Pick_WEFT: element.Pick_WEFT,
-                };
-
-                this.master.addData(weftData, "update-quality-weft").subscribe(
-                  (weftResult) => {
-                    if (weftResult != null) {
-                      this.weftErr = 0;
-                    } else {
-                      this.weftErr = -1;
-                    }
-                  },
-                  (error) => {
-                    this.weftErr = -1;
-                  }
-                );
-              }); */
-
-              /* if (this.warfErr == 0 && this.weftErr == 0) {
-                this.toastr.success("Record added successfuly", "Success");
-                this.qualityMaster.reset();
-                this.router.navigate(["/masters/quality-master"]);
-                this.spinner.hide();
-              } else {
-                this.toastr.error(
-                  "Error adding record. Please try again.",
-                  "Error"
-                );
-                this.spinner.hide();
-              } */
-
-              /* this.toastr.success("Record updated successfuly", "Success");
-              this.router.navigate(["/masters/quality-master"]);
-              this.spinner.hide(); */
             } else {
               this.toastr.error("Error updating record", "Error");
               this.spinner.hide();
@@ -324,7 +292,7 @@ export class AddQualityComponent implements OnInit {
 
   fetchYarn() {
     this.spinner.show();
-    this.master.fetchData(0, 0, "fetch-yarn").subscribe((list) => {
+    this.cmaster.fetchData(0, 0, "fetch-yarn").subscribe((list) => {
       this.sutList = list;
       this.spinner.hide();
     });
@@ -334,8 +302,8 @@ export class AddQualityComponent implements OnInit {
     if (this.editMode) {
       this.spinner.show();
       this.fetchWarpDetails();
-      // this.fetchWeftDetails();
-      this.master
+      this.fetchWeftDetails();
+      this.cmaster
         .fetchDetails(this.qualityID, "quality-details")
         .subscribe((details) => {
           this.qualityMaster.setValue({
@@ -355,7 +323,7 @@ export class AddQualityComponent implements OnInit {
 
   fetchWarpDetails() {
     this.spinner.show();
-    this.master
+    this.cmaster
       .fetchDetails(this.qualityID, "fetch-quality-warf")
       .subscribe((warfData) => {
         let i = 0;
@@ -385,7 +353,7 @@ export class AddQualityComponent implements OnInit {
 
   fetchWeftDetails() {
     this.spinner.show();
-    this.master
+    this.cmaster
       .fetchDetails(this.qualityID, "fetch-quality-weft")
       .subscribe((weftData) => {
         let i = 0;

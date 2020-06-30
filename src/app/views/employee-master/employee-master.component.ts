@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { PageChangedEvent } from "ngx-bootstrap/pagination";
-import { MasterService } from "../../_services/master.service";
 import { CommonService } from "../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -16,7 +15,6 @@ export class EmployeeMasterComponent implements OnInit {
   itemsPerPage: number = 10;
 
   constructor(
-    private master: MasterService,
     private cmservice: CommonService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
@@ -29,7 +27,7 @@ export class EmployeeMasterComponent implements OnInit {
 
   getItemCount() {
     this.spinner.show();
-    this.master.getItemCount("employee-count").subscribe((count) => {
+    this.cmservice.getItemCount("employee-count").subscribe((count) => {
       this.dataLength = count.count;
       this.spinner.hide();
     });
@@ -37,7 +35,7 @@ export class EmployeeMasterComponent implements OnInit {
 
   fetchEmployee(pageIndex = 0, pageSize = this.itemsPerPage) {
     this.spinner.show();
-    this.master
+    this.cmservice
       .fetchData(pageIndex, pageSize, "fetch-employee")
       .subscribe((list) => {
         this.returnedArray = list.slice(0, this.itemsPerPage);
@@ -65,7 +63,7 @@ export class EmployeeMasterComponent implements OnInit {
 
     if (searchTxt.length >= 3) {
       this.spinner.show();
-      this.master
+      this.cmservice
         .findData({ Employee_Name: searchTxt }, "find-employee")
         .subscribe((result) => {
           this.returnedArray = result;
@@ -76,7 +74,7 @@ export class EmployeeMasterComponent implements OnInit {
   }
 
   deleteEmployee(_id) {
-    this.master.deleteData(_id, "delete-employee").subscribe((result) => {
+    this.cmservice.deleteData(_id, "delete-employee").subscribe((result) => {
       if (result != null) {
         this.toastr.success("Record deleted successfuly", "Success");
         this.fetchEmployee();

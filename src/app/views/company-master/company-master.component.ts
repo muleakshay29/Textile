@@ -5,11 +5,11 @@ import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
-  selector: "app-account-master",
-  templateUrl: "./account-master.component.html",
-  styleUrls: ["./account-master.component.css"],
+  selector: "app-company-master",
+  templateUrl: "./company-master.component.html",
+  styleUrls: ["./company-master.component.css"],
 })
-export class AccountMasterComponent implements OnInit {
+export class CompanyMasterComponent implements OnInit {
   returnedArray: any[];
   dataLength: number;
   itemsPerPage: number = 10;
@@ -22,21 +22,21 @@ export class AccountMasterComponent implements OnInit {
 
   ngOnInit(): void {
     this.getItemCount();
-    this.fetchAccount();
+    this.fetchCompany();
   }
 
   getItemCount() {
     this.spinner.show();
-    this.cmservice.getItemCount("account-count").subscribe((count) => {
+    this.cmservice.getItemCount("company-count").subscribe((count) => {
       this.dataLength = count.count;
       this.spinner.hide();
     });
   }
 
-  fetchAccount(pageIndex = 0, pageSize = this.itemsPerPage) {
+  fetchCompany(pageIndex = 0, pageSize = this.itemsPerPage) {
     this.spinner.show();
     this.cmservice
-      .fetchData(pageIndex, pageSize, "fetch-account")
+      .fetchData(pageIndex, pageSize, "fetch-company")
       .subscribe((list) => {
         this.returnedArray = list.slice(0, this.itemsPerPage);
         this.spinner.hide();
@@ -44,19 +44,19 @@ export class AccountMasterComponent implements OnInit {
   }
 
   pageChanged(event: PageChangedEvent): void {
-    this.fetchAccount(event.page - 1, this.itemsPerPage);
+    this.fetchCompany(event.page - 1, this.itemsPerPage);
   }
 
   setItemPerPage(event) {
     this.itemsPerPage = event.target.value;
-    this.fetchAccount(event.page - 1, this.itemsPerPage);
+    this.fetchCompany(event.page - 1, this.itemsPerPage);
   }
 
   searchRecord(event) {
     const searchTxt = event.target.value;
 
     if (searchTxt == "" || searchTxt.length == 0) {
-      this.fetchAccount();
+      this.fetchCompany();
       this.getItemCount();
       this.spinner.hide();
     }
@@ -64,35 +64,12 @@ export class AccountMasterComponent implements OnInit {
     if (searchTxt.length >= 3) {
       this.spinner.show();
       this.cmservice
-        .findData({ Bank_Name: searchTxt }, "find-account")
+        .findData({ Comp_Name: searchTxt }, "find-company")
         .subscribe((result) => {
           this.returnedArray = result;
           this.dataLength = result.length;
           this.spinner.hide();
         });
     }
-  }
-
-  deleteAccount(_id) {
-    this.cmservice.deleteData(_id, "delete-account").subscribe((result) => {
-      if (result != null) {
-        this.toastr.success("Record deleted successfuly", "Success");
-        this.fetchAccount();
-        this.spinner.hide();
-      } else {
-        this.toastr.error("Error deleting record", "Error");
-        this.spinner.hide();
-      }
-    });
-  }
-
-  openModal(Name: string, _id: string) {
-    const result = this.cmservice.openModalWithComponent(Name, _id);
-    result.content.onClose.subscribe((result: boolean) => {
-      if (result == true) {
-        this.spinner.show();
-        this.deleteAccount(_id);
-      }
-    });
   }
 }

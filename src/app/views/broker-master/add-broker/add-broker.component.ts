@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { MasterService } from "../../../_services/master.service";
+import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Validations } from "../../../_helper/validations";
@@ -16,19 +16,21 @@ export class AddBrokerComponent implements OnInit {
   brokerID: string;
   editMode = false;
   buttonText: string;
+  Year_Id: any;
   balanceTypeList = [];
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private master: MasterService,
+    private cmaster: CommonService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
     this.createForm();
+    this.getYearId();
     this.fetchBalanceType("5ea15662f27507241406257c");
 
     this.route.params.subscribe((params: Params) => {
@@ -48,6 +50,16 @@ export class AddBrokerComponent implements OnInit {
       Opening_Balance: ["", Validators.required],
       Balance_Type: ["", Validators.required],
     });
+  }
+
+  getYearId() {
+    let today = new Date();
+    const year = today.getFullYear();
+    this.cmaster
+      .findData({ CMC_Name: year }, "find-cmcname")
+      .subscribe((result) => {
+        this.Year_Id = result[0]._id;
+      });
   }
 
   get Broker_Name() {
@@ -76,9 +88,15 @@ export class AddBrokerComponent implements OnInit {
 
   onSubmit() {
     this.spinner.show();
+    const formData = this.brokerMaster.value;
+
     if (!this.editMode) {
-      const formData = this.brokerMaster.value;
-      this.master.addData(formData, "add-broker").subscribe((data) => {
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Created_By = this.cmaster.currentUser.Company_Id;
+      formData.Created_Date = new Date();
+
+      this.cmaster.addData(formData, "add-broker").subscribe((data) => {
         if (data != null) {
           this.toastr.success("Record added successfuly", "Success");
           this.brokerMaster.reset();
@@ -90,16 +108,12 @@ export class AddBrokerComponent implements OnInit {
         }
       });
     } else {
-      const formData = {
-        Broker_Name: this.Broker_Name.value,
-        Address: this.Address.value,
-        Mobile_No: this.Mobile_No.value,
-        Alternate_No: this.Alternate_No.value,
-        Opening_Balance: this.Opening_Balance.value,
-        Balance_Type: this.Balance_Type.value,
-      };
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Updated_By = this.cmaster.currentUser.Company_Id;
+      formData.Updated_Date = new Date();
 
-      this.master
+      this.cmaster
         .updateData(this.brokerID, formData, "update-broker")
         .subscribe((data) => {
           if (data != null) {
@@ -117,7 +131,7 @@ export class AddBrokerComponent implements OnInit {
   private initForm() {
     if (this.editMode) {
       this.spinner.show();
-      this.master
+      this.cmaster
         .fetchDetails(this.brokerID, "broker-details")
         .subscribe((details) => {
           this.brokerMaster.setValue({
@@ -134,7 +148,7 @@ export class AddBrokerComponent implements OnInit {
   }
 
   fetchBalanceType(_id: string) {
-    this.master
+    this.cmaster
       .fetchDataFrom(_id, "fetch-commonchild-fromCM")
       .subscribe((list) => {
         this.balanceTypeList = list;

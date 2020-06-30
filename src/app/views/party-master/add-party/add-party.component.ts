@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { MasterService } from "../../../_services/master.service";
+import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Validations } from "../../../_helper/validations";
@@ -16,19 +16,21 @@ export class AddPartyComponent implements OnInit {
   partyID: string;
   editMode = false;
   buttonText: string;
+  Year_Id: any;
   stateList = [];
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private master: MasterService,
+    private cmaster: CommonService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
     this.createForm();
+    this.getYearId();
     this.fetchState("5ea035da1492733c189e6ff2");
 
     this.route.params.subscribe((params: Params) => {
@@ -37,6 +39,16 @@ export class AddPartyComponent implements OnInit {
       this.buttonText = this.editMode ? "Update" : "Create";
       this.initForm();
     });
+  }
+
+  getYearId() {
+    let today = new Date();
+    const year = today.getFullYear();
+    this.cmaster
+      .findData({ CMC_Name: year }, "find-cmcname")
+      .subscribe((result) => {
+        this.Year_Id = result[0]._id;
+      });
   }
 
   createForm() {
@@ -111,9 +123,15 @@ export class AddPartyComponent implements OnInit {
 
   onSubmit() {
     this.spinner.show();
+    const formData = this.partyMaster.value;
+
     if (!this.editMode) {
-      const formData = this.partyMaster.value;
-      this.master.addData(formData, "add-party").subscribe((data) => {
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Created_By = this.cmaster.currentUser.Company_Id;
+      formData.Created_Date = new Date();
+
+      this.cmaster.addData(formData, "add-party").subscribe((data) => {
         if (data != null) {
           this.toastr.success("Record added successfuly", "Success");
           this.partyMaster.reset();
@@ -125,7 +143,7 @@ export class AddPartyComponent implements OnInit {
         }
       });
     } else {
-      const formData = {
+      /* const formData = {
         Company_Name: this.Company_Name.value,
         Owner_Name: this.Owner_Name.value,
         Address: this.Address.value,
@@ -139,9 +157,14 @@ export class AddPartyComponent implements OnInit {
         Branch: this.Branch.value,
         Account_No: this.Account_No.value,
         IFSC_Code: this.IFSC_Code.value,
-      };
+      }; */
 
-      this.master
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Updated_By = this.cmaster.currentUser.Company_Id;
+      formData.Updated_Date = new Date();
+
+      this.cmaster
         .updateData(this.partyID, formData, "update-party")
         .subscribe((data) => {
           if (data != null) {
@@ -159,7 +182,7 @@ export class AddPartyComponent implements OnInit {
   private initForm() {
     if (this.editMode) {
       this.spinner.show();
-      this.master
+      this.cmaster
         .fetchDetails(this.partyID, "party-details")
         .subscribe((details) => {
           this.partyMaster.setValue({
@@ -183,7 +206,7 @@ export class AddPartyComponent implements OnInit {
   }
 
   fetchState(_id: string) {
-    this.master
+    this.cmaster
       .fetchDataFrom(_id, "fetch-commonchild-fromCM")
       .subscribe((list) => {
         this.stateList = list;

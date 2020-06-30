@@ -1,6 +1,7 @@
 <ngx-spinner type="ball-beat" [fullScreen]="true"
   ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
 >
+
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-sm-12">
@@ -61,7 +62,7 @@
                 <select class="form-control" formControlName="Party_Name">
                   <option value="">Select Party Name</option>
                   <option
-                    value="{{ party.Company_Name }}"
+                    value="{{ party._id }}"
                     *ngFor="let party of partyList"
                     >{{ party.Company_Name }}</option
                   >
@@ -77,7 +78,7 @@
                 <select class="form-control" formControlName="Shed_Name">
                   <option value="">Select SHED Name</option>
                   <option
-                    value="{{ shed.SHED_Name }}"
+                    value="{{ shed._id }}"
                     *ngFor="let shed of shedList"
                     >{{ shed.SHED_Name }}</option
                   >
@@ -97,7 +98,7 @@
                     <select class="form-control" formControlName="SUT_Name">
                       <option value="">Select SUT Name</option>
                       <option
-                        value="{{ yarn.SUT_Name }}"
+                        value="{{ yarn._id }}"
                         *ngFor="let yarn of yarnList"
                         >{{ yarn.SUT_Name }}</option
                       >
@@ -113,7 +114,7 @@
                     <select class="form-control" formControlName="SUT_Type">
                       <option value="">Select SUT Type</option>
                       <option
-                        value="{{ type.CMC_Name }}"
+                        value="{{ type._id }}"
                         *ngFor="let type of sutTypeList"
                         >{{ type.CMC_Name }}</option
                       >
@@ -403,7 +404,7 @@
                               >
                                 <option value="">Select Package Type</option>
                                 <option
-                                  value="{{ pkg.CMC_Name }}"
+                                  value="{{ pkg._id }}"
                                   *ngFor="let pkg of pkgList"
                                   >{{ pkg.CMC_Name }}</option
                                 >

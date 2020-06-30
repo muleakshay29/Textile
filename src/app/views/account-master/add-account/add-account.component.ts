@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { MasterService } from "../../../_services/master.service";
+import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Validations } from "../../../_helper/validations";
@@ -16,18 +16,20 @@ export class AddAccountComponent implements OnInit {
   accID: string;
   editMode = false;
   buttonText: string;
+  Year_Id: any;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private master: MasterService,
+    private cmaster: CommonService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
     this.createForm();
+    this.getYearId();
 
     this.route.params.subscribe((params: Params) => {
       this.accID = params["id"] ? params["id"] : "";
@@ -47,6 +49,16 @@ export class AddAccountComponent implements OnInit {
       Holder_Name: ["", Validators.required],
       Opening_Balance: ["", Validators.required],
     });
+  }
+
+  getYearId() {
+    let today = new Date();
+    const year = today.getFullYear();
+    this.cmaster
+      .findData({ CMC_Name: year }, "find-cmcname")
+      .subscribe((result) => {
+        this.Year_Id = result[0]._id;
+      });
   }
 
   get Bank_Name() {
@@ -79,9 +91,15 @@ export class AddAccountComponent implements OnInit {
 
   onSubmit() {
     this.spinner.show();
+    const formData = this.accountMaster.value;
+
     if (!this.editMode) {
-      const formData = this.accountMaster.value;
-      this.master.addData(formData, "add-account").subscribe((data) => {
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Created_By = this.cmaster.currentUser.Company_Id;
+      formData.Created_Date = new Date();
+
+      this.cmaster.addData(formData, "add-account").subscribe((data) => {
         if (data != null) {
           this.toastr.success("Record added successfuly", "Success");
           this.accountMaster.reset();
@@ -93,17 +111,12 @@ export class AddAccountComponent implements OnInit {
         }
       });
     } else {
-      const formData = {
-        Bank_Name: this.Bank_Name.value,
-        Account_No: this.Account_No.value,
-        Address: this.Address.value,
-        Branch: this.Branch.value,
-        IFSC_Code: this.IFSC_Code.value,
-        Holder_Name: this.Holder_Name.value,
-        Opening_Balance: this.Opening_Balance.value,
-      };
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Updated_By = this.cmaster.currentUser.Company_Id;
+      formData.Updated_Date = new Date();
 
-      this.master
+      this.cmaster
         .updateData(this.accID, formData, "update-account")
         .subscribe((data) => {
           if (data != null) {
@@ -121,7 +134,7 @@ export class AddAccountComponent implements OnInit {
   private initForm() {
     if (this.editMode) {
       this.spinner.show();
-      this.master
+      this.cmaster
         .fetchDetails(this.accID, "account-details")
         .subscribe((details) => {
           this.accountMaster.setValue({

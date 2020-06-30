@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { PageChangedEvent } from "ngx-bootstrap/pagination";
-import { InwardOutwardService } from "../../../_services/inward-outward.service";
 import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -16,7 +15,6 @@ export class YarnInwardComponent implements OnInit {
   itemsPerPage: number = 10;
 
   constructor(
-    private inoutservice: InwardOutwardService,
     private cmservice: CommonService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
@@ -29,7 +27,7 @@ export class YarnInwardComponent implements OnInit {
 
   getItemCount() {
     this.spinner.show();
-    this.inoutservice.getItemCount("yarn-inward-count").subscribe((count) => {
+    this.cmservice.getItemCount("yarn-inward-count").subscribe((count) => {
       this.dataLength = count.count;
       this.spinner.hide();
     });
@@ -37,7 +35,7 @@ export class YarnInwardComponent implements OnInit {
 
   fetchYarnInward(pageIndex = 0, pageSize = this.itemsPerPage) {
     this.spinner.show();
-    this.inoutservice
+    this.cmservice
       .fetchData(pageIndex, pageSize, "fetch-yarn-inwards")
       .subscribe((list) => {
         this.returnedArray = list.slice(0, this.itemsPerPage);
@@ -55,18 +53,16 @@ export class YarnInwardComponent implements OnInit {
   }
 
   deleteYarnInward(_id) {
-    this.inoutservice
-      .deleteData(_id, "delete-yarn-inward")
-      .subscribe((result) => {
-        if (result != null) {
-          this.toastr.success("Record deleted successfuly", "Success");
-          this.fetchYarnInward();
-          this.spinner.hide();
-        } else {
-          this.toastr.error("Error deleting record", "Error");
-          this.spinner.hide();
-        }
-      });
+    this.cmservice.deleteData(_id, "delete-yarn-inward").subscribe((result) => {
+      if (result != null) {
+        this.toastr.success("Record deleted successfuly", "Success");
+        this.fetchYarnInward();
+        this.spinner.hide();
+      } else {
+        this.toastr.error("Error deleting record", "Error");
+        this.spinner.hide();
+      }
+    });
   }
 
   openModal(Name: string, _id: string) {

@@ -91,7 +91,7 @@
                           >
                             <option value="">Select Location</option>
                             <option
-                              value="{{ location.CMC_Name }}"
+                              value="{{ location._id }}"
                               *ngFor="let location of locationList"
                               >{{ location.CMC_Name }}</option
                             >
@@ -111,7 +111,7 @@
                           >
                             <option value="">Select Employee Type</option>
                             <option
-                              value="{{ emp.CMC_Name }}"
+                              value="{{ emp._id }}"
                               *ngFor="let emp of empTypeList"
                               >{{ emp.CMC_Name }}</option
                             >
@@ -274,7 +274,7 @@
                       >
                         <option value="">Select Balance Type</option>
                         <option
-                          value="{{ balance.CMC_Name }}"
+                          value="{{ balance._id }}"
                           *ngFor="let balance of balanceTypeList"
                           >{{ balance.CMC_Name }}</option
                         >
@@ -315,7 +315,7 @@
                       >
                         <option value="">Select Balance Type</option>
                         <option
-                          value="{{ balance.CMC_Name }}"
+                          value="{{ balance._id }}"
                           *ngFor="let balance of balanceTypeList"
                           >{{ balance.CMC_Name }}</option
                         >

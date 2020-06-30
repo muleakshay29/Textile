@@ -7,6 +7,28 @@ export const navItems: INavData[] = [
     icon: "icon-chart",
   },
   {
+    name: "Admin Specific",
+    url: "/masters/common-master",
+    icon: "icon-arrow-right",
+    children: [
+      {
+        name: "Common Master",
+        url: "/masters/common-master",
+        icon: "icon-cursor",
+      },
+      {
+        name: "Common Master Child",
+        url: "/masters/common-master-child",
+        icon: "icon-cursor",
+      },
+      {
+        name: "Company Master",
+        url: "/masters/company-master",
+        icon: "icon-cursor",
+      },
+    ],
+  },
+  {
     name: "Masters",
     url: "/masters/yarn-master",
     icon: "icon-arrow-right",

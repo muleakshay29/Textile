@@ -174,6 +174,7 @@ export class AddDeliveryChalanComponent implements OnInit {
 
             this.warfList.forEach((element) => {
               const yarnStockData = {
+                InwardOutwardId: data._id,
                 Invoice_No: formData.Chalan_No,
                 Date: formData.Date,
                 Party_Name: formData.Party_Name,

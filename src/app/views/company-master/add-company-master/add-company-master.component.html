@@ -1,0 +1,194 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="companyMaster" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Company Master</span>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="Comp_Name">Company Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Company Name"
+                    formControlName="Comp_Name"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Comp_Name"
+                  ></app-error-message>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="Comp_Address">Company Address</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Company Address"
+                    formControlName="Comp_Address"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Comp_Address"
+                  ></app-error-message>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="Comp_State">Company State</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Company State"
+                    formControlName="Comp_State"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Comp_State"
+                  ></app-error-message>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="Comp_Owner">Company Owner</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Company Owner"
+                    formControlName="Comp_Owner"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Comp_Owner"
+                  ></app-error-message>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="Comp_Email">Company Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    placeholder="Company Email"
+                    formControlName="Comp_Email"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Comp_Email"
+                  ></app-error-message>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="Comp_GSTNo">Company GST</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Company GST"
+                    formControlName="Comp_GSTNo"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Comp_GSTNo"
+                  ></app-error-message>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="Comp_Pan">Company Pan</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Company Pan"
+                    formControlName="Comp_Pan"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Comp_Pan"
+                  ></app-error-message>
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="Comp_Contact1">Company Contact1</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Company Contact1"
+                    formControlName="Comp_Contact1"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Comp_Contact1"
+                  ></app-error-message>
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="Comp_Contact2">Company Contact2</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Company Contact2"
+                    formControlName="Comp_Contact2"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Comp_Contact2"
+                  ></app-error-message>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!companyMaster.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> {{ buttonText }}
+            </button>
+
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

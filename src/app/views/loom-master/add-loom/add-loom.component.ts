@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { MasterService } from "../../../_services/master.service";
+import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Validations } from "../../../_helper/validations";
@@ -16,6 +16,7 @@ export class AddLoomComponent implements OnInit {
   loomID: string;
   editMode = false;
   buttonText: string;
+  Year_Id: any;
   stateList = [];
   loomTypes = [];
 
@@ -23,13 +24,14 @@ export class AddLoomComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private master: MasterService,
+    private cmaster: CommonService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
     this.createForm();
+    this.getYearId();
     this.fetchState("5ea035da1492733c189e6ff2");
     this.fetchLoomTypes("5ea1271697f4150c8cf37a52");
 
@@ -39,6 +41,16 @@ export class AddLoomComponent implements OnInit {
       this.buttonText = this.editMode ? "Update" : "Create";
       this.initForm();
     });
+  }
+
+  getYearId() {
+    let today = new Date();
+    const year = today.getFullYear();
+    this.cmaster
+      .findData({ CMC_Name: year }, "find-cmcname")
+      .subscribe((result) => {
+        this.Year_Id = result[0]._id;
+      });
   }
 
   createForm() {
@@ -68,9 +80,15 @@ export class AddLoomComponent implements OnInit {
 
   onSubmit() {
     this.spinner.show();
+    const formData = this.loomMaster.value;
+
     if (!this.editMode) {
-      const formData = this.loomMaster.value;
-      this.master.addData(formData, "add-loom").subscribe((data) => {
+      formData.Company_Id = this.cmaster.currentUser.Company_Id;
+      formData.Year_Id = this.Year_Id;
+      formData.Created_By = this.cmaster.currentUser.Company_Id;
+      formData.Created_Date = new Date();
+
+      this.cmaster.addData(formData, "add-loom").subscribe((data) => {
         if (data != null) {
           for (let i = 1; i <= formData.No_of_Looms; i++) {
             const loomDetailData = {
@@ -81,7 +99,9 @@ export class AddLoomComponent implements OnInit {
               Loom_No: i,
             };
 
-            this.master.addData(loomDetailData, "add-loom-details").subscribe();
+            this.cmaster
+              .addData(loomDetailData, "add-loom-details")
+              .subscribe();
           }
 
           this.toastr.success("Record added successfuly", "Success");
@@ -94,24 +114,40 @@ export class AddLoomComponent implements OnInit {
         }
       });
     } else {
-      const formData = {
-        SHED_Name: this.SHED_Name.value,
-        Location: this.Location.value,
-        Loom_Type: this.Loom_Type.value,
-        No_of_Looms: this.No_of_Looms.value,
-      };
+      this.cmaster
+        .deleteData(this.loomID, "delete-loom-details")
+        .subscribe((result) => {
+          formData.Company_Id = this.cmaster.currentUser.Company_Id;
+          formData.Year_Id = this.Year_Id;
+          formData.Updated_By = this.cmaster.currentUser.Company_Id;
+          formData.Updated_Date = new Date();
 
-      this.master
-        .updateData(this.loomID, formData, "update-loom")
-        .subscribe((data) => {
-          if (data != null) {
-            this.toastr.success("Record updated successfuly", "Success");
-            this.router.navigate(["/masters/loom-master"]);
-            this.spinner.hide();
-          } else {
-            this.toastr.error("Error updating record", "Error");
-            this.spinner.hide();
-          }
+          this.cmaster
+            .updateData(this.loomID, formData, "update-loom")
+            .subscribe((data) => {
+              if (data != null) {
+                for (let i = 1; i <= formData.No_of_Looms; i++) {
+                  const loomDetailData = {
+                    LoomID: this.loomID,
+                    SHED_Name: formData.SHED_Name,
+                    Location: formData.Location,
+                    Loom_Type: formData.Loom_Type,
+                    Loom_No: i,
+                  };
+
+                  this.cmaster
+                    .addData(loomDetailData, "add-loom-details")
+                    .subscribe();
+                }
+
+                this.toastr.success("Record updated successfuly", "Success");
+                this.router.navigate(["/masters/loom-master"]);
+                this.spinner.hide();
+              } else {
+                this.toastr.error("Error updating record", "Error");
+                this.spinner.hide();
+              }
+            });
         });
     }
   }
@@ -119,13 +155,13 @@ export class AddLoomComponent implements OnInit {
   private initForm() {
     if (this.editMode) {
       this.spinner.show();
-      this.master
+      this.cmaster
         .fetchDetails(this.loomID, "loom-details")
         .subscribe((details) => {
           this.loomMaster.setValue({
             SHED_Name: details.SHED_Name,
-            Location: details.Location,
-            Loom_Type: details.Loom_Type,
+            Location: details.Location._id,
+            Loom_Type: details.Loom_Type._id,
             No_of_Looms: details.No_of_Looms,
           });
           this.spinner.hide();
@@ -134,7 +170,7 @@ export class AddLoomComponent implements OnInit {
   }
 
   fetchState(_id: string) {
-    this.master
+    this.cmaster
       .fetchDataFrom(_id, "fetch-commonchild-fromCM")
       .subscribe((list) => {
         this.stateList = list;
@@ -142,7 +178,7 @@ export class AddLoomComponent implements OnInit {
   }
 
   fetchLoomTypes(_id: string) {
-    this.master
+    this.cmaster
       .fetchDataFrom(_id, "fetch-commonchild-fromCM")
       .subscribe((list) => {
         this.loomTypes = list;

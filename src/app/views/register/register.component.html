@@ -88,6 +88,28 @@
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text"
+                      ><i class="icon-user"></i
+                    ></span>
+                  </div>
+
+                  <select class="form-control" formControlName="Company_Id">
+                    <option value="">Select Company</option>
+                    <option
+                      value="{{ company._id }}"
+                      *ngFor="let company of companyList"
+                      >{{ company.Comp_Name }}</option
+                    >
+                  </select>
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Company_Id"
+                  ></app-error-message>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
                       ><i class="icon-lock"></i
                     ></span>
                   </div>

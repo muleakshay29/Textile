@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { PageChangedEvent } from "ngx-bootstrap/pagination";
-import { MasterService } from "../../_services/master.service";
 import { CommonService } from "../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -16,7 +15,6 @@ export class FirmMasterComponent implements OnInit {
   itemsPerPage: number = 10;
 
   constructor(
-    private master: MasterService,
     private cmservice: CommonService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
@@ -29,7 +27,7 @@ export class FirmMasterComponent implements OnInit {
 
   getItemCount() {
     this.spinner.show();
-    this.master.getItemCount("firm-count").subscribe((count) => {
+    this.cmservice.getItemCount("firm-count").subscribe((count) => {
       this.dataLength = count.count;
       this.spinner.hide();
     });
@@ -37,7 +35,7 @@ export class FirmMasterComponent implements OnInit {
 
   fetchFirm(pageIndex = 0, pageSize = this.itemsPerPage) {
     this.spinner.show();
-    this.master
+    this.cmservice
       .fetchData(pageIndex, pageSize, "fetch-firm")
       .subscribe((list) => {
         this.returnedArray = list.slice(0, this.itemsPerPage);
@@ -65,7 +63,7 @@ export class FirmMasterComponent implements OnInit {
 
     if (searchTxt.length >= 3) {
       this.spinner.show();
-      this.master
+      this.cmservice
         .findData({ Company_Name: searchTxt }, "find-firm")
         .subscribe((result) => {
           this.returnedArray = result;
@@ -76,7 +74,7 @@ export class FirmMasterComponent implements OnInit {
   }
 
   deleteFirm(_id) {
-    this.master.deleteData(_id, "delete-firm").subscribe((result) => {
+    this.cmservice.deleteData(_id, "delete-firm").subscribe((result) => {
       if (result != null) {
         this.toastr.success("Record deleted successfuly", "Success");
         this.fetchFirm();

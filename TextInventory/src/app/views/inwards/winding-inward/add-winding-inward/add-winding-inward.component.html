@@ -1,0 +1,633 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="windingInward" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Winding Inward</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="GETPASS"
+                  formControlName="GETPASS"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="GETPASS"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="Date"
+                  formControlName="Date"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Date"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <select class="form-control" formControlName="Shed_Name">
+                  <option value="">Select SHED Name</option>
+                  <option
+                    value="{{ shed._id }}"
+                    *ngFor="let shed of shedList"
+                    >{{ shed.SHED_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Shed_Name"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <select class="form-control" formControlName="Party_Name">
+                  <option value="">Select Party Name</option>
+                  <option
+                    value="{{ party._id }}"
+                    *ngFor="let party of partyList"
+                    >{{ party.Company_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Party_Name"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="OUTWARD GETPASS"
+                  formControlName="Outward_GETPASS"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Outward_GETPASS"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="Outward Date"
+                  formControlName="Outward_Date"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Outward_Date"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="form-group col-sm-6">
+                    <select
+                      class="form-control"
+                      formControlName="SUT_Name"
+                      (change)="
+                        fetchTotalOutwards(
+                          SUTNAME.value,
+                          SUTTYPE.value,
+                          COUNT.value,
+                          COLOR.value
+                        )
+                      "
+                      #SUTNAME
+                    >
+                      <option value="">Select SUT Name</option>
+                      <option
+                        value="{{ yarn._id }}"
+                        *ngFor="let yarn of yarnList"
+                        >{{ yarn.SUT_Name }}</option
+                      >
+                    </select>
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="SUT_Name"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-6">
+                    <select
+                      class="form-control"
+                      formControlName="SUT_Type"
+                      (change)="
+                        fetchTotalOutwards(
+                          SUTNAME.value,
+                          SUTTYPE.value,
+                          COUNT.value,
+                          COLOR.value
+                        )
+                      "
+                      #SUTTYPE
+                    >
+                      <option value="">Select SUT Type</option>
+                      <option
+                        value="{{ type._id }}"
+                        *ngFor="let type of sutTypeList"
+                        >{{ type.CMC_Name }}</option
+                      >
+                    </select>
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="SUT_Type"
+                    ></app-error-message>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-6">
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="COUNT"
+                      formControlName="Count"
+                      (change)="
+                        fetchTotalOutwards(
+                          SUTNAME.value,
+                          SUTTYPE.value,
+                          COUNT.value,
+                          COLOR.value
+                        )
+                      "
+                      #COUNT
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Count"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="COLOR"
+                      formControlName="Color"
+                      (change)="
+                        fetchTotalOutwards(
+                          SUTNAME.value,
+                          SUTTYPE.value,
+                          COUNT.value,
+                          COLOR.value
+                        )
+                      "
+                      #COLOR
+                    />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-6">
+                    <label for="TotalOutwardKon">Total Outward Kon</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Total Outward Kon"
+                      formControlName="Total_Outward_Kon"
+                      readonly
+                    />
+                  </div>
+
+                  <div class="form-group col-sm-6">
+                    <label for="TotalOutwardWeight">Total Outward Weight</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Total Outward Weight"
+                      formControlName="Total_Outward_Weight"
+                      readonly
+                    />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <table
+                          class="table table-responsive-sm table-outline mb-0 table-bordered"
+                        >
+                          <thead>
+                            <tr>
+                              <th class="text-center">&nbsp;</th>
+                              <th class="text-center">Bag</th>
+                              <th class="text-center">KON</th>
+                              <th class="text-center">NET WEIGHT</th>
+                              <th class="text-center">Empty Kon</th>
+                              <th class="text-center">Empty Kon WEIGHT</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th class="text-center">GODAWON</th>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="GODAWON_Bag"
+                                    (change)="
+                                      calculateBagTotal(
+                                        GODAWONBag.value,
+                                        KARKHANABag.value
+                                      )
+                                    "
+                                    #GODAWONBag
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="GODAWON_Bag"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="GODAWON_Kon"
+                                    (change)="
+                                      calculateKonTotal(
+                                        GODAWONKon.value,
+                                        KARKHANAKon.value
+                                      )
+                                    "
+                                    #GODAWONKon
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="GODAWON_Kon"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="GODAWON_Weight"
+                                    (change)="
+                                      calculateWeightTotal(
+                                        GODAWONWeight.value,
+                                        KARKHANAWeight.value
+                                      )
+                                    "
+                                    #GODAWONWeight
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="GODAWON_Weight"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="GODAWON_Empty_Kon"
+                                    (change)="
+                                      calculateEmptyKonTotal(
+                                        GODAWONEmptyKon.value,
+                                        KARKHANAEmptyKon.value
+                                      )
+                                    "
+                                    #GODAWONEmptyKon
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="GODAWON_Empty_Kon"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="GODAWON_Empty_Kon_Weight"
+                                    (change)="
+                                      calculateEmptyKonWeightTotal(
+                                        GODAWONEmptyKonWeight.value,
+                                        KARKHANAEmptyKonWeight.value
+                                      )
+                                    "
+                                    #GODAWONEmptyKonWeight
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="GODAWON_Empty_Kon_Weight"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <th class="text-center">KARKHANA</th>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="KARKHANA_Bag"
+                                    (change)="
+                                      calculateBagTotal(
+                                        GODAWONBag.value,
+                                        KARKHANABag.value
+                                      )
+                                    "
+                                    #KARKHANABag
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="KARKHANA_Bag"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="KARKHANA_Kon"
+                                    (change)="
+                                      calculateKonTotal(
+                                        GODAWONKon.value,
+                                        KARKHANAKon.value
+                                      )
+                                    "
+                                    #KARKHANAKon
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="KARKHANA_Kon"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="KARKHANA_Weight"
+                                    (change)="
+                                      calculateWeightTotal(
+                                        GODAWONWeight.value,
+                                        KARKHANAWeight.value
+                                      )
+                                    "
+                                    #KARKHANAWeight
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="KARKHANA_Weight"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="KARKHANA_Empty_Kon"
+                                    (change)="
+                                      calculateEmptyKonTotal(
+                                        GODAWONEmptyKon.value,
+                                        KARKHANAEmptyKon.value
+                                      )
+                                    "
+                                    #KARKHANAEmptyKon
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="KARKHANA_Empty_Kon"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+
+                              <td class="text-center">
+                                <div class="form-group">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="0"
+                                    formControlName="KARKHANA_Empty_Kon_Weight"
+                                    (change)="
+                                      calculateEmptyKonWeightTotal(
+                                        GODAWONEmptyKonWeight.value,
+                                        KARKHANAEmptyKonWeight.value
+                                      )
+                                    "
+                                    #KARKHANAEmptyKonWeight
+                                    [value]="defaultZero"
+                                  />
+
+                                  <app-error-message
+                                    class="d-block w-100"
+                                    [control]="KARKHANA_Empty_Kon_Weight"
+                                  ></app-error-message>
+                                </div>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <th class="text-center">TOTAL</th>
+
+                              <td class="text-center">
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  placeholder="0"
+                                  formControlName="Bag_TOTAL"
+                                  readonly
+                                  [value]="bagTotal"
+                                />
+                              </td>
+
+                              <td class="text-center">
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  placeholder="0"
+                                  formControlName="Kon_TOTAL"
+                                  readonly
+                                  [value]="konTotal"
+                                />
+                              </td>
+
+                              <td class="text-center">
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  placeholder="0"
+                                  formControlName="Weight_TOTAL"
+                                  readonly
+                                  [value]="weightTotal"
+                                />
+                              </td>
+
+                              <td class="text-center">
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  placeholder="0"
+                                  formControlName="Empty_Kon_Total"
+                                  readonly
+                                  [value]="emptyKonTotal"
+                                />
+                              </td>
+
+                              <td class="text-center">
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  placeholder="0"
+                                  formControlName="Empty_Kon_Weight_Total"
+                                  readonly
+                                  [value]="emptyKonWeightTotal"
+                                />
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="form-group col-sm-4">
+                            <label for="TotalKon">Total Kon</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="Total Kon"
+                              formControlName="Total_Kon"
+                              readonly
+                            />
+                          </div>
+
+                          <div class="form-group col-sm-4">
+                            <label for="WESTAGE">Westage</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="Westage"
+                              formControlName="Westage"
+                              (change)="calculateRedusedWeight()"
+                            />
+
+                            <app-error-message
+                              class="d-block w-100"
+                              [control]="Westage"
+                            ></app-error-message>
+                          </div>
+
+                          <div class="form-group col-sm-4">
+                            <label for="REDUSEDWEIGHT">Redused Weight</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="Redused Weight"
+                              formControlName="Redused_Weight"
+                              readonly
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!windingInward.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> {{ buttonText }}
+            </button>
+
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

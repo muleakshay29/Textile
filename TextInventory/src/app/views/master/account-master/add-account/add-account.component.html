@@ -1,0 +1,157 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="accountMaster" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Account Master</span>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Bank Name"
+                    formControlName="Bank_Name"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Bank_Name"
+                  ></app-error-message>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Acoount No."
+                    formControlName="Account_No"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Account_No"
+                  ></app-error-message>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <textarea
+                        cols="30"
+                        rows="4"
+                        class="form-control"
+                        placeholder="Address"
+                        formControlName="Address"
+                      ></textarea>
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Address"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Branch"
+                            formControlName="Branch"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Branch"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="IFSC Code"
+                            formControlName="IFSC_Code"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="IFSC_Code"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Holder Name"
+                            formControlName="Holder_Name"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Holder_Name"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Opening Balance"
+                            formControlName="Opening_Balance"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Opening_Balance"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!accountMaster.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> Submit
+            </button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

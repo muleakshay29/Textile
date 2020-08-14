@@ -1,0 +1,98 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <span class="h4">Bank Transactions</span>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <div class="row">
+              <div class="form-group col-sm-12">
+                <label for="AccountName">Acount Name</label>
+                <select
+                  class="form-control"
+                  (change)="searchRecord(ACCOUNT.value)"
+                  #ACCOUNT
+                >
+                  <option value="">Select Pay From Account</option>
+                  <option
+                    value="{{ account._id }}"
+                    *ngFor="let account of accountList"
+                    >{{ account.Bank_Name }}</option
+                  >
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-outline mb-0 table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="text-center">Transaction Date</th>
+                  <th class="text-center">Transaction Type</th>
+                  <th class="text-center">Transaction Account</th>
+                  <th class="text-center">Transaction Form</th>
+                  <th class="text-center">Amount In</th>
+                  <th class="text-center">Amount Out</th>
+                  <th class="text-center">Transaction By</th>
+                  <th class="text-center">Cheque No</th>
+                  <th class="text-center">Cheque Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let content of returnedArray">
+                  <td class="text-center">
+                    {{ content.TransactionDate | date: "MM/dd/yyyy" }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.AgainstVoucher }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.ACC_Code.Bank_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.TransactionForm }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.AmtIn }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.AmtOut }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.TransactionBy.CMC_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Cheque_No == "" ? " - " : content.Cheque_No }}
+                  </td>
+                  <td class="text-center">
+                    {{
+                      content.Cheque_Date == null
+                        ? " - "
+                        : (content.Cheque_Date | date: "MM/dd/yyyy")
+                    }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card-footer" *ngIf="dataLength > itemsPerPage">
+          <appPagination
+            [dataLength]="dataLength"
+            [itemsPerPage]="itemsPerPage"
+            (pageChanged)="pageChanged($event)"
+            (change)="setItemPerPage($event)"
+          ></appPagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

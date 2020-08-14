@@ -1,0 +1,147 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="brokerMaster" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Broker Master</span>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Broker Name"
+                    formControlName="Broker_Name"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="Broker_Name"
+                  ></app-error-message>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <textarea
+                        cols="30"
+                        rows="4"
+                        class="form-control"
+                        placeholder="Address"
+                        formControlName="Address"
+                      ></textarea>
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Address"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Mobile No."
+                            formControlName="Mobile_No"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Mobile_No"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Alternate No."
+                            formControlName="Alternate_No"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Alternate_No"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Opening Balance"
+                        formControlName="Opening_Balance"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Opening_Balance"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <select
+                        class="form-control"
+                        formControlName="Balance_Type"
+                      >
+                        <option value="">Select Balance Type</option>
+                        <option
+                          value="{{ balance._id }}"
+                          *ngFor="let balance of balanceTypeList"
+                          >{{ balance.CMC_Name }}</option
+                        >
+                      </select>
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Balance_Type"
+                      ></app-error-message>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!brokerMaster.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> Submit
+            </button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

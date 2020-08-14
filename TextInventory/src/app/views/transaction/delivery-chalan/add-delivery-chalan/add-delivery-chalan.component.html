@@ -1,0 +1,383 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="deliveryChalan" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Delivery Chalan</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="Chalan_No">Chalan Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Chalan Number"
+                  formControlName="Chalan_No"
+                  readonly
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Chalan_No"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="Date">Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="Date"
+                  formControlName="Date"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Date"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="FirmName">Firm Name</label>
+                <select class="form-control" formControlName="Firm_Name">
+                  <option value="">Select Firm Name</option>
+                  <option
+                    value="{{ firm._id }}"
+                    *ngFor="let firm of firmList"
+                    >{{ firm.Company_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Firm_Name"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="BrokerName">Broker Name</label>
+                <select class="form-control" formControlName="Broker_Name">
+                  <option value="">Select Broker Name</option>
+                  <option
+                    value="{{ broker._id }}"
+                    *ngFor="let broker of brokerList"
+                    >{{ broker.Broker_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Broker_Name"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="PartyName">Party Name</label>
+                <select class="form-control" formControlName="Party_Name">
+                  <option value="">Select Party Name</option>
+                  <option
+                    value="{{ party._id }}"
+                    *ngFor="let party of partyList"
+                    >{{ party.Company_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Party_Name"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="Place">Place</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="Place"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Place"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="Bales">Bales</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="Bales"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Bales"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="Pieces">Pieces</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="Pieces"
+                  readonly
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="Meters">Meters</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="Meters"
+                  readonly
+                />
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="Sample_Cut_Pieces">Sample & Cut Pieces</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="Sample_Cut_Pieces"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Sample_Cut_Pieces"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="Design">Design</label>
+                <select
+                  class="form-control"
+                  formControlName="Design"
+                  (change)="fetchShed(DESIGN.value)"
+                  #DESIGN
+                >
+                  <option value="">Select Design</option>
+                  <option
+                    value="{{ quality._id }}"
+                    *ngFor="let quality of qualityList"
+                    >{{ quality.Design_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Design"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="Shade_Name">Shade Name</label>
+                <select
+                  class="form-control"
+                  formControlName="Shade_Name"
+                  (change)="
+                    fetchStockTagaDetails(DESIGN.value, SHED.value);
+                    fetchDeliveryChalanDetails(DESIGN.value, SHED.value);
+                    findQuality(DESIGN.value)
+                  "
+                  #SHED
+                >
+                  <option value="">Select SHED Name</option>
+                  <option
+                    value="{{ shed._id }}"
+                    *ngFor="let shed of shedList"
+                    >{{ shed.SHED_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Shade_Name"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="card" *ngIf="TagaStockDetails.length != 0">
+              <div class="card-body">
+                <div class="table-responsive-sm">
+                  <table
+                    class="table table-hover table-outline mb-0 table-bordered"
+                  >
+                    <thead class="thead-dark">
+                      <tr>
+                        <th class="text-center">Action</th>
+                        <th class="text-center">TAGA No</th>
+                        <th class="text-center">TAGA MEATERS</th>
+                        <th class="text-center">TAGA Weight</th>
+                        <th class="text-center">GRAMEZ</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr *ngFor="let taga of TagaStockDetails">
+                        <td class="text-center">
+                          <div class="form-group">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                (change)="calculateDetails(taga, $event)"
+                                #CHECKTAGA
+                              />
+                            </div>
+                          </div>
+                        </td>
+                        <td class="text-center">{{ taga.TAGA_NO }}</td>
+                        <td class="text-center">{{ taga.TAGA_Meter }}</td>
+                        <td class="text-center">{{ taga.TAGA_Weight }}</td>
+                        <td class="text-center">
+                          {{
+                            taga.TAGA_Meter / taga.TAGA_Weight | number: "1.0-2"
+                          }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="row" *ngIf="TagaStockDetails.length > 0">
+                  <div class="col-sm-6">
+                    <div class="table-responsive-sm">
+                      <table
+                        class="table table-hover table-outline mb-0 table-bordered"
+                      >
+                        <thead class="thead-dark">
+                          <tr>
+                            <th class="text-center">SUT</th>
+                            <th class="text-center">COUNT</th>
+                            <th class="text-center">COLOR</th>
+                            <th class="text-center">PER METER</th>
+                            <th class="text-center">TOTAL CONSUMTION</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr *ngFor="let warf of warfList">
+                            <td class="text-center">
+                              {{ warf.SUT_WARP }}
+                            </td>
+                            <td class="text-center">{{ warf.Count_WARP }}</td>
+                            <td class="text-center">{{ warf.Color_WARP }}</td>
+                            <td class="text-center">
+                              {{ warf.PER_METER }}
+                            </td>
+                            <td class="text-center">
+                              {{ warf.WarfConsumption }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <br />
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="table-responsive-sm">
+                      <table
+                        class="table table-hover table-outline mb-0 table-bordered"
+                      >
+                        <thead class="thead-dark">
+                          <tr>
+                            <th class="text-center">SUT</th>
+                            <th class="text-center">COUNT</th>
+                            <th class="text-center">COLOR</th>
+                            <th class="text-center">PER METER</th>
+                            <th class="text-center">TOTAL CONSUMTION</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr *ngFor="let weft of weftList">
+                            <td class="text-center">
+                              {{ weft.SUT_WEFT }}
+                            </td>
+                            <td class="text-center">{{ weft.Count_WEFT }}</td>
+                            <td class="text-center">{{ weft.Color_WEFT }}</td>
+                            <td class="text-center">
+                              {{ weft.PER_METER }}
+                            </td>
+                            <td class="text-center">
+                              {{ weft.WeftConsumption }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <br />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label for="Total_Warf_Consumption"
+                      >Total Warf Consumption</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      formControlName="Total_Warf_Consumption"
+                      readonly
+                    />
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label for="Total_Weft_Consumption"
+                      >Total Weft Consumption</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      formControlName="Total_Weft_Consumption"
+                      readonly
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!deliveryChalan.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> {{ buttonText }}
+            </button>
+
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

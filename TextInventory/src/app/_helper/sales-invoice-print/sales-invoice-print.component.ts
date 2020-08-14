@@ -1,0 +1,136 @@
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { BsModalRef } from "ngx-bootstrap/modal";
+import { Subject } from "rxjs";
+import { CommonService } from "../../_services/common.service";
+import { NgxSpinnerService } from "ngx-spinner";
+
+@Component({
+  selector: "app-sales-invoice-print",
+  templateUrl: "./sales-invoice-print.component.html",
+  styleUrls: ["./sales-invoice-print.component.css"],
+})
+export class SalesInvoicePrintComponent implements OnInit {
+  content = [];
+  public onClose: Subject<boolean>;
+  salesInvoiceDetails = {
+    Firm_Name: null,
+    Firm_Address: null,
+    Firm_Mobile: null,
+    Firm_Alternate_No: null,
+    Firm_GST_No: null,
+    Firm_Pan_No: null,
+    Party_Name: null,
+    Party_Address: null,
+    Party_GST_No: null,
+    Party_Pan_No: null,
+    Party_State_Code: null,
+    Total_Due: null,
+    Invoice_No: null,
+    Date: null,
+    Place_of_Delivery: null,
+    Broker_Name: null,
+    DC_NO: null,
+    Quality: null,
+    Loom_No: null,
+    HSN_NO: null,
+    No_Of_Pieces: null,
+    Total_Meters: null,
+    Rate: null,
+    Total_Amount: null,
+    Packing: null,
+    Checking: null,
+    Packing_Other: null,
+    ADD: null,
+    Second: null,
+    TP: null,
+    SL: null,
+    FOLD: null,
+    Second_Other: null,
+    LESS: null,
+    Taxable_Amount: null,
+    CGST: null,
+    CGST_Amt: null,
+    SGST: null,
+    SGST_Amt: null,
+    IGST: null,
+    IGST_Amt: null,
+    Round_Off: null,
+    Grand_Total: null,
+  };
+  salesInvoiceID: string;
+  _id: string;
+
+  constructor(
+    public bsModalRef: BsModalRef,
+    private commonservice: CommonService,
+    private spinner: NgxSpinnerService
+  ) {}
+
+  ngOnInit() {
+    this.onClose = new Subject();
+    this.fetchSalesInvoiceDetails();
+  }
+
+  fetchSalesInvoiceDetails() {
+    this.spinner.show();
+    this.commonservice
+      .fetchDetails(this._id, "sales-invoice-details")
+      .subscribe((details) => {
+        const invoiceData = {
+          Firm_Name: details.From_Party["Company_Name"],
+          Firm_Address: details.From_Party.Address,
+          Firm_Mobile: details.From_Party.Mobile_No,
+          Firm_Alternate_No: details.From_Party.Alternate_No,
+          Firm_GST_No: details.From_Party.GST_No,
+          Firm_Pan_No: details.From_Party.Pan_No,
+          Party_Name: details.To_Party.Company_Name,
+          Party_Address: details.To_Party.Address,
+          Party_GST_No: details.To_Party.GST_No,
+          Party_Pan_No: details.To_Party.Pan_No,
+          Party_State_Code: "",
+          Total_Due: "XXX",
+          Invoice_No: details.Invoice_No,
+          Date: details.Date,
+          Place_of_Delivery: "XXX",
+          Broker_Name: details.Broker_Name.Broker_Name,
+          DC_NO: details.DC_NO,
+          Quality: details.Quality.Design_Name,
+          Loom_No: details.Loom_No,
+          HSN_NO: details.HSN_NO,
+          No_Of_Pieces: details.No_Of_Pieces,
+          Total_Meters: details.Total_Meters,
+          Rate: details.Rate,
+          Total_Amount: details.Total_Amount,
+          Packing: details.Packing,
+          Checking: details.Checking,
+          Packing_Other: details.Packing_Other,
+          ADD:
+            Number(details.Packing) +
+            Number(details.Checking) +
+            Number(details.Packing_Other),
+          Second: details.Second,
+          TP: details.TP,
+          SL: details.SL,
+          FOLD: details.FOLD,
+          Second_Other: details.Second_Other,
+          LESS:
+            Number(details.Second) +
+            Number(details.TP) +
+            Number(details.SL) +
+            Number(details.FOLD) +
+            Number(details.Second_Other),
+          Taxable_Amount: details.Taxable_Amount,
+          CGST: details.CGST,
+          CGST_Amt: details.CGST_Amt,
+          SGST: details.SGST,
+          SGST_Amt: details.SGST_Amt,
+          IGST: details.IGST,
+          IGST_Amt: details.IGST_Amt,
+          Round_Off: details.Round_Off,
+          Grand_Total: details.Grand_Total,
+        };
+        this.salesInvoiceDetails = invoiceData;
+        this.spinner.hide();
+      });
+  }
+}

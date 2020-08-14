@@ -1,0 +1,81 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <span class="h4">Sales Invoice Direct</span>
+          <div class="card-header-actions">
+            <a
+              routerLink="/transaction/add-sales-invoice-manual"
+              class="btn btn-info font-weight-bold"
+            >
+              <i class="nav-icon icon-plus font-weight-bold"></i> &nbsp;Add New
+            </a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-outline mb-0 table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="text-center">Action</th>
+                  <th class="text-center">Invoice No.</th>
+                  <th class="text-center">Firm Name</th>
+                  <th class="text-center">Broker Name</th>
+                  <th class="text-center">Party Name</th>
+                  <th class="text-center">Pieces</th>
+                  <th class="text-center">Meters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let content of returnedArray; let i = index">
+                  <td class="text-center">
+                    <a
+                      routerLink="/transaction/add-sales-invoice-manual/{{
+                        content._id
+                      }}"
+                      title="Edit"
+                      class="text-decoration-none"
+                    >
+                      <i class="cui-pencil icons font-xl d-inline"></i>
+                    </a>
+                  </td>
+                  <td class="text-center">
+                    {{ content.Invoice_No }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.From_Party.Company_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Broker_Name.Broker_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.To_Party.Company_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.No_Of_Pieces }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Total_Meters }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer" *ngIf="dataLength > itemsPerPage">
+          <appPagination
+            [dataLength]="dataLength"
+            [itemsPerPage]="itemsPerPage"
+            (pageChanged)="pageChanged($event)"
+            (change)="setItemPerPage($event)"
+          ></appPagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

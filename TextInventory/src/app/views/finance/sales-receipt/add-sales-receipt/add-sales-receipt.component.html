@@ -1,0 +1,212 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="salesReceipt" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Sales Receipt</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="Receipt_No">Receipt Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Receipt Number"
+                  formControlName="Receipt_No"
+                  readonly
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Receipt_No"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="Date">Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="Date"
+                  formControlName="Date"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Date"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="FirmName">Firm Name</label>
+                <select
+                  class="form-control"
+                  formControlName="Firm_Name"
+                  readonly
+                >
+                  <option
+                    value="{{ firm._id }}"
+                    *ngFor="let firm of firmList"
+                    >{{ firm.Company_Name }}</option
+                  >
+                </select>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="PartyName">Party Name</label>
+                <select
+                  class="form-control"
+                  formControlName="Party_Name"
+                  readonly
+                >
+                  <option
+                    value="{{ party._id }}"
+                    *ngFor="let party of partyList"
+                    >{{ party.Company_Name }}</option
+                  >
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="Amount">Amount</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="Amount"
+                  readonly
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="Paying_Amount">Paying Amount</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Paying Amount"
+                  formControlName="Paying_Amount"
+                  (change)="calculateRemaining($event)"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Paying_Amount"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="Remaining_Amount">Remaining Amount</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="Remaining_Amount"
+                  readonly
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <label for="Paid_By">Paid By</label>
+                <select
+                  class="form-control"
+                  formControlName="Paid_By"
+                  (change)="setPaidByCheque(PAIDBY.value)"
+                  #PAIDBY
+                >
+                  <option value="">Select Paid By</option>
+                  <option
+                    value="{{ paid._id }}"
+                    *ngFor="let paid of paidByList"
+                    >{{ paid.CMC_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Paid_By"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="Cheque_No">Cheque No</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Cheque No"
+                  formControlName="Cheque_No"
+                  [readonly]="!ispaidByCheque"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Cheque_No"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="Cheque_Date">Cheque Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="Cheque Date"
+                  formControlName="Cheque_Date"
+                  id="date-input"
+                  [readonly]="!ispaidByCheque"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Cheque_Date"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="Amount_in_Account">Amount in Account</label>
+                <select
+                  class="form-control"
+                  formControlName="Amount_in_Account"
+                >
+                  <option value="">Select</option>
+                  <option
+                    value="{{ account._id }}"
+                    *ngFor="let account of accountList"
+                    >{{ account.Bank_Name }}</option
+                  >
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!salesReceipt.valid"
+              *ngIf="!buttonHide"
+            >
+              <i class="fa fa-dot-circle-o"></i> {{ buttonText }}
+            </button>
+
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

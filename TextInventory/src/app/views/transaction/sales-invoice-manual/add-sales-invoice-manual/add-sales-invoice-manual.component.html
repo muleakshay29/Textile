@@ -1,0 +1,645 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="salesInvoice" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Sales Invoice</span>
+          </div>
+          <div class="card-body">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="form-group col-sm-6">
+                    <label for="Invoice_No">Invoice Number</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Invoice Number"
+                      formControlName="Invoice_No"
+                      readonly
+                    />
+                  </div>
+
+                  <div class="form-group col-sm-6">
+                    <label for="Date">Date</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      placeholder="Date"
+                      formControlName="Date"
+                      id="date-input"
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Date"
+                    ></app-error-message>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-6">
+                    <label for="FromParty">From Party</label>
+                    <select
+                      class="form-control"
+                      formControlName="From_Party"
+                      (change)="setFirm($event)"
+                    >
+                      <option value="" disabled>Select From Party</option>
+                      <option
+                        value="{{ firm._id }}"
+                        *ngFor="let firm of firmList"
+                        >{{ firm.Company_Name }}</option
+                      >
+                    </select>
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="From_Party"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-6">
+                    <label for="ToParty">To Party</label>
+                    <select
+                      class="form-control"
+                      formControlName="To_Party"
+                      (change)="setParty($event)"
+                    >
+                      <option value="" disabled>Select To Party</option>
+                      <option
+                        value="{{ party._id }}"
+                        *ngFor="let party of partyList"
+                        >{{ party.Company_Name }}</option
+                      >
+                    </select>
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="To_Party"
+                    ></app-error-message>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="Loom_No">Loom No</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="Loom_No"
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Loom_No"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="HSN_NO">HSN_NO</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="HSN_NO"
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="HSN_NO"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="Broker_Name">Broker Name</label>
+                    <select class="form-control" formControlName="Broker_Name">
+                      <option value="" disabled>Select Broker</option>
+                      <option
+                        value="{{ broker._id }}"
+                        *ngFor="let broker of brokerList"
+                        >{{ broker.Broker_Name }}</option
+                      >
+                    </select>
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Broker_Name"
+                    ></app-error-message>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <label for="DC_NO">DC NO</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="DC NO"
+                  formControlName="DC_NO"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="DC_NO"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="DC_Date">DC Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  formControlName="DC_Date"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="DC_Date"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="Quality">Quality</label>
+                <select class="form-control" formControlName="Quality">
+                  <option value="" disabled>Select Quality</option>
+                  <option
+                    value="{{ quality._id }}"
+                    *ngFor="let quality of qualityList"
+                    >{{ quality.Design_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Quality"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <label for="No_Of_Pieces">No Of Pieces</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="DC NO"
+                  formControlName="No_Of_Pieces"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="No_Of_Pieces"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="Total_Meters">Total Meters</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="Total_Meters"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Total_Meters"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="Sample_Cut_Meters">Sample Cut Meters</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="Sample_Cut_Meters"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Sample_Cut_Meters"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="Rate">Rate</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="Rate"
+                  placeholder="Rate"
+                  (blur)="calculateTotalAmt(RATE.value)"
+                  #RATE
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Rate"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="Total_Amount">Total Amount</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="Total_Amount"
+                  readonly
+                />
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="form-group col-sm-3">
+                    <label for="Packing">Packing</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Packing"
+                      formControlName="Packing"
+                      (blur)="
+                        addTaxableAmt(
+                          PACKING.value,
+                          CHECKING.value,
+                          PACKINGOTHER.value
+                        )
+                      "
+                      #PACKING
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Packing"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-3">
+                    <label for="Checking">Checking</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Checking"
+                      formControlName="Checking"
+                      #CHECKING
+                      (blur)="
+                        addTaxableAmt(
+                          PACKING.value,
+                          CHECKING.value,
+                          PACKINGOTHER.value
+                        )
+                      "
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Checking"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-3">
+                    <label for="Packing_Other">Other</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      formControlName="Packing_Other"
+                      #PACKINGOTHER
+                      (blur)="
+                        addTaxableAmt(
+                          PACKING.value,
+                          CHECKING.value,
+                          PACKINGOTHER.value
+                        )
+                      "
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Packing_Other"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-3">
+                    <label for="Second">Second</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      formControlName="Second"
+                      #SECOND
+                      (blur)="
+                        deductTaxableAmt(
+                          SECOND.value,
+                          TP.value,
+                          SL.value,
+                          FOLD.value,
+                          SECONDOTHER.value
+                        )
+                      "
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Second"
+                    ></app-error-message>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-3">
+                    <label for="TP">TP</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="TP"
+                      formControlName="TP"
+                      #TP
+                      (blur)="
+                        deductTaxableAmt(
+                          SECOND.value,
+                          TP.value,
+                          SL.value,
+                          FOLD.value,
+                          SECONDOTHER.value
+                        )
+                      "
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="TP"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-3">
+                    <label for="SL">SL</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="SL"
+                      formControlName="SL"
+                      #SL
+                      (blur)="
+                        deductTaxableAmt(
+                          SECOND.value,
+                          TP.value,
+                          SL.value,
+                          FOLD.value,
+                          SECONDOTHER.value
+                        )
+                      "
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="SL"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-3">
+                    <label for="FOLD">FOLD</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      formControlName="FOLD"
+                      #FOLD
+                      (blur)="
+                        deductTaxableAmt(
+                          SECOND.value,
+                          TP.value,
+                          SL.value,
+                          FOLD.value,
+                          SECONDOTHER.value
+                        )
+                      "
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="FOLD"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-3">
+                    <label for="Second_Other">Other</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      formControlName="Second_Other"
+                      #SECONDOTHER
+                      (blur)="
+                        deductTaxableAmt(
+                          SECOND.value,
+                          TP.value,
+                          SL.value,
+                          FOLD.value,
+                          SECONDOTHER.value
+                        )
+                      "
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Second_Other"
+                    ></app-error-message>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="Taxable_Amount">Taxable Amount</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Taxable Amount"
+                      formControlName="Taxable_Amount"
+                      readonly
+                    />
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Taxable_Amount"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-8">
+                    <div class="row">
+                      <div class="col-sm-5 pr-0">
+                        <label for="CGST">CGST</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="CGST"
+                          formControlName="CGST"
+                          (blur)="calculateCGST($event)"
+                          [readonly]="enableIGST"
+                        />
+
+                        <app-error-message
+                          class="d-block w-100"
+                          [control]="CGST"
+                        ></app-error-message>
+                      </div>
+
+                      <div class="col-sm-7 pl-1">
+                        <div class="form-group">
+                          <label for="CGSTAMOUNT">CGST AMOUNT</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="CGST AMOUNT"
+                            formControlName="CGST_Amt"
+                            readonly
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="CGST_Amt"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-6">
+                    <div class="row">
+                      <div class="col-sm-6 pr-0">
+                        <label for="SGST">SGST</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="SGST"
+                          formControlName="SGST"
+                          (blur)="calculateSGST($event)"
+                          [readonly]="enableIGST"
+                        />
+                      </div>
+
+                      <div class="col-sm-6 pl-1">
+                        <div class="form-group">
+                          <label for="SGSTAMOUNT">SGST AMOUNT</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="SGST AMOUNT"
+                            formControlName="SGST_Amt"
+                            readonly
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="SGST_Amt"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-sm-6">
+                    <div class="row">
+                      <div class="col-sm-6 pr-0">
+                        <label for="IGST">IGST</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="IGST"
+                          formControlName="IGST"
+                          readonly
+                          (blur)="calculateIGST($event)"
+                          [readonly]="!enableIGST"
+                        />
+                      </div>
+
+                      <div class="col-sm-6 pl-1">
+                        <div class="form-group">
+                          <label for="IGSTAMOUNT">IGST AMOUNT</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="IGST AMOUNT"
+                            formControlName="IGST_Amt"
+                            readonly
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="IGST_Amt"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="Total_GST_Amt">Total GST Amount</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Total GST Amount"
+                        formControlName="Total_GST_Amt"
+                        readonly
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="Round_Off">Round Off</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Round Off"
+                        formControlName="Round_Off"
+                        readonly
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="Grand_Total">Grand Total</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Grand Total"
+                        formControlName="Grand_Total"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!salesInvoice.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> {{ buttonText }}
+            </button>
+
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

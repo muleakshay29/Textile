@@ -1,0 +1,569 @@
+.firm-name {
+  top: 40px;
+  left: 470px;
+}
+
+.firm-address {
+  color: rgb(173, 183, 192);
+  top: 90px;
+  left: 390px;
+}
+
+.contact-pan {
+  color: rgb(173, 183, 192);
+  top: 140px;
+  left: 390px;
+}
+
+.invoice-to {
+  top: 215px;
+  left: 150px;
+  color: rgb(26, 42, 58);
+}
+
+.invoice-to .to-company {
+  color: rgb(50, 76, 109);
+}
+
+.total-due {
+  top: 226px;
+  right: 200px;
+  color: silver;
+}
+
+.total-due-footer {
+  top: 302px;
+  right: 245px;
+  font-size: 18px;
+}
+
+.total-due-color {
+  color: rgb(26, 42, 58);
+}
+
+.taxable-amt {
+  top: 753px;
+  right: 190px;
+  color: white;
+  font-style: italic;
+}
+
+.gst {
+  top: 780px;
+  right: 215px;
+  color: rgb(75, 122, 169);
+  font-size: 19px;
+}
+
+.grandtotal {
+  top: 895px;
+  right: 190px;
+  color: white;
+  font-style: italic;
+}
+
+.amt-words-div {
+  top: 765px;
+  left: 160px;
+}
+
+.amtwrd {
+  color: rgb(75, 122, 169);
+}
+
+.bank-details h5 {
+  color: rgb(50, 76, 109);
+}
+
+.bank-name {
+  color: rgb(75, 122, 169);
+}
+
+.thnku {
+  top: 980px;
+  left: 155px;
+  color: rgb(50, 76, 109);
+}
+
+.tandc {
+  top: 1015px;
+  left: 155px;
+  color: rgb(50, 76, 109);
+}
+
+.tandcvalue {
+  top: 1035px;
+  left: 155px;
+  color: rgb(5, 122, 169);
+  font-size: 13px;
+}
+
+.subjecto {
+  top: 1130px;
+  left: 155px;
+  color: rgb(50, 76, 109);
+}
+
+.eoe {
+  top: 1155px;
+  left: 155px;
+  color: rgb(5, 122, 169);
+}
+
+.checkedby {
+  top: 1158px;
+  right: 550px;
+  color: white;
+}
+
+.for {
+  top: 1050px;
+  right: 290px;
+  color: rgb(50, 76, 109);
+}
+
+.forvalue {
+  top: 1075px;
+  right: 190px;
+  color: rgb(75, 122, 169);
+}
+
+.proprietor {
+  top: 1160px;
+  right: 260px;
+  color: rgb(75, 122, 169);
+}
+
+.slipno {
+  top: 395px;
+  left: 145px;
+  color: white;
+}
+
+.perticulars {
+  top: 395px;
+  left: 240px;
+  color: white;
+}
+
+.pieces {
+  top: 395px;
+  left: 550px;
+  color: white;
+}
+
+.meters {
+  top: 395px;
+  right: 435px;
+  color: white;
+}
+
+.rate {
+  top: 395px;
+  right: 335px;
+  color: white;
+}
+
+.amount {
+  top: 395px;
+  right: 200px;
+  color: white;
+}
+
+.slipnovalue {
+  top: 445px;
+  left: 145px;
+  color: black;
+}
+
+.perticularsvalue {
+  top: 445px;
+  left: 240px;
+  color: black;
+}
+
+.piecesvalue {
+  top: 445px;
+  left: 570px;
+  color: black;
+}
+
+.metersvalue {
+  top: 445px;
+  right: 435px;
+  color: black;
+}
+
+.ratevalue {
+  top: 445px;
+  right: 335px;
+  color: black;
+}
+
+.amountvalue {
+  top: 445px;
+  right: 200px;
+  color: black;
+}
+
+.add {
+  top: 620px;
+  left: 145px;
+  color: black;
+}
+
+.packing {
+  top: 620px;
+  left: 240px;
+  color: black;
+}
+
+.checking {
+  top: 620px;
+  left: 465px;
+  color: black;
+}
+
+.other {
+  top: 620px;
+  right: 435px;
+  color: black;
+}
+
+.addamt {
+  top: 620px;
+  right: 240px;
+  color: black;
+}
+
+.less {
+  top: 695px;
+  left: 145px;
+  color: black;
+}
+
+.second {
+  top: 695px;
+  left: 240px;
+  color: black;
+}
+
+.tp {
+  top: 695px;
+  left: 350px;
+  color: black;
+}
+
+.sl {
+  top: 695px;
+  right: 640px;
+  color: black;
+}
+
+.fold {
+  top: 695px;
+  right: 530px;
+  color: black;
+}
+
+.lessother {
+  top: 695px;
+  right: 435px;
+  color: black;
+}
+
+.lessamt {
+  top: 695px;
+  right: 240px;
+  color: black;
+}
+
+.bgimg {
+  width: 100%;
+}
+
+@media print {
+  .firm-name {
+    top: 40px;
+    left: 400px;
+  }
+
+  .firm-address {
+    color: rgb(173, 183, 192);
+    top: 90px;
+    left: 300px;
+  }
+
+  .contact-pan {
+    color: rgb(173, 183, 192);
+    top: 130px;
+    left: 300px;
+  }
+
+  .invoice-to {
+    top: 200px;
+    left: 50px;
+    color: rgb(26, 42, 58);
+  }
+
+  .invoice-to .to-company {
+    color: rgb(50, 76, 109);
+  }
+
+  .total-due {
+    top: 226px;
+    right: 230px;
+    color: silver;
+  }
+
+  .total-due-footer {
+    top: 302px;
+    right: 310px;
+    font-size: 18px;
+  }
+
+  .total-due-color {
+    color: rgb(26, 42, 58);
+  }
+
+  .taxable-amt {
+    top: 753px;
+    right: 220px;
+    color: white;
+    font-style: italic;
+  }
+
+  .gst {
+    top: 780px;
+    right: 245px;
+    color: rgb(75, 122, 169);
+    font-size: 19px;
+  }
+
+  .grandtotal {
+    top: 895px;
+    right: 220px;
+    color: white;
+    font-style: italic;
+  }
+
+  .amt-words-div {
+    top: 765px;
+    left: 50px;
+  }
+
+  .amtwrd {
+    color: rgb(75, 122, 169);
+  }
+
+  .bank-details h5 {
+    color: rgb(50, 76, 109);
+  }
+
+  .bank-name {
+    color: rgb(75, 122, 169);
+  }
+
+  .thnku {
+    top: 980px;
+    left: 50px;
+    color: rgb(50, 76, 109);
+  }
+
+  .tandc {
+    top: 1015px;
+    left: 50px;
+    color: rgb(50, 76, 109);
+  }
+
+  .tandcvalue {
+    top: 1035px;
+    left: 50px;
+    color: rgb(5, 122, 169);
+    font-size: 13px;
+  }
+
+  .subjecto {
+    top: 1130px;
+    left: 50px;
+    color: rgb(50, 76, 109);
+  }
+
+  .eoe {
+    top: 1155px;
+    left: 50px;
+    color: rgb(5, 122, 169);
+  }
+
+  .checkedby {
+    top: 1158px;
+    right: 620px;
+    color: white;
+  }
+
+  .for {
+    top: 1050px;
+    right: 320px;
+    color: rgb(50, 76, 109);
+  }
+
+  .forvalue {
+    top: 1075px;
+    right: 230px;
+    color: rgb(75, 122, 169);
+  }
+
+  .proprietor {
+    top: 1160px;
+    right: 300px;
+    color: rgb(75, 122, 169);
+  }
+
+  .slipno {
+    top: 395px;
+    left: 50px;
+    color: #fff;
+  }
+
+  .perticulars {
+    top: 395px;
+    left: 150px;
+    color: white;
+  }
+
+  .pieces {
+    top: 395px;
+    left: 460px;
+    color: white;
+  }
+
+  .meters {
+    top: 395px;
+    right: 460px;
+    color: white;
+  }
+
+  .rate {
+    top: 395px;
+    right: 370px;
+    color: white;
+  }
+
+  .amount {
+    top: 395px;
+    right: 230px;
+    color: white;
+  }
+
+  .slipnovalue {
+    top: 445px;
+    left: 50px;
+    color: black;
+  }
+
+  .perticularsvalue {
+    top: 445px;
+    left: 150px;
+    color: black;
+  }
+
+  .piecesvalue {
+    top: 445px;
+    left: 460px;
+    color: black;
+  }
+
+  .metersvalue {
+    top: 445px;
+    right: 460px;
+    color: black;
+  }
+
+  .ratevalue {
+    top: 445px;
+    right: 370px;
+    color: black;
+  }
+
+  .amountvalue {
+    top: 445px;
+    right: 230px;
+    color: black;
+  }
+
+  .add {
+    top: 620px;
+    left: 50px;
+    color: black;
+  }
+
+  .packing {
+    top: 620px;
+    left: 150px;
+    color: black;
+  }
+
+  .checking {
+    top: 620px;
+    left: 405px;
+    color: black;
+  }
+
+  .other {
+    top: 620px;
+    right: 455px;
+    color: black;
+  }
+
+  .addamt {
+    top: 620px;
+    right: 260px;
+    color: black;
+  }
+
+  .less {
+    top: 695px;
+    left: 50px;
+    color: black;
+  }
+
+  .second {
+    top: 695px;
+    left: 150px;
+    color: black;
+  }
+
+  .tp {
+    top: 695px;
+    left: 250px;
+    color: black;
+  }
+
+  .sl {
+    top: 695px;
+    right: 670px;
+    color: black;
+  }
+
+  .fold {
+    top: 695px;
+    right: 560px;
+    color: black;
+  }
+
+  .lessother {
+    top: 695px;
+    right: 450px;
+    color: black;
+  }
+
+  .lessamt {
+    top: 695px;
+    right: 260px;
+    color: black;
+  }
+
+  .bgimg {
+    width: 100%;
+  }
+}

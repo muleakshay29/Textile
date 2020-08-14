@@ -1,0 +1,112 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <span class="h4">Delivery Chalan Register</span>
+        </div>
+        <div class="card-body">
+          <!-- <div class="form-group">
+            <input
+              type="search"
+              class="form-control rounded-pill"
+              placeholder="Search"
+              (keyup)="searchRecord($event)"
+            />
+            <div class="invalid-feedback d-block">
+              *Note - Minimum 3 characters required.
+            </div>
+          </div> -->
+
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-outline mb-0 table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="text-center">Action</th>
+                  <th class="text-center">Date</th>
+                  <th class="text-center">Chalan No.</th>
+                  <th class="text-center">Party</th>
+                  <th class="text-center">Place</th>
+                  <th class="text-center">Firm</th>
+                  <th class="text-center">Shade</th>
+                  <th class="text-center">Quality</th>
+                  <th class="text-center">Pieces</th>
+                  <th class="text-center">Sample Pieces</th>
+                  <th class="text-center">Meters</th>
+                  <th class="text-center">Broker</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let content of returnedArray; let i = index">
+                  <td class="text-center">
+                    <!-- <a
+                      routerLink="/transaction/sales-invoice/{{
+                        content._id
+                      }}/{{ content.Chalan_No }}"
+                      title="Sales Invoice"
+                      class="text-decoration-none"
+                    >
+                      <i class="cui-print icons font-xl d-inline"></i>
+                    </a> -->
+
+                    <a
+                      class="text-decoration-none"
+                      (click)="generatePdf(content._id, content)"
+                    >
+                      <i class="cui-print icons font-xl d-inline"></i>
+                    </a>
+                  </td>
+                  <td class="text-center">
+                    {{ content.Date | date: "MM/dd/yyyy" }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Chalan_No }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Party_Name.Company_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Place }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Firm_Name.Company_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Shade_Name.SHED_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Design.Design_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Pieces }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Sample_Cut_Pieces }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Meters }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Broker_Name.Broker_Name }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer" *ngIf="dataLength > itemsPerPage">
+          <appPagination
+            [dataLength]="dataLength"
+            [itemsPerPage]="itemsPerPage"
+            (pageChanged)="pageChanged($event)"
+            (change)="setItemPerPage($event)"
+          ></appPagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

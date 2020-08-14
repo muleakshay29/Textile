@@ -1,0 +1,50 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <span class="h4">Bank Balance</span>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-outline mb-0 table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="text-center">Bank Name</th>
+                  <th class="text-center">Account No.</th>
+                  <th class="text-center">Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let content of returnedArray">
+                  <td class="text-center">
+                    {{ content.Bank_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Account_No }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Balance }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- <div class="card-footer" *ngIf="dataLength > itemsPerPage">
+          <appPagination
+            [dataLength]="dataLength"
+            [itemsPerPage]="itemsPerPage"
+            (pageChanged)="pageChanged($event)"
+            (change)="setItemPerPage($event)"
+          ></appPagination>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <!-- <div class="form-group">
+            <input
+              type="search"
+              class="form-control rounded-pill"
+              placeholder="Search"
+              (keyup)="searchRecord($event)"
+            />
+            <div class="invalid-feedback d-block">
+              *Note - Minimum 3 characters required.
+            </div>
+          </div> -->
+
+          <!-- UniqueCode, code, receiptno, date, shade, firm, party, amr to recive, received amr, remaing amr, bank AC, paid by, cheque no, cheque date -->
+
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-outline mb-0 table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <!-- <th class="text-center">Actions</th> -->
+                  <th class="text-center">Receipt No</th>
+                  <th class="text-center">Date</th>
+                  <th class="text-center">Shade</th>
+                  <th class="text-center">Firm</th>
+                  <th class="text-center">Party</th>
+                  <th class="text-center">Amount To Receive</th>
+                  <th class="text-center">Received Amount</th>
+                  <th class="text-center">Remaining Amount</th>
+                  <th class="text-center">Bank</th>
+                  <th class="text-center">Paid By</th>
+                  <th class="text-center">Cheque No</th>
+                  <th class="text-center">Cheque Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let content of returnedArray">
+                  <!-- <td class="text-center">
+                    <a
+                      routerLink="/masters/add-account/{{ content._id }}"
+                      title="Edit"
+                      class="text-decoration-none"
+                    >
+                      <i class="cui-pencil icons font-xl d-inline"></i>
+                    </a>
+                    &nbsp; &nbsp;
+                    <a
+                      href="javascript:void(0)"
+                      (click)="openModal(content.Bank_Name, content._id)"
+                      title="Delete"
+                      class="text-decoration-none"
+                    >
+                      <i class="cui-trash icons font-xl d-inline"></i>
+                    </a>
+                  </td> -->
+                  <td class="text-center">
+                    {{ content.Receipt_No }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Date | date: "MM/dd/yyyy" }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Shed.SHED_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Firm_Name.Company_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Party_Name.Company_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Amount }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Paying_Amount }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Remaining_Amount }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Amount_in_Account.Bank_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Paid_By.CMC_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Cheque_No }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Cheque_Date }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <span class="h4">Quality Master</span>
+          <div class="card-header-actions">
+            <a
+              routerLink="/masters/add-quality"
+              class="btn btn-info font-weight-bold"
+            >
+              <i class="nav-icon icon-plus font-weight-bold"></i> &nbsp;Add New
+            </a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <input
+              type="search"
+              class="form-control rounded-pill"
+              placeholder="Search"
+              (keyup)="searchRecord($event)"
+            />
+            <div class="invalid-feedback d-block">
+              *Note - Minimum 3 characters required.
+            </div>
+          </div>
+
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-outline mb-0 table-bordered">
+              <thead class="thead-light">
+                <tr>
+                  <th class="text-center">Actions</th>
+                  <th class="text-center">Design Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let content of returnedArray">
+                  <td class="text-center">
+                    <a
+                      routerLink="/masters/edit-quality/{{ content._id }}"
+                      title="Edit"
+                      class="text-decoration-none"
+                    >
+                      <i class="cui-pencil icons font-xl d-inline"></i>
+                    </a>
+                    &nbsp; &nbsp;
+                    <a
+                      href="javascript:void(0)"
+                      (click)="openModal(content.Design_Name, content._id)"
+                      title="Delete"
+                      class="text-decoration-none"
+                    >
+                      <i class="cui-trash icons font-xl d-inline"></i>
+                    </a>
+                  </td>
+                  <td class="text-center">
+                    {{ content.Design_Name }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

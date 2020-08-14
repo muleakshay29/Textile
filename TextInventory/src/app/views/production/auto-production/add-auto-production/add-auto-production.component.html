@@ -1,0 +1,294 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="autoProduction" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Auto Production</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="From_Date">From Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="From Date"
+                  formControlName="From_Date"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="From_Date"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="To_Date">To Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="To Date"
+                  formControlName="To_Date"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="To_Date"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <label for="Shade">Shade</label>
+                <select
+                  class="form-control"
+                  formControlName="Shed"
+                  (change)="fetchLoomTypes(SHEDNAME.value)"
+                  #SHEDNAME
+                >
+                  <option value="">Select SHED Name</option>
+                  <option
+                    value="{{ shed._id }}"
+                    *ngFor="let shed of shedList"
+                    >{{ shed.SHED_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Shed"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="LoomType">Loom Type</label>
+                <select
+                  class="form-control"
+                  formControlName="Loom_Type"
+                  (change)="fetchLoomNoList(SHEDNAME.value, LOOMTYPE.value)"
+                  #LOOMTYPE
+                >
+                  <option value="">Select Loom Type</option>
+                  <option
+                    value="{{ loomt._id }}"
+                    *ngFor="let loomt of loomTypes"
+                    >{{ loomt.Loom_Type }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Loom_Type"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="LoomNo">Loom No</label>
+                <select
+                  class="form-control"
+                  formControlName="Loom_No"
+                  (change)="
+                    fetchParty(SHEDNAME.value, LOOMTYPE.value, LOOMNO.value);
+                    fetchQuality(SHEDNAME.value, LOOMTYPE.value, LOOMNO.value)
+                  "
+                  #LOOMNO
+                >
+                  <option value="">Select Loom No.</option>
+                  <option
+                    value="{{ loom._id }}"
+                    *ngFor="let loom of loomList"
+                    >{{ loom.Loom_No }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Loom_No"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="PartyName">Party Name</label>
+                <select
+                  class="form-control"
+                  formControlName="Party_Name"
+                  (change)="
+                    fetchOtherDetails(
+                      SHEDNAME.value,
+                      LOOMTYPE.value,
+                      LOOMNO.value,
+                      PARTYNAME.value
+                    );
+                    findAutoProductionDetails(
+                      SHEDNAME.value,
+                      LOOMTYPE.value,
+                      LOOMNO.value,
+                      PARTYNAME.value
+                    )
+                  "
+                  #PARTYNAME
+                >
+                  <option value="">Select Party Name</option>
+                  <option
+                    value="{{ party._id }}"
+                    *ngFor="let party of partyList"
+                    >{{ party.Company_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Party_Name"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="Quality">Quality</label>
+                <select class="form-control" formControlName="Quality">
+                  <option value="">Select Quality</option>
+                  <option
+                    value="{{ quality._id }}"
+                    *ngFor="let quality of qualityList"
+                    >{{ quality.Design_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Quality"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="AvailableMeters">Available Meters</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="Available_Mtrs"
+                  readonly
+                />
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="TotalBeamMeters">Total Beam Meters</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="Total_Beam_Mtrs"
+                  readonly
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="TAGA_NO">TAGA NO</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="TAGA_NO"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="TAGA_NO"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="Meter">Meter</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="Meter"
+                  [readonly]="editMode"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Meter"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="Weight">Weight</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="Weight"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Weight"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="RPM">RPM</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="RPM"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="RPM"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    formControlName="Unload_Beam"
+                    [value]="unloadBeam"
+                  />
+                  <label class="form-check-label" for="Unload_Beam">
+                    Unload Beam
+                  </label>
+                </div>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Unload_Beam"
+                ></app-error-message>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!autoProduction.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> {{ buttonText }}
+            </button>
+
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

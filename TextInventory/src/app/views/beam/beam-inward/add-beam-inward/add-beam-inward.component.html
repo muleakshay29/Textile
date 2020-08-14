@@ -1,0 +1,418 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="beamInward" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Beam Inward</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="SAT NO"
+                  formControlName="SAT_NO"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="SAT_NO"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Invoice No"
+                  formControlName="Invoice_No"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Invoice_No"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="Date"
+                  formControlName="Date"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Date"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <select class="form-control" formControlName="Party_Name">
+                  <option value="">Select Party Name</option>
+                  <option
+                    value="{{ party._id }}"
+                    *ngFor="let party of partyList"
+                    >{{ party.Company_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Party_Name"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Sizing Name"
+                  formControlName="Sizing_Name"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Sizing_Name"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="COUNT">COUNT</label>
+                    <input
+                      type="number"
+                      formControlName="COUNT"
+                      class="form-control"
+                      placeholder="COUNT"
+                    />
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="YarnSource">Yarn Source</label>
+                    <input
+                      type="text"
+                      formControlName="Yarn_Source"
+                      class="form-control"
+                      placeholder="Yarn Source"
+                    />
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="WARP">WARP</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="WARP"
+                      formControlName="WARP"
+                    />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="WEFT">WEFT</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="WEFT"
+                      formControlName="WEFT"
+                    />
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="REED">REED</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="REED"
+                      formControlName="REED"
+                    />
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="CutMark">PICK</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="PICK"
+                      formControlName="PICK"
+                    />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="WEAVE">WEAVE</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="WEAVE"
+                      formControlName="WEAVE"
+                    />
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="Creel_Ends">Creel Ends</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Creel Ends"
+                      formControlName="Creel_Ends"
+                    />
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="Function_Part">Function Part</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Function Part"
+                      formControlName="Function_Part"
+                    />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-6">
+                    <label for="Total_Ends">Total Ends</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Total Ends"
+                      formControlName="Total_Ends"
+                    />
+                  </div>
+
+                  <div class="form-group col-sm-6">
+                    <label for="LENGTH">LENGTH</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="LENGTH"
+                      formControlName="LENGTH"
+                    />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-4">
+                    <label for="Cut_Mark">Cut Mark</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Cut Mark"
+                      formControlName="Cut_Mark"
+                    />
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="DBF_Panna">DBF Panna</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="DBF Panna"
+                      formControlName="DBF_Panna"
+                    />
+                  </div>
+
+                  <div class="form-group col-sm-4">
+                    <label for="Rate_Pick">Rate Per Pick</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Rate Per Pick"
+                      formControlName="Rate_Pick"
+                    />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <!-- <div class="form-group col-sm-4">
+                    <label for="Quality">Quality</label>
+                    <select class="form-control" formControlName="Quality">
+                      <option value="">Select Quality</option>
+                      <option
+                        value="{{ quality._id }}"
+                        *ngFor="let quality of qualityList"
+                        >{{ quality.Design_Name }}</option
+                      >
+                    </select>
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Quality"
+                    ></app-error-message>
+                  </div> -->
+
+                  <div class="form-group col-sm-6">
+                    <label for="Shade">Shade</label>
+                    <select class="form-control" formControlName="Shed">
+                      <option value="">Select SHED Name</option>
+                      <option
+                        value="{{ shed._id }}"
+                        *ngFor="let shed of shedList"
+                        >{{ shed.SHED_Name }}</option
+                      >
+                    </select>
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Shed"
+                    ></app-error-message>
+                  </div>
+
+                  <div class="form-group col-sm-6">
+                    <label for="BROKER">Broker</label>
+                    <select class="form-control" formControlName="Broker">
+                      <option value="">Select Broker</option>
+                      <option
+                        value="{{ broker._id }}"
+                        *ngFor="let broker of brokerList"
+                        >{{ broker.Broker_Name }}</option
+                      >
+                    </select>
+
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Broker"
+                    ></app-error-message>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="card">
+                  <div class="card-body">
+                    <table
+                      class="table table-responsive-sm table-hover table-outline mb-0 table-bordered"
+                    >
+                      <thead class="thead-dark">
+                        <tr>
+                          <th class="text-center">F.No.</th>
+                          <th class="text-center">MEATERS</th>
+                          <th class="text-center">WEAVER</th>
+                          <!-- <th class="text-center">SAT NO.</th> -->
+                          <th class="text-center">BI CODE</th>
+                          <th class="text-center">Quality</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                      </thead>
+
+                      <tbody formArrayName="beamList">
+                        <tr
+                          *ngFor="let item of beamGroup.controls; let i = index"
+                        >
+                          <ng-container [formGroupName]="i">
+                            <td>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="F.No"
+                                formControlName="F_No"
+                              />
+                            </td>
+
+                            <td>
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="Meaters"
+                                formControlName="Meaters"
+                              />
+                            </td>
+
+                            <td>
+                              <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Weaver"
+                                formControlName="Weaver"
+                              />
+                            </td>
+
+                            <td>
+                              <input
+                                type="text"
+                                class="form-control"
+                                placeholder="BI Code"
+                                formControlName="BI_Code"
+                                readonly
+                              />
+                            </td>
+
+                            <td>
+                              <select
+                                class="form-control"
+                                formControlName="Quality"
+                              >
+                                <option value="">Select Quality</option>
+                                <option
+                                  value="{{ quality._id }}"
+                                  *ngFor="let quality of qualityList"
+                                  >{{ quality.Design_Name }}</option
+                                >
+                              </select>
+                            </td>
+
+                            <td class="text-center">
+                              <button
+                                type="button"
+                                class="btn btn-danger"
+                                (click)="removeBeam(i)"
+                              >
+                                <i class="fa fa-remove"></i>
+                              </button>
+                            </td>
+                          </ng-container>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="card-footer text-center">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="addBeam()"
+                    >
+                      <i class="fa fa-plus"></i> Add Beam
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!beamInward.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> {{ buttonText }}
+            </button>
+
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <span class="h4">Common Master Child</span>
+          <div class="card-header-actions">
+            <a
+              routerLink="/masters/add-common-master-child"
+              class="btn btn-info font-weight-bold"
+            >
+              <i class="nav-icon icon-plus font-weight-bold"></i> &nbsp;Add New
+            </a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-outline mb-0 table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="text-center">Actions</th>
+                  <th class="text-center">Master Name</th>
+                  <th class="text-center">Master Child Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let content of returnedArray">
+                  <td class="text-center">
+                    <a
+                      routerLink="/masters/add-common-master-child/{{
+                        content._id
+                      }}"
+                      title="Edit"
+                      class="text-decoration-none"
+                    >
+                      <i class="cui-pencil icons font-xl d-inline"></i>
+                    </a>
+                    &nbsp; &nbsp;
+                    <a
+                      href="javascript:void(0)"
+                      (click)="openModal(content.CMC_Name, content._id)"
+                      title="Delete"
+                      class="text-decoration-none"
+                    >
+                      <i class="cui-trash icons font-xl d-inline"></i>
+                    </a>
+                  </td>
+                  <td class="text-center">
+                    {{ content.CM_id.CM_Name }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.CMC_Name }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer" *ngIf="dataLength > itemsPerPage">
+          <appPagination
+            [dataLength]="dataLength"
+            [itemsPerPage]="itemsPerPage"
+            (pageChanged)="pageChanged($event)"
+            (change)="setItemPerPage($event)"
+          ></appPagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <common-grid
+  [countApiString]="countApiString"
+  [fetchApiString]="fetchApiString"
+  [deleteApiString]="deleteApiString"
+  [searchApiString]="searchApiString"
+  [title]="title"
+  [addLink]="addLink"
+  [columnsData]="columnsData"
+  [columnsShow]="columnsShow"
+></common-grid> -->

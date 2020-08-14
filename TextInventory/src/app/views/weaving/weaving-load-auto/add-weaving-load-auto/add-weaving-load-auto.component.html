@@ -1,0 +1,203 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="weavingLoadAuto" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Weaving Load (Auto)</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="Date">Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="Date"
+                  formControlName="Date"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Date"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="Shade">Shade</label>
+                <select
+                  class="form-control"
+                  formControlName="Shed"
+                  (change)="fetchLoomTypes(SHEDNAME.value)"
+                  #SHEDNAME
+                >
+                  <option value="">Select SHED Name</option>
+                  <option
+                    value="{{ shed._id }}"
+                    *ngFor="let shed of shedList"
+                    >{{ shed.SHED_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Shed"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="LoomType">Loom Type</label>
+                <select
+                  class="form-control"
+                  formControlName="Loom_Type"
+                  (change)="fetchLoomNoList(SHEDNAME.value, LOOMTYPE.value)"
+                  #LOOMTYPE
+                >
+                  <option value="">Select Loom Type</option>
+                  <option
+                    value="{{ loom._id }}"
+                    *ngFor="let loom of loomTypes"
+                    >{{ loom.Loom_Type }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Loom_Type"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="LoomNo">Loom No</label>
+                <select
+                  class="form-control"
+                  formControlName="Loom_No"
+                  (change)="
+                    fetchParty(QUALITY.value, LOOMTYPE.value, LOOMNO.value);
+                    fetchQuality(SHEDNAME.value, LOOMTYPE.value, LOOMNO.value)
+                  "
+                  #LOOMNO
+                >
+                  <option value="">Select Loom No.</option>
+                  <option
+                    value="{{ loom._id }}"
+                    *ngFor="let loom of loomList"
+                    >{{ loom.Loom_No }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Loom_No"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="Quality">Quality</label>
+                <select
+                  class="form-control"
+                  formControlName="Quality"
+                  #QUALITY
+                  (change)="fetchParty(QUALITY.value)"
+                >
+                  <option value="">Select Quality</option>
+                  <option
+                    value="{{ quality._id }}"
+                    *ngFor="let quality of qualityList"
+                    >{{ quality.Design_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Quality"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="PartyName">Party Name</label>
+                <select
+                  class="form-control"
+                  formControlName="Party_Name"
+                  #PARTYNAME
+                >
+                  <option value="">Select Party Name</option>
+                  <option
+                    value="{{ party._id }}"
+                    *ngFor="let party of partyList"
+                    >{{ party.Company_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Party_Name"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="SATNO">SAT NO</label>
+                <select
+                  class="form-control"
+                  formControlName="SAT_NO"
+                  (change)="fetchBeamDetails($event)"
+                >
+                  <option value="">Select SAT NO</option>
+                  <option
+                    value="{{ sat }}"
+                    *ngFor="let sat of satList; let i = index"
+                    >{{ sat }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="SAT_NO"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="BINO">BI NO</label>
+                <select class="form-control" formControlName="BI_NO">
+                  <option value="">Select BI NO</option>
+                  <option value="{{ bi.BI_Code }}" *ngFor="let bi of biList"
+                    >Beam No - {{ bi.BI_No }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="BI_NO"
+                ></app-error-message>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!weavingLoadAuto.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> {{ buttonText }}
+            </button>
+
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="loomMaster" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Loom Master</span>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="SHED Name"
+                    formControlName="SHED_Name"
+                  />
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="SHED_Name"
+                  ></app-error-message>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <select class="form-control" formControlName="Location">
+                        <option value="">Select Location</option>
+                        <option
+                          value="{{ state._id }}"
+                          *ngFor="let state of stateList"
+                          >{{ state.CMC_Name }}</option
+                        >
+                      </select>
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Location"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <select class="form-control" formControlName="Loom_Type">
+                        <option value="">Loom Type</option>
+                        <option
+                          value="{{ type._id }}"
+                          *ngFor="let type of loomTypes"
+                          >{{ type.CMC_Name }}</option
+                        >
+                      </select>
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Loom_Type"
+                      ></app-error-message>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="No. of Looms"
+                        formControlName="No_of_Looms"
+                      />
+
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="No_of_Looms"
+                      ></app-error-message>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!loomMaster.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> {{ buttonText }}
+            </button>
+
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

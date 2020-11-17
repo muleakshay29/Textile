@@ -4,6 +4,8 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { CommonService } from "../../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
+import { uniqueCheckValidator } from "../../../../_helper/unique-records.directive";
+import { element } from "protractor";
 
 @Component({
   selector: "app-add-auto-production",
@@ -28,6 +30,8 @@ export class AddAutoProductionComponent implements OnInit {
   availableMters = 0;
   autoProductionFlag = 0;
   availableBeamDetails = [];
+  distinctLooms = [];
+  unloadedLooms = [];
 
   constructor(
     private fb: FormBuilder,
@@ -57,7 +61,7 @@ export class AddAutoProductionComponent implements OnInit {
   createForm() {
     this.autoProduction = this.fb.group({
       From_Date: ["", Validators.required],
-      To_Date: ["", Validators.required],
+      // To_Date: ["", Validators.required],
       Shed: ["", Validators.required],
       Loom_Type: ["", Validators.required],
       Loom_No: ["", Validators.required],
@@ -65,7 +69,7 @@ export class AddAutoProductionComponent implements OnInit {
       Quality: ["", Validators.required],
       Available_Mtrs: [this.defaultValue],
       Total_Beam_Mtrs: [this.defaultValue],
-      TAGA_NO: [this.defaultValue, Validators.required],
+      TAGA_NO: [this.defaultValue, [Validators.required]],
       Meter: [this.defaultValue, Validators.required],
       Weight: [this.defaultValue, Validators.required],
       RPM: [this.defaultValue, Validators.required],
@@ -87,9 +91,9 @@ export class AddAutoProductionComponent implements OnInit {
     return this.autoProduction.get("From_Date");
   }
 
-  get To_Date() {
+  /* get To_Date() {
     return this.autoProduction.get("To_Date");
-  }
+  } */
 
   get Shed() {
     return this.autoProduction.get("Shed");
@@ -164,8 +168,18 @@ export class AddAutoProductionComponent implements OnInit {
               .subscribe((tagaStockDetails) => {
                 if (tagaStockDetails != null) {
                   this.toastr.success("Record added successfuly", "Success");
-                  this.autoProduction.reset();
-                  this.router.navigate(["/production/auto-production"]);
+                  // this.autoProduction.reset();
+                  // this.router.navigate(["/production/auto-production"]);
+                  this.Loom_No.reset();
+                  this.Party_Name.reset();
+                  this.Quality.reset();
+                  this.autoProduction.get("Available_Mtrs").reset();
+                  this.autoProduction.get("Total_Beam_Mtrs").reset();
+                  this.TAGA_NO.reset();
+                  this.Meter.reset();
+                  this.Weight.reset();
+                  // this.RPM.reset();
+                  // this.openModal();
                   this.spinner.hide();
                 } else {
                   this.toastr.error(
@@ -228,7 +242,7 @@ export class AddAutoProductionComponent implements OnInit {
           const FromDate =
             formatedfromYear + "-" + formatedfromMonth + "-" + formatedfromDay;
 
-          const todate = new Date(details.To_Date);
+          /* const todate = new Date(details.To_Date);
           const formatedtoMonth =
             todate.getMonth() > 8
               ? todate.getMonth() + 1
@@ -238,16 +252,16 @@ export class AddAutoProductionComponent implements OnInit {
             todate.getDate() > 9 ? todate.getDate() : "0" + todate.getDate();
           const formatedtoYear = todate.getFullYear();
           const ToDate =
-            formatedtoYear + "-" + formatedtoMonth + "-" + formatedtoDay;
+            formatedtoYear + "-" + formatedtoMonth + "-" + formatedtoDay; */
 
           this.fetchLoomNoList(details.Shed, details.Loom_Type);
           this.fetchLoomTypes(details.Shed);
-          this.fetchParty(details.Shed, details.Loom_Type, details.Loom_No);
-          this.fetchQuality(details.Shed, details.Loom_Type, details.Loom_No);
+          // this.fetchParty(details.Shed, details.Loom_Type, details.Loom_No);
+          // this.fetchQuality(details.Shed, details.Loom_Type, details.Loom_No);
 
           this.autoProduction.setValue({
             From_Date: FromDate,
-            To_Date: ToDate,
+            // To_Date: ToDate,
             Shed: details.Shed,
             Loom_Type: details.Loom_Type,
             Loom_No: details.Loom_No,
@@ -301,25 +315,113 @@ export class AddAutoProductionComponent implements OnInit {
       });
   }
 
+  fetchDistinctLooms() {
+    this.distinctLooms = this.distinctLooms.filter(
+      (val) => !this.unloadedLooms.includes(val)
+    );
+    this.distinctLooms.forEach((element2) => {
+      this.cmaster
+        .fetchDetails(element2, "loom-no-details")
+        .subscribe((result) => {
+          this.loomList.push({
+            _id: result._id,
+            Loom_No: result.Loom_No,
+          });
+        });
+    });
+  }
+
   fetchLoomNoList(shed = "", loomtype = "") {
     this.cmaster
       .findData({ Shed: shed, Loom_Type: loomtype }, "fetch-distinct-loomno")
       .subscribe((list) => {
+        this.distinctLooms = list;
+        list.forEach((element, key, arr) => {
+          this.cmaster
+            .findData(
+              {
+                Shed: shed,
+                Loom_Type: loomtype,
+                Loom_No: element,
+              },
+              "find-distinct-auto-production-details"
+            )
+            .subscribe((prodDetails) => {
+              if (Array.isArray(prodDetails) && prodDetails.length) {
+                this.unloadedLooms.push(prodDetails[0].Loom_No);
+                if (key === arr.length - 1) {
+                  this.fetchDistinctLooms();
+                }
+              }
+            });
+        });
+        // this.fetchDistinctLooms();
+      });
+
+    /* .subscribe((list) => {
         this.loomList = [];
+        this.distinctLooms = list;
         list.forEach((element) => {
           this.cmaster
-            .fetchDetails(element, "loom-no-details")
-            .subscribe((result) => {
-              this.loomList.push({
-                _id: result._id,
-                Loom_No: result.Loom_No,
+            .findData(
+              {
+                Shed: shed,
+                Loom_Type: loomtype,
+                Loom_No: element,
+              },
+              "find-distinct-auto-production-details"
+            )
+            .subscribe((prodDetails) => {
+              return prodDetails.forEach((prodElement) => {
+                return this.distinctLooms.splice(
+                  this.distinctLooms.indexOf(prodElement.Loom_No),
+                  1
+                );
+
+                // console.log("distinctLooms", this.distinctLooms);
+              });
+
+              this.distinctLooms.forEach((element2) => {
+                console.log("element2", element2);
+                this.cmaster
+                  .fetchDetails(element2, "loom-no-details")
+                  .subscribe((result) => {
+                    this.loomList.push({
+                      _id: result._id,
+                      Loom_No: result.Loom_No,
+                    });
+                  });
               });
             });
+        });
+
+        console.log("distinctLooms", this.distinctLooms);
+      }); */
+  }
+
+  fetchParty(partyId) {
+    this.cmaster.fetchDetails(partyId, "party-details").subscribe((result) => {
+      this.partyList = [];
+      this.partyList.push({
+        _id: result._id,
+        Company_Name: result.Company_Name,
+      });
+    });
+  }
+
+  fetchQuality(qualityId) {
+    this.cmaster
+      .fetchDetails(qualityId, "quality-details")
+      .subscribe((result) => {
+        this.qualityList = [];
+        this.qualityList.push({
+          _id: result._id,
+          Design_Name: result.Design_Name,
         });
       });
   }
 
-  fetchParty(shed = "", loomtype = "", loomno = 0) {
+  /* fetchParty(shed = "", loomtype = "", loomno = 0) {
     this.cmaster
       .findData(
         { Shed: shed, Loom_Type: loomtype, Loom_No: loomno },
@@ -359,7 +461,7 @@ export class AddAutoProductionComponent implements OnInit {
             });
         });
       });
-  }
+  } */
 
   fetchOtherDetails(shed = "", loomtype = "", loomno = 0, party = "") {
     this.cmaster
@@ -379,13 +481,13 @@ export class AddAutoProductionComponent implements OnInit {
   }
 
   fetchAvilableMtr() {
-    const details = this.weavingDetails[0];
+    // const details = this.weavingDetails;
     this.cmaster
       .findData(
         {
-          Party_Name: details.Party_Name,
-          SAT_NO: details.SAT_NO,
-          BI_Code: details.BI_NO,
+          Shed: this.weavingDetails["Shed"],
+          SAT_NO: this.weavingDetails["SAT_NO"],
+          BI_Code: this.weavingDetails["BI_NO"],
         },
         "fetch-available-beam-mtrs"
       )
@@ -404,6 +506,22 @@ export class AddAutoProductionComponent implements OnInit {
       });
   }
 
+  findPartQuality(shed = "", loomtype = "", loomno = 0) {
+    this.cmaster
+      .findData(
+        { Shed: shed, Loom_Type: loomtype, Loom_No: loomno },
+        "find-weaving-part-quality"
+      )
+      .subscribe((details) => {
+        this.Party_Name.patchValue(details[0].Party_Name);
+        this.Quality.patchValue(details[0].Quality);
+        this.weavingDetails = details[0];
+        this.fetchParty(details[0].Party_Name);
+        this.fetchQuality(details[0].Quality);
+        this.findAutoProductionDetails(shed, loomtype, loomno);
+      });
+  }
+
   findAutoProductionDetails(shed = "", loomtype = "", loomno = 0, party = "") {
     this.cmaster
       .findData(
@@ -411,7 +529,7 @@ export class AddAutoProductionComponent implements OnInit {
           Shed: shed,
           Loom_Type: loomtype,
           Loom_No: loomno,
-          Party_Name: party,
+          // Party_Name: party,
         },
         "find-auto-production-details"
       )
@@ -443,9 +561,31 @@ export class AddAutoProductionComponent implements OnInit {
           this.fetchAvilableMtr();
         }
       });
+
+    this.TAGA_NO.setAsyncValidators(
+      uniqueCheckValidator(
+        this.cmaster,
+        {
+          Shed: shed,
+        },
+        "TAGA_NO",
+        "find-auto-production-taga"
+      )
+    );
   }
 
   onCancel() {
     this.router.navigate(["/production/auto-production"]);
+  }
+
+  openModal() {
+    const result = this.cmaster.openConfirmModal();
+    result.content.onClose.subscribe((result: boolean) => {
+      if (result == true) {
+        this.spinner.hide();
+      } else {
+        this.router.navigate(["/production/auto-production"]);
+      }
+    });
   }
 }

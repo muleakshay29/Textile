@@ -23,6 +23,15 @@ import { AddMasterChildComponent } from "./common-master-child/add-master-child/
 import { EditQualityComponent } from "./quality-master/edit-quality/edit-quality.component";
 import { CompanyMasterComponent } from "./company-master/company-master.component";
 import { AddCompanyMasterComponent } from "./company-master/add-company-master/add-company-master.component";
+import { YarnContractComponent } from "./contract-master/yarn-contract/yarn-contract.component";
+import { AddYarnContractComponent } from "./contract-master/yarn-contract/add-yarn-contract/add-yarn-contract.component";
+import { SalesContractComponent } from "./contract-master/sales-contract/sales-contract.component";
+import { InwardContractComponent } from "./contract-master/job-contract/inward-contract/inward-contract.component";
+import { AddInwardContractComponent } from "./contract-master/job-contract/inward-contract/add-inward-contract/add-inward-contract.component";
+import { OutwardContractComponent } from "./contract-master/job-contract/outward-contract/outward-contract.component";
+import { AddOutwardContractComponent } from "./contract-master/job-contract/outward-contract/add-outward-contract/add-outward-contract.component";
+import { AddSalesContractComponent } from "./contract-master/sales-contract/add-sales-contract/add-sales-contract.component";
+import { AuthGuard } from "../../_guards/auth.guard";
 
 const routes: Routes = [
   {
@@ -35,6 +44,7 @@ const routes: Routes = [
         path: "",
         redirectTo: "common-master",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "common-master",
@@ -42,6 +52,7 @@ const routes: Routes = [
         data: {
           title: "Common Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-common-master",
@@ -49,6 +60,7 @@ const routes: Routes = [
         data: {
           title: "Add common Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-common-master/:id",
@@ -56,12 +68,14 @@ const routes: Routes = [
         data: {
           title: "Edit common Master",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "common-master-child",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "common-master-child",
@@ -69,6 +83,7 @@ const routes: Routes = [
         data: {
           title: "Common Master Child",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-common-master-child",
@@ -76,6 +91,7 @@ const routes: Routes = [
         data: {
           title: "Add common Master Child",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-common-master-child/:id",
@@ -83,12 +99,14 @@ const routes: Routes = [
         data: {
           title: "Edit Common Master Child",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "company-master",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "company-master",
@@ -96,6 +114,7 @@ const routes: Routes = [
         data: {
           title: "Company Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-company-master",
@@ -103,6 +122,7 @@ const routes: Routes = [
         data: {
           title: "Add Company Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-company-master/:id",
@@ -110,12 +130,14 @@ const routes: Routes = [
         data: {
           title: "Edit Company Master",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "yarn-master",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "yarn-master",
@@ -123,6 +145,7 @@ const routes: Routes = [
         data: {
           title: "Yarn Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-yarn",
@@ -130,6 +153,7 @@ const routes: Routes = [
         data: {
           title: "Add Yarn Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-yarn/:id",
@@ -137,12 +161,14 @@ const routes: Routes = [
         data: {
           title: "Edit Yarn Master",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "quality-master",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "quality-master",
@@ -150,6 +176,7 @@ const routes: Routes = [
         data: {
           title: "Quality Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-quality",
@@ -157,6 +184,7 @@ const routes: Routes = [
         data: {
           title: "Quality Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "edit-quality/:id",
@@ -164,12 +192,14 @@ const routes: Routes = [
         data: {
           title: "Edit Quality Master",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "party-master",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "party-master",
@@ -177,6 +207,7 @@ const routes: Routes = [
         data: {
           title: "Party Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-party",
@@ -184,6 +215,7 @@ const routes: Routes = [
         data: {
           title: "Party Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-party/:id",
@@ -191,12 +223,14 @@ const routes: Routes = [
         data: {
           title: "Edit Party Master",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "loom-master",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "loom-master",
@@ -204,6 +238,7 @@ const routes: Routes = [
         data: {
           title: "Loom Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-loom",
@@ -211,6 +246,7 @@ const routes: Routes = [
         data: {
           title: "Loom Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-loom/:id",
@@ -218,12 +254,14 @@ const routes: Routes = [
         data: {
           title: "Edit Loom Master",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "firm-master",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "firm-master",
@@ -231,6 +269,7 @@ const routes: Routes = [
         data: {
           title: "Firm Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-firm",
@@ -238,6 +277,7 @@ const routes: Routes = [
         data: {
           title: "Firm Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-firm/:id",
@@ -245,12 +285,14 @@ const routes: Routes = [
         data: {
           title: "Edit Firm Master",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "employee-master",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "employee-master",
@@ -258,6 +300,7 @@ const routes: Routes = [
         data: {
           title: "Employee Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-employee",
@@ -265,6 +308,7 @@ const routes: Routes = [
         data: {
           title: "Employee Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-employee/:id",
@@ -272,12 +316,14 @@ const routes: Routes = [
         data: {
           title: "Edit Employee Master",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "broker-master",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "broker-master",
@@ -285,6 +331,7 @@ const routes: Routes = [
         data: {
           title: "Broker Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-broker",
@@ -292,6 +339,7 @@ const routes: Routes = [
         data: {
           title: "Broker Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-broker/:id",
@@ -299,12 +347,14 @@ const routes: Routes = [
         data: {
           title: "Edit Broker Master",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "account-master",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "account-master",
@@ -312,6 +362,7 @@ const routes: Routes = [
         data: {
           title: "Account Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-account",
@@ -319,6 +370,7 @@ const routes: Routes = [
         data: {
           title: "Account Master",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-account/:id",
@@ -326,6 +378,131 @@ const routes: Routes = [
         data: {
           title: "Edit Account Master",
         },
+        canActivate: [AuthGuard],
+      },
+
+      {
+        path: "",
+        redirectTo: "yarn-contract",
+        pathMatch: "full",
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "yarn-contract",
+        component: YarnContractComponent,
+        data: {
+          title: "Yarn Contract",
+        },
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "add-yarn-contract",
+        component: AddYarnContractComponent,
+        data: {
+          title: "Add Yarn Contract",
+        },
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "add-yarn-contract/:id",
+        component: AddYarnContractComponent,
+        data: {
+          title: "Edit Yarn Contract",
+        },
+        canActivate: [AuthGuard],
+      },
+
+      {
+        path: "",
+        redirectTo: "sales-contract",
+        pathMatch: "full",
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "sales-contract",
+        component: SalesContractComponent,
+        data: {
+          title: "Sales Contract",
+        },
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "add-sales-contract",
+        component: AddSalesContractComponent,
+        data: {
+          title: "Add Sales Contract",
+        },
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "add-sales-contract/:id",
+        component: AddSalesContractComponent,
+        data: {
+          title: "Edit Sales Contract",
+        },
+        canActivate: [AuthGuard],
+      },
+
+      {
+        path: "",
+        redirectTo: "inward-job-contract",
+        pathMatch: "full",
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "inward-job-contract",
+        component: InwardContractComponent,
+        data: {
+          title: "Inward Job Contract",
+        },
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "add-inward-job-contract",
+        component: AddInwardContractComponent,
+        data: {
+          title: "Add Inward Job",
+        },
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "add-inward-job-contract/:id",
+        component: AddInwardContractComponent,
+        data: {
+          title: "Edit Inward Job",
+        },
+        canActivate: [AuthGuard],
+      },
+
+      {
+        path: "",
+        redirectTo: "outward-job-contract",
+        pathMatch: "full",
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "outward-job-contract",
+        component: OutwardContractComponent,
+        data: {
+          title: "Outward Job Contract",
+        },
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "add-outward-job-contract",
+        component: AddOutwardContractComponent,
+        data: {
+          title: "Add Outward Job Contract",
+        },
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "add-outward-job-contract/:id",
+        component: AddOutwardContractComponent,
+        data: {
+          title: "Edit Outward Job Contract",
+        },
+        canActivate: [AuthGuard],
       },
     ],
   },

@@ -1,5 +1,5 @@
 <ngx-spinner type="ball-beat" [fullScreen]="true"
-  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
 >
 
 <div class="animated fadeIn">
@@ -57,14 +57,20 @@
             </div>
 
             <div class="row">
-              <div class="form-group col-sm-4">
-                <select class="form-control" formControlName="Party_Name">
+              <div class="form-group col-sm-6">
+                <select
+                  class="form-control"
+                  formControlName="Party_Name"
+                  (change)="fetchContract(PARTYNAME.value)"
+                  #PARTYNAME
+                >
                   <option value="">Select Party Name</option>
                   <option
                     value="{{ party._id }}"
                     *ngFor="let party of partyList"
-                    >{{ party.Company_Name }}</option
                   >
+                    {{ party.Company_Name }}
+                  </option>
                 </select>
 
                 <app-error-message
@@ -73,14 +79,37 @@
                 ></app-error-message>
               </div>
 
-              <div class="form-group col-sm-4">
+              <div class="form-group col-sm-6">
+                <select
+                  class="form-control"
+                  formControlName="Contract"
+                  (change)="fetchQuality(CONTRACT.value)"
+                  #CONTRACT
+                >
+                  <option value="">Select Contract</option>
+                  <option value="0">N/A</option>
+                  <option
+                    value="{{ contract._id }}"
+                    *ngFor="let contract of contractList"
+                  >
+                    {{ contract.Contract_No }}
+                  </option>
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Contract"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
                 <select class="form-control" formControlName="Shed_Name">
                   <option value="">Select SHED Name</option>
-                  <option
-                    value="{{ shed._id }}"
-                    *ngFor="let shed of shedList"
-                    >{{ shed.SHED_Name }}</option
-                  >
+                  <option value="{{ shed._id }}" *ngFor="let shed of shedList">
+                    {{ shed.SHED_Name }}
+                  </option>
                 </select>
 
                 <app-error-message
@@ -89,14 +118,15 @@
                 ></app-error-message>
               </div>
 
-              <div class="form-group col-sm-4">
+              <div class="form-group col-sm-6">
                 <select class="form-control" formControlName="Quality">
                   <option value="">Select Quality Name</option>
                   <option
                     value="{{ quality._id }}"
                     *ngFor="let quality of qualityList"
-                    >{{ quality.Design_Name }}</option
                   >
+                    {{ quality.Design_Name }}
+                  </option>
                 </select>
 
                 <app-error-message
@@ -115,8 +145,9 @@
                       <option
                         value="{{ yarn._id }}"
                         *ngFor="let yarn of yarnList"
-                        >{{ yarn.SUT_Name }}</option
                       >
+                        {{ yarn.SUT_Name }}
+                      </option>
                     </select>
 
                     <app-error-message
@@ -131,8 +162,9 @@
                       <option
                         value="{{ type._id }}"
                         *ngFor="let type of sutTypeList"
-                        >{{ type.CMC_Name }}</option
                       >
+                        {{ type.CMC_Name }}
+                      </option>
                     </select>
 
                     <app-error-message
@@ -425,8 +457,9 @@
                                 <option
                                   value="{{ pkg._id }}"
                                   *ngFor="let pkg of pkgList"
-                                  >{{ pkg.CMC_Name }}</option
                                 >
+                                  {{ pkg.CMC_Name }}
+                                </option>
                               </select>
 
                               <app-error-message

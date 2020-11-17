@@ -81,7 +81,11 @@ export class SalesInvoiceRegisterComponent implements OnInit {
   }
 
   viewInvoice(content) {
-    const result = this.cmservice.openPrintModal(content);
+    const result = this.cmservice.openPrintModal(
+      "",
+      content,
+      SalesInvoicePrintComponent
+    );
     result.content.onClose.subscribe((result: boolean) => {
       if (result == true) {
         this.spinner.show();

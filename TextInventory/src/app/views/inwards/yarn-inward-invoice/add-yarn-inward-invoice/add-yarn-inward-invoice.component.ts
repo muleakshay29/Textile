@@ -33,6 +33,7 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
   grandtotal = 0;
   selectedSUT;
   hideShowPanel = false;
+  contractList = [];
 
   constructor(
     private fb: FormBuilder,
@@ -50,9 +51,10 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
     this.fetchParty();
     this.fetchShed();
     this.fetchFirm();
-    this.fetchYarn();
+    // this.fetchYarn();
     this.fetchSutType("5ead05572a1e063f14ea6c17");
     this.fetchPkg("5ead05672a1e063f14ea6c18");
+    // this.fetchContract();
 
     this.route.params.subscribe((params: Params) => {
       this.yarnInwardID = params["id"] ? params["id"] : "";
@@ -106,6 +108,7 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
       TOTAL_AMOUNT: [""],
       Round_OFF: [""],
       Grand_Total: [""],
+      Contract: ["", Validators.required],
     });
   }
 
@@ -126,6 +129,10 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
     ).toUpperCase();
 
     this.Invoice_No.patchValue(this.invoiceNo);
+  }
+
+  get Contract() {
+    return this.yarnInward.get("Contract");
   }
 
   get Invoice_No() {
@@ -311,6 +318,9 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
           const formatedDate =
             formatedYear + "-" + formatedMonth + "-" + formatedDay;
 
+          this.fetchContract(details.Party_Name);
+          this.fetchYarn(details.Contract);
+
           this.yarnInward.setValue({
             Amount: details.Amount,
             Bag_TOTAL: details.Bag_TOTAL,
@@ -340,6 +350,7 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
             Round_OFF: details.Round_OFF,
             SGST: details.SGST,
             SGST_AMOUNT: details.SGST_AMOUNT,
+            Contract: details.Contract,
             SUT_Name: details.SUT_Name,
             SUT_Type: details.SUT_Type,
             Shed_Name: details.Shed_Name,
@@ -369,10 +380,43 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
     });
   }
 
-  fetchYarn() {
-    this.cmaster.fetchData(0, 0, "fetch-yarn").subscribe((list) => {
-      this.yarnList = list;
-    });
+  fetchContract(party) {
+    this.contractList = [];
+    this.cmaster
+      .findData({ Party_Name: party }, "find-part-yarn-contract")
+      .subscribe((list) => {
+        if (list.length > 0) {
+          this.contractList = list;
+        } else {
+          this.Contract.patchValue(0);
+          this.fetchYarn(0);
+        }
+      });
+  }
+
+  fetchYarn(contract) {
+    this.yarnList = [];
+    if (contract == 0) {
+      this.cmaster.fetchData(0, 0, "fetch-yarn").subscribe((list) => {
+        this.yarnList = list;
+      });
+    } else {
+      if (this.contractList.length > 0) {
+        this.contractList.filter((element) => {
+          if (contract == element._id) {
+            this.cmaster
+              .fetchDetails(element.Yarn_Name._id, "yarn-details")
+              .subscribe((details) => {
+                this.yarnList.push(details);
+              });
+          }
+        });
+      } else {
+        this.cmaster.fetchData(0, 0, "fetch-yarn").subscribe((list) => {
+          this.yarnList = list;
+        });
+      }
+    }
   }
 
   fetchSutType(_id: string) {
@@ -400,8 +444,6 @@ export class AddYarnInwardInvoiceComponent implements OnInit {
       this.selectedSUT = this.yarnList.filter((e) => {
         return e._id === sut;
       });
-
-      console.log(this.selectedSUT);
 
       this.yarnInward.get("CGST").patchValue(this.selectedSUT[0]["CGST"]);
       this.yarnInward.get("SGST").patchValue(this.selectedSUT[0]["SGST"]);

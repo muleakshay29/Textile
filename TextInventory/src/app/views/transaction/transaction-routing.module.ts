@@ -11,6 +11,7 @@ import { AddPurchaseInvoiceComponent } from "./purchase-invoice/add-purchase-inv
 import { AddSalesInvoiceManualComponent } from "./sales-invoice-manual/add-sales-invoice-manual/add-sales-invoice-manual.component";
 import { SalesInvoiceManualComponent } from "./sales-invoice-manual/sales-invoice-manual.component";
 import { EditSalesInvoiceComponent } from "./sales-invoice/edit-sales-invoice/edit-sales-invoice.component";
+import { AuthGuard } from "../../_guards/auth.guard";
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
         path: "",
         redirectTo: "delivery-chalan",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "delivery-chalan",
@@ -30,6 +32,7 @@ const routes: Routes = [
         data: {
           title: "Delivery Chalan",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-delivery-chalan",
@@ -37,6 +40,7 @@ const routes: Routes = [
         data: {
           title: "Add Delivery Chalan",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-delivery-chalan/:id",
@@ -44,12 +48,14 @@ const routes: Routes = [
         data: {
           title: "Edit Delivery Chalan",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "sales-invoice",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "sales-invoice",
@@ -57,6 +63,7 @@ const routes: Routes = [
         data: {
           title: "Sales Invoice",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "sales-invoice/:id/:id2",
@@ -64,6 +71,7 @@ const routes: Routes = [
         data: {
           title: "Edit Sales Invoice",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "edit-sales-invoice/:id",
@@ -71,12 +79,14 @@ const routes: Routes = [
         data: {
           title: "Edit Sales Invoice",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "sales-invoice-manual",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "sales-invoice-manual",
@@ -84,6 +94,7 @@ const routes: Routes = [
         data: {
           title: "Sales Invoice Manual",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-sales-invoice-manual",
@@ -91,6 +102,7 @@ const routes: Routes = [
         data: {
           title: "Add Sales Invoice Manual",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-sales-invoice-manual/:id",
@@ -98,12 +110,14 @@ const routes: Routes = [
         data: {
           title: "Edit Sales Invoice Manual",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "purchase-invoice",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "purchase-invoice",
@@ -111,6 +125,7 @@ const routes: Routes = [
         data: {
           title: "Purchase Invoice",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-purchase-invoice",
@@ -118,12 +133,14 @@ const routes: Routes = [
         data: {
           title: "Add Purchase Invoice",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "sales-invoice-register",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "sales-invoice-register",
@@ -131,6 +148,7 @@ const routes: Routes = [
         data: {
           title: "Sales Invoice Register",
         },
+        canActivate: [AuthGuard],
       },
 
       /* {
@@ -145,6 +163,7 @@ const routes: Routes = [
         path: "",
         redirectTo: "delivery-chalan-register",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "delivery-chalan-register",
@@ -152,6 +171,7 @@ const routes: Routes = [
         data: {
           title: "Delivery Chalan Register",
         },
+        canActivate: [AuthGuard],
       },
     ],
   },

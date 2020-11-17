@@ -1,0 +1,104 @@
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1"> -->
+<div class="modal-dialog mw-100 mx-4" id="print-html">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div>
+        <div class="row border-bottom p-2">
+          <div class="col-12 p-0">
+            <h3 class="text-center font-weight-bold">
+              {{ content.Shade_Name.SHED_Name }}
+            </h3>
+            <p class="text-center">
+              {{ content.Shade_Name.Location.CMC_Name }}
+            </p>
+          </div>
+        </div>
+
+        <div class="row border-bottom p-2">
+          <div class="col-sm-3 p-0">DC NO :- {{ content.Chalan_No }}</div>
+          <div class="col-sm-3 p-0">DATE:- {{ formatedDate }}</div>
+          <div class="col-sm-6 p-0">
+            FROM PARTY:- {{ content.Firm_Name.Company_Name }}
+          </div>
+        </div>
+
+        <div class="row border-bottom p-2">
+          <div class="col-8 p-0">
+            TO PARTY :- {{ content.Party_Name.Company_Name }}
+          </div>
+          <div class="col-4 p-0">PLACE :- {{ content.Place }}</div>
+        </div>
+
+        <div class="row border-bottom p-2">
+          <div class="col-sm-2 p-0">BALES :- {{ content.Bales }}</div>
+          <div class="col-sm-2 p-0">PIECES :- {{ content.Pieces }}</div>
+          <div class="col-sm-3 p-0">METERS :- {{ content.Meters }}</div>
+          <div class="col-sm-5 p-0">
+            SAMPLE & CUT METERS :- {{ content.Sample_Cut_Pieces }}
+          </div>
+        </div>
+
+        <div class="row p-2">
+          <div class="col-12 p-0">
+            QUALITY :- {{ content.Design.Design_Name }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6 p-0 border" *ngIf="data">
+            <table class="table table-hover table-outline mb-0 table-bordered">
+              <thead>
+                <tr>
+                  <th class="text-center">L.No</th>
+                  <th class="text-center">Piece No</th>
+                  <th class="text-center">Meter</th>
+                  <th class="text-center">Weight</th>
+                  <th class="text-center">Gram</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let d of data">
+                  <td>{{ d.Loom_No.Loom_No }}</td>
+                  <td>{{ d.Piece_No }}</td>
+                  <td>{{ d.Meters }}</td>
+                  <td>{{ d.Weight }}</td>
+                  <td>{{ d.GRAMEZ }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-6 p-0 border" *ngIf="data2">
+            <table class="table table-hover table-outline mb-0 table-bordered">
+              <thead>
+                <tr>
+                  <th class="text-center">L.No</th>
+                  <th class="text-center">Piece No</th>
+                  <th class="text-center">Meter</th>
+                  <th class="text-center">Weight</th>
+                  <th class="text-center">Gram</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let d2 of data2">
+                  <td>{{ d2.Loom_No.Loom_No }}</td>
+                  <td>{{ d2.Piece_No }}</td>
+                  <td>{{ d2.Meters }}</td>
+                  <td>{{ d2.Weight }}</td>
+                  <td>{{ d2.GRAMEZ }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer d-print-none">
+      <a class="btn btn-info font-weight-bold" (click)="printPdf('print-html')">
+        <!-- <i class="nav-icon icon-plus font-weight-bold"></i> &nbsp;Print -->
+        <i class="cui-print icons font-xl d-inline"></i> &nbsp;Print
+      </a>
+    </div>
+  </div>
+</div>
+<!-- </div> -->

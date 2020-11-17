@@ -5,6 +5,7 @@ import { CommonService } from "../../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Validations } from "../../../../_helper/validations";
+import { element } from "protractor";
 
 @Component({
   selector: "app-add-yarn-inward",
@@ -29,6 +30,7 @@ export class AddYarnInwardComponent implements OnInit {
   konTotal = 0;
   weightTotal = 0;
   selectedSUT;
+  contractList = [];
 
   constructor(
     private fb: FormBuilder,
@@ -46,9 +48,10 @@ export class AddYarnInwardComponent implements OnInit {
     this.fetchParty();
     this.fetchShed();
     this.fetchYarn();
-    this.fetchQuality();
+    // this.fetchQuality();
     this.fetchSutType("5ead05572a1e063f14ea6c17");
     this.fetchPkg("5ead05672a1e063f14ea6c18");
+    // this.fetchContract();
 
     this.route.params.subscribe((params: Params) => {
       this.yarnInwardID = params["id"] ? params["id"] : "";
@@ -84,6 +87,7 @@ export class AddYarnInwardComponent implements OnInit {
       Weight_TOTAL: [this.defaultZero, Validations.zeroValueCheck],
       Gross_Weight: [this.defaultZero, Validators.required],
       Package_Type: ["", Validators.required],
+      Contract: ["", Validators.required],
     });
   }
 
@@ -104,6 +108,10 @@ export class AddYarnInwardComponent implements OnInit {
     ).toUpperCase();
 
     // this.Invoice_No.patchValue(this.invoiceNo);
+  }
+
+  get Contract() {
+    return this.yarnInward.get("Contract");
   }
 
   get Invoice_No() {
@@ -331,6 +339,9 @@ export class AddYarnInwardComponent implements OnInit {
           const formatedDate =
             formatedYear + "-" + formatedMonth + "-" + formatedDay;
 
+          this.fetchContract(details.Party_Name);
+          this.fetchQuality(details.Contract);
+
           this.yarnInward.setValue({
             Invoice_No: details.Invoice_No,
             GETPASS: details.GETPASS,
@@ -338,6 +349,7 @@ export class AddYarnInwardComponent implements OnInit {
             Party_Name: details.Party_Name,
             Shed_Name: details.Shed_Name,
             SUT_Name: details.SUT_Name,
+            Contract: details.Contract,
             Quality: details.Quality,
             SUT_Type: details.SUT_Type,
             Color: details.Color,
@@ -377,10 +389,43 @@ export class AddYarnInwardComponent implements OnInit {
     });
   }
 
-  fetchQuality() {
-    this.cmaster.fetchData(0, 0, "fetch-quality").subscribe((list) => {
-      this.qualityList = list;
-    });
+  fetchQuality(contract) {
+    this.qualityList = [];
+    if (contract == 0) {
+      this.cmaster.fetchData(0, 0, "fetch-quality").subscribe((list) => {
+        this.qualityList = list;
+      });
+    } else {
+      if (this.contractList.length > 0) {
+        this.contractList.filter((element) => {
+          if (contract == element._id) {
+            this.cmaster
+              .fetchDetails(element.Quality._id, "quality-details")
+              .subscribe((details) => {
+                this.qualityList.push(details);
+              });
+          }
+        });
+      } else {
+        this.cmaster.fetchData(0, 0, "fetch-quality").subscribe((list) => {
+          this.qualityList = list;
+        });
+      }
+    }
+  }
+
+  fetchContract(party) {
+    this.contractList = [];
+    this.cmaster
+      .findData({ Party_Name: party }, "find-party-inward-job-contract")
+      .subscribe((list) => {
+        if (list.length > 0) {
+          this.contractList = list;
+        } else {
+          this.Contract.patchValue(0);
+          this.fetchQuality(0);
+        }
+      });
   }
 
   fetchSutType(_id: string) {

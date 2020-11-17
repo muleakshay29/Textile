@@ -22,4 +22,8 @@ describe('AddYarnComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it(`should have text 'Yarn Master'`, () => {
+    expect(component.CGST)
+  })
 });

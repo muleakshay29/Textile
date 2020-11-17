@@ -3,6 +3,7 @@ import { PageChangedEvent } from "ngx-bootstrap/pagination";
 import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
+import { DeliveryChalanPrintComponent } from "../../../_helper/delivery-chalan-print/delivery-chalan-print.component";
 
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
@@ -39,12 +40,23 @@ export class DeliveryChalanRegisterComponent implements OnInit {
   }
 
   generatePdf(_id, content) {
-    this.spinner.show();
+    /* this.spinner.show();
     this.fetchDeliveryChalanChildDetails(_id, content);
     setTimeout(() => {
       pdfMake.createPdf(this.PDFData).open();
       this.spinner.hide();
-    }, 1000);
+    }, 1000); */
+
+    const result = this.cmservice.openPrintModal(
+      content,
+      _id,
+      DeliveryChalanPrintComponent
+    );
+    result.content.onClose.subscribe((result: boolean) => {
+      if (result == true) {
+        this.spinner.show();
+      }
+    });
   }
 
   fetchDeliveryChalan(pageIndex = 0, pageSize = this.itemsPerPage) {
@@ -61,8 +73,9 @@ export class DeliveryChalanRegisterComponent implements OnInit {
     this.cmservice
       .fetchDetails(id, "delivery-chalan-child-details")
       .subscribe((details) => {
-        this.PDFData = this.getDocumentDefinition(content, details);
-        console.log(this.PDFData);
+        // this.PDFData = this.getDocumentDefinition(content, details);
+        // console.log(this.PDFData);
+        return details;
       });
   }
 

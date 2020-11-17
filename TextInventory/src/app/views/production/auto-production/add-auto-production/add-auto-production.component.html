@@ -1,5 +1,5 @@
 <ngx-spinner type="ball-beat" [fullScreen]="true"
-  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
 >
 <div class="animated fadeIn">
   <div class="row">
@@ -28,6 +28,26 @@
               </div>
 
               <div class="form-group col-sm-6">
+                <label for="Shade">Shade</label>
+                <select
+                  class="form-control"
+                  formControlName="Shed"
+                  (change)="fetchLoomTypes(SHEDNAME.value)"
+                  #SHEDNAME
+                >
+                  <option value="">Select SHED Name</option>
+                  <option value="{{ shed._id }}" *ngFor="let shed of shedList">
+                    {{ shed.SHED_Name }}
+                  </option>
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Shed"
+                ></app-error-message>
+              </div>
+
+              <!-- <div class="form-group col-sm-6">
                 <label for="To_Date">To Date</label>
                 <input
                   type="date"
@@ -41,33 +61,11 @@
                   class="d-block w-100"
                   [control]="To_Date"
                 ></app-error-message>
-              </div>
+              </div> -->
             </div>
 
             <div class="row">
-              <div class="form-group col-sm-4">
-                <label for="Shade">Shade</label>
-                <select
-                  class="form-control"
-                  formControlName="Shed"
-                  (change)="fetchLoomTypes(SHEDNAME.value)"
-                  #SHEDNAME
-                >
-                  <option value="">Select SHED Name</option>
-                  <option
-                    value="{{ shed._id }}"
-                    *ngFor="let shed of shedList"
-                    >{{ shed.SHED_Name }}</option
-                  >
-                </select>
-
-                <app-error-message
-                  class="d-block w-100"
-                  [control]="Shed"
-                ></app-error-message>
-              </div>
-
-              <div class="form-group col-sm-4">
+              <div class="form-group col-sm-6">
                 <label for="LoomType">Loom Type</label>
                 <select
                   class="form-control"
@@ -79,8 +77,9 @@
                   <option
                     value="{{ loomt._id }}"
                     *ngFor="let loomt of loomTypes"
-                    >{{ loomt.Loom_Type }}</option
                   >
+                    {{ loomt.Loom_Type }}
+                  </option>
                 </select>
 
                 <app-error-message
@@ -89,23 +88,33 @@
                 ></app-error-message>
               </div>
 
-              <div class="form-group col-sm-4">
+              <div class="form-group col-sm-6">
                 <label for="LoomNo">Loom No</label>
+                <!-- fetchParty(SHEDNAME.value, LOOMTYPE.value, LOOMNO.value);
+                    fetchQuality(SHEDNAME.value, LOOMTYPE.value, LOOMNO.value); 
+                  
+                    findAutoProductionDetails(
+                      SHEDNAME.value,
+                      LOOMTYPE.value,
+                      LOOMNO.value
+                    )
+                  -->
                 <select
                   class="form-control"
                   formControlName="Loom_No"
                   (change)="
-                    fetchParty(SHEDNAME.value, LOOMTYPE.value, LOOMNO.value);
-                    fetchQuality(SHEDNAME.value, LOOMTYPE.value, LOOMNO.value)
+                    findPartQuality(
+                      SHEDNAME.value,
+                      LOOMTYPE.value,
+                      LOOMNO.value
+                    )
                   "
                   #LOOMNO
                 >
                   <option value="">Select Loom No.</option>
-                  <option
-                    value="{{ loom._id }}"
-                    *ngFor="let loom of loomList"
-                    >{{ loom.Loom_No }}</option
-                  >
+                  <option value="{{ loom._id }}" *ngFor="let loom of loomList">
+                    {{ loom.Loom_No }}
+                  </option>
                 </select>
 
                 <app-error-message
@@ -118,31 +127,26 @@
             <div class="row">
               <div class="form-group col-sm-6">
                 <label for="PartyName">Party Name</label>
-                <select
-                  class="form-control"
-                  formControlName="Party_Name"
-                  (change)="
+                <!-- (change)="
                     fetchOtherDetails(
                       SHEDNAME.value,
                       LOOMTYPE.value,
                       LOOMNO.value,
                       PARTYNAME.value
-                    );
-                    findAutoProductionDetails(
-                      SHEDNAME.value,
-                      LOOMTYPE.value,
-                      LOOMNO.value,
-                      PARTYNAME.value
-                    )
-                  "
+                    ) -->
+                <select
+                  class="form-control"
+                  formControlName="Party_Name"
                   #PARTYNAME
+                  readonly
                 >
                   <option value="">Select Party Name</option>
                   <option
                     value="{{ party._id }}"
                     *ngFor="let party of partyList"
-                    >{{ party.Company_Name }}</option
                   >
+                    {{ party.Company_Name }}
+                  </option>
                 </select>
 
                 <app-error-message
@@ -153,13 +157,14 @@
 
               <div class="form-group col-sm-6">
                 <label for="Quality">Quality</label>
-                <select class="form-control" formControlName="Quality">
+                <select class="form-control" formControlName="Quality" readonly>
                   <option value="">Select Quality</option>
                   <option
                     value="{{ quality._id }}"
                     *ngFor="let quality of qualityList"
-                    >{{ quality.Design_Name }}</option
                   >
+                    {{ quality.Design_Name }}
+                  </option>
                 </select>
 
                 <app-error-message

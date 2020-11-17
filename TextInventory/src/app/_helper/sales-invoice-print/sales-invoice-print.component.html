@@ -60,12 +60,14 @@
         </p>
 
         <p class="mb-0">
-          <strong>GSTIN: </strong>{{ salesInvoiceDetails.Party_GST_No }} &nbsp;
-          <strong>STATE & CODE: </strong
-          >{{ salesInvoiceDetails.Party_State_Code }}
+          <strong>GSTIN: </strong>{{ salesInvoiceDetails.Party_GST_No }}
         </p>
         <p class="mb-0">
           <strong>PAN NO: </strong>{{ salesInvoiceDetails.Party_Pan_No }}
+        </p>
+        <p class="mb-0">
+          <strong>STATE & CODE: </strong
+          >{{ salesInvoiceDetails.Party_State_Code }}
         </p>
       </div>
     </div>
@@ -88,7 +90,9 @@
         </p>
         <p class="mb-0">
           <strong>PLACE OF DELIVERY: </strong
-          ><span class="total-due-color">XXX</span>
+          ><span class="total-due-color">{{
+            salesInvoiceDetails.Place_of_Delivery
+          }}</span>
         </p>
         <p class="mb-0">
           <strong>BROKER: </strong
@@ -240,7 +244,7 @@
           <div class="col-md-12 mb-2">
             <h5 class="amtwrd">AMOUNT IN WORDS</h5>
             <h5>
-              XXX
+              {{ salesInvoiceDetails.Amount_in_Words | uppercase }}
             </h5>
           </div>
 
@@ -248,9 +252,15 @@
             <div class="row bank-details">
               <div class="col-md-6">
                 <h5 class="font-weight-normal">BANK DETAILS</h5>
-                <h6 class="font-weight-bold bank-name">BANK NAME</h6>
-                <h6 class="font-weight-normal">ACCOUNT NO: 123</h6>
-                <h6 class="font-weight-normal">IFSC: SJHS896</h6>
+                <h6 class="font-weight-bold bank-name">
+                  {{ salesInvoiceDetails.Bank_Name }}
+                </h6>
+                <h6 class="font-weight-normal">
+                  ACCOUNT NO: {{ salesInvoiceDetails.Account_No }}
+                </h6>
+                <h6 class="font-weight-normal">
+                  IFSC: {{ salesInvoiceDetails.IFSC_Code }}
+                </h6>
               </div>
 
               <div class="col-md-6">

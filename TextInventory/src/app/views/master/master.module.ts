@@ -25,6 +25,14 @@ import { AddMasterChildComponent } from "./common-master-child/add-master-child/
 import { EditQualityComponent } from "./quality-master/edit-quality/edit-quality.component";
 import { CompanyMasterComponent } from "./company-master/company-master.component";
 import { AddCompanyMasterComponent } from "./company-master/add-company-master/add-company-master.component";
+import { YarnContractComponent } from "./contract-master/yarn-contract/yarn-contract.component";
+import { SalesContractComponent } from './contract-master/sales-contract/sales-contract.component';
+import { InwardContractComponent } from './contract-master/job-contract/inward-contract/inward-contract.component';
+import { OutwardContractComponent } from './contract-master/job-contract/outward-contract/outward-contract.component';
+import { AddYarnContractComponent } from './contract-master/yarn-contract/add-yarn-contract/add-yarn-contract.component';
+import { AddSalesContractComponent } from './contract-master/sales-contract/add-sales-contract/add-sales-contract.component';
+import { AddInwardContractComponent } from './contract-master/job-contract/inward-contract/add-inward-contract/add-inward-contract.component';
+import { AddOutwardContractComponent } from './contract-master/job-contract/outward-contract/add-outward-contract/add-outward-contract.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +59,14 @@ import { AddCompanyMasterComponent } from "./company-master/add-company-master/a
     EditQualityComponent,
     CompanyMasterComponent,
     AddCompanyMasterComponent,
+    YarnContractComponent,
+    SalesContractComponent,
+    InwardContractComponent,
+    OutwardContractComponent,
+    AddYarnContractComponent,
+    AddSalesContractComponent,
+    AddInwardContractComponent,
+    AddOutwardContractComponent,
   ],
   imports: [MasterRoutingModule, SharedModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

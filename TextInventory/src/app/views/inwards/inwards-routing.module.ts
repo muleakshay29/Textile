@@ -10,6 +10,7 @@ import { AddWindingInwardComponent } from "./winding-inward/add-winding-inward/a
 import { AddYarnOutwardComponent } from "./yarn-outward/add-yarn-outward/add-yarn-outward.component";
 import { WindingOutwardComponent } from "./winding-outward/winding-outward.component";
 import { AddWindingOutwardComponent } from "./winding-outward/add-winding-outward/add-winding-outward.component";
+import { AuthGuard } from "../../_guards/auth.guard";
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
         path: "",
         redirectTo: "winding-inward",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "winding-inward",
@@ -29,6 +31,7 @@ const routes: Routes = [
         data: {
           title: "Winding Inward",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-winding-inward",
@@ -36,6 +39,7 @@ const routes: Routes = [
         data: {
           title: "Winding Inward",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-winding-inward/:id",
@@ -43,6 +47,7 @@ const routes: Routes = [
         data: {
           title: "Winding Inward",
         },
+        canActivate: [AuthGuard],
       },
 
       {
@@ -51,6 +56,7 @@ const routes: Routes = [
         data: {
           title: "Winding outward",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-winding-outward",
@@ -58,6 +64,7 @@ const routes: Routes = [
         data: {
           title: "Winding outward",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-winding-outward/:id",
@@ -65,6 +72,7 @@ const routes: Routes = [
         data: {
           title: "Winding outward",
         },
+        canActivate: [AuthGuard],
       },
 
       {
@@ -73,6 +81,7 @@ const routes: Routes = [
         data: {
           title: "Yarn Inward",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-yarn-inward",
@@ -80,6 +89,7 @@ const routes: Routes = [
         data: {
           title: "Yarn Inward",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-yarn-inward/:id",
@@ -87,6 +97,7 @@ const routes: Routes = [
         data: {
           title: "Yarn Inward",
         },
+        canActivate: [AuthGuard],
       },
 
       {
@@ -95,6 +106,7 @@ const routes: Routes = [
         data: {
           title: "Yarn Inward Invoice",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-yarn-inward-invoice",
@@ -102,6 +114,7 @@ const routes: Routes = [
         data: {
           title: "Yarn Inward Invoice",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-yarn-inward-invoice/:id",
@@ -109,6 +122,7 @@ const routes: Routes = [
         data: {
           title: "Yarn Inward Invoice",
         },
+        canActivate: [AuthGuard],
       },
 
       {
@@ -117,6 +131,7 @@ const routes: Routes = [
         data: {
           title: "Yarn Outward",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-yarn-outward",
@@ -124,6 +139,7 @@ const routes: Routes = [
         data: {
           title: "Yarn Outward",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-yarn-outward/:id",
@@ -131,6 +147,7 @@ const routes: Routes = [
         data: {
           title: "Yarn Outward",
         },
+        canActivate: [AuthGuard],
       },
     ],
   },

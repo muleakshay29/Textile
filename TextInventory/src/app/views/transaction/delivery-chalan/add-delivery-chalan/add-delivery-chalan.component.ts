@@ -37,6 +37,7 @@ export class AddDeliveryChalanComponent implements OnInit {
   totalWeftConsumption = 0;
   chalanNo: number;
   deliveryChalanDetails: [];
+  contractList = [];
 
   constructor(
     private fb: FormBuilder,
@@ -56,6 +57,7 @@ export class AddDeliveryChalanComponent implements OnInit {
     this.fetchFirm();
     this.fetchBroker();
     this.getItemCount();
+    // this.fetchContract();
 
     this.route.params.subscribe((params: Params) => {
       this.deliveryChalanID = params["id"] ? params["id"] : "";
@@ -75,12 +77,14 @@ export class AddDeliveryChalanComponent implements OnInit {
       Place: ["", Validators.required],
       Bales: [this.defaultValue, Validators.required],
       Pieces: [this.defaultValue],
+      Folding: [this.defaultValue, Validators.required],
       Meters: [this.defaultValue],
       Sample_Cut_Pieces: [this.defaultValue, Validators.required],
       Design: ["", Validators.required],
       Shade_Name: ["", Validators.required],
       Total_Warf_Consumption: [this.defaultValue],
       Total_Weft_Consumption: [this.defaultValue],
+      Contract: ["", Validators.required],
     });
   }
 
@@ -101,6 +105,10 @@ export class AddDeliveryChalanComponent implements OnInit {
     ).toUpperCase();
 
     // this.Chalan_No.patchValue(this.invoiceNo);
+  }
+
+  get Contract() {
+    return this.deliveryChalan.get("Contract");
   }
 
   get Chalan_No() {
@@ -125,6 +133,10 @@ export class AddDeliveryChalanComponent implements OnInit {
 
   get Place() {
     return this.deliveryChalan.get("Place");
+  }
+
+  get Folding() {
+    return this.deliveryChalan.get("Folding");
   }
 
   get Bales() {
@@ -344,12 +356,16 @@ export class AddDeliveryChalanComponent implements OnInit {
           const formatedDate =
             formatedfromYear + "-" + formatedfromMonth + "-" + formatedfromDay;
 
+          this.fetchContract(details.Party_Name);
+
           this.deliveryChalan.setValue({
             Chalan_No: details.Chalan_No,
             Date: formatedDate,
             Firm_Name: details.Firm_Name,
             Broker_Name: details.Broker_Name,
             Party_Name: details.Party_Name,
+            Contract: details.Contract || 0,
+            Folding: details.Folding || 0,
             Place: details.Place,
             Bales: details.Bales,
             Pieces: details.Pieces,
@@ -410,6 +426,19 @@ export class AddDeliveryChalanComponent implements OnInit {
     });
   }
 
+  fetchContract(party) {
+    this.contractList = [];
+    this.commonservice
+      .findData({ Party_Name: party }, "find-party-inward-job-contract")
+      .subscribe((list) => {
+        if (list.length > 0) {
+          this.contractList = list;
+        } else {
+          this.Contract.patchValue(0);
+        }
+      });
+  }
+
   fetchShed(quality) {
     this.commonservice
       .findData({ Quality: quality }, "fetch-shed-frm-quality")
@@ -438,13 +467,16 @@ export class AddDeliveryChalanComponent implements OnInit {
       });
   }
 
-  calculateDetails(TAGA, e) {
+  calculateDetails(TAGA, e, folding = 0) {
+    // const foldingValue = folding ? folding : this.Folding.value;
     const checkUncheck = e.target.checked;
 
     if (checkUncheck == true) {
-      this.totalMtrs += TAGA.TAGA_Meter;
+      this.totalMtrs +=
+        this.Folding.value > 0
+          ? (TAGA.TAGA_Meter / 100) * this.Folding.value
+          : TAGA.TAGA_Meter;
       this.checkboxCounter++;
-      this.SelectedTagaStockDetails.push(TAGA);
 
       this.warfList.forEach((element) => {
         const warfConusmtion = element.PER_METER * this.totalMtrs;
@@ -461,7 +493,13 @@ export class AddDeliveryChalanComponent implements OnInit {
       if (this.totalMtrs <= 0) {
         this.totalMtrs = 0;
       } else {
-        this.totalMtrs -= TAGA.TAGA_Meter;
+        // this.totalMtrs -= TAGA.TAGA_Meter;
+        this.totalMtrs -=
+          this.Folding.value > 0
+            ? (TAGA.TAGA_Meter / 100) * this.Folding.value
+            : TAGA.TAGA_Meter;
+
+        this.totalMtrs = this.totalMtrs <= 0 ? 0 : +this.totalMtrs;
       }
       this.checkboxCounter--;
 

@@ -1,0 +1,352 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="salesContract" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Yarn Contract</span>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="ContractNumber">Contract Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Contract Number"
+                  formControlName="Contract_No"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Contract_No"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="Date">Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="Date"
+                  formControlName="Date"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Date"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="PartyName">Party Name</label>
+              <select class="form-control" formControlName="Party_Name">
+                <option value="">Select Party Name</option>
+                <option value="{{ party._id }}" *ngFor="let party of partyList">
+                  {{ party.Company_Name }}
+                </option>
+              </select>
+
+              <app-error-message
+                class="d-block w-100"
+                [control]="Party_Name"
+              ></app-error-message>
+            </div>
+
+            <div class="form-group">
+              <label for="BrokerName">Broker Name</label>
+              <select class="form-control" formControlName="Broker_Name">
+                <option value="">Select Broker</option>
+                <option
+                  value="{{ broker._id }}"
+                  *ngFor="let broker of brokerList"
+                >
+                  {{ broker.Broker_Name }}
+                </option>
+              </select>
+
+              <app-error-message
+                class="d-block w-100"
+                [control]="Broker_Name"
+              ></app-error-message>
+            </div>
+
+            <div class="form-group">
+              <label for="Quality">Quality</label>
+              <select class="form-control" formControlName="Quality">
+                <option value="">Select Quality</option>
+                <option
+                  value="{{ quality._id }}"
+                  *ngFor="let quality of qualityList"
+                >
+                  {{ quality.Design_Name }}
+                </option>
+              </select>
+
+              <app-error-message
+                class="d-block w-100"
+                [control]="Quality"
+              ></app-error-message>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <label for="Phani">Phani</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Phani"
+                  formControlName="Phani"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Phani"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="Pick">Pick</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Pick"
+                  formControlName="Pick"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Pick"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="Panha">Panha</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Pannha"
+                  formControlName="Pannha"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Pannha"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <label for="Tage">Tage</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Tage"
+                  formControlName="Tage"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Tage"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="Weight">Weight</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Weight"
+                  formControlName="Weight"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Weight"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="Cuts">Cuts</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Cuts"
+                  formControlName="Cuts"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Cuts"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="Meters">Meters</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Meters"
+                formControlName="Meters"
+              />
+
+              <app-error-message
+                class="d-block w-100"
+                [control]="Meters"
+              ></app-error-message>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <label for="Rate">Rate</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Rate"
+                  formControlName="Rate"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Rate"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="GST">GST</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="GST"
+                  formControlName="GST"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="GST"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="RatewithGST">Rate with GST</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Rate With GST"
+                  formControlName="Rate_with_GST"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Rate_with_GST"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="DeliveryPeriod">Delivery Period</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="Delivery Period"
+                  formControlName="Delivery_Period"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Delivery_Period"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="PaymentDays">Payment Days</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Payment Days"
+                  formControlName="Payment_Days"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Payment_Days"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <label for="Warf">Warf</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Warf"
+                  formControlName="Warf"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Warf"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="Weft">Weft</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Weft"
+                  formControlName="Weft"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Weft"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="Brokrage">Brokrage</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Brokrage"
+                  formControlName="Brokrage"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Brokrage"
+                ></app-error-message>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!salesContract.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> Submit
+            </button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

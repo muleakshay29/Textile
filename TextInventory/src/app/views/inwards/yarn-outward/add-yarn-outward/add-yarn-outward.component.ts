@@ -35,6 +35,7 @@ export class AddYarnOutwardComponent implements OnInit {
   redusedWeight = 0;
   availableStockData: any = [];
   availableOutwardStock: any = [];
+  contractList = [];
 
   constructor(
     private fb: FormBuilder,
@@ -53,6 +54,7 @@ export class AddYarnOutwardComponent implements OnInit {
     this.fetchYarn();
     this.fetchSutType("5ead05572a1e063f14ea6c17");
     this.fetchPkg("5ead05672a1e063f14ea6c18");
+    // this.fetchContract();
 
     this.route.params.subscribe((params: Params) => {
       this.yarnOutwardID = params["id"] ? params["id"] : "";
@@ -94,6 +96,7 @@ export class AddYarnOutwardComponent implements OnInit {
       KON: [this.defaultZero],
       WEIGHT: [this.defaultZero],
       Package_Type: ["", Validators.required],
+      Contract: ["", Validators.required],
     });
   }
 
@@ -105,6 +108,10 @@ export class AddYarnOutwardComponent implements OnInit {
       .subscribe((result) => {
         this.Year_Id = result[0]._id;
       });
+  }
+
+  get Contract() {
+    return this.yarnOutward.get("Contract");
   }
 
   get GETPASS_NO() {
@@ -290,11 +297,14 @@ export class AddYarnOutwardComponent implements OnInit {
           const getpassDate =
             getpassYear + "-" + getpassMonth + "-" + getpassDay;
 
+          this.fetchContract(details.Party_Name);
+
           this.yarnOutward.setValue({
             GETPASS_NO: details.GETPASS_NO,
             Date: getpassDate,
             Party_Name: details.Party_Name,
             Shed_Name: details.Shed_Name,
+            Contract: details.Contract,
             SUT_Name: details.SUT_Name,
             SUT_Type: details.SUT_Type,
             Color: details.Color,
@@ -358,6 +368,19 @@ export class AddYarnOutwardComponent implements OnInit {
       .fetchDataFrom(_id, "fetch-commonchild-fromCM")
       .subscribe((list) => {
         this.pkgList = list;
+      });
+  }
+
+  fetchContract(party) {
+    this.contractList = [];
+    this.cmaster
+      .findData({ Party_Name: party }, "find-party-inward-job-contract")
+      .subscribe((list) => {
+        if (list.length > 0) {
+          this.contractList = list;
+        } else {
+          this.Contract.patchValue(0);
+        }
       });
   }
 

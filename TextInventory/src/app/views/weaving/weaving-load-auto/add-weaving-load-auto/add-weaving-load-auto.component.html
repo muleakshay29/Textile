@@ -1,5 +1,5 @@
 <ngx-spinner type="ball-beat" [fullScreen]="true"
-  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
 >
 <div class="animated fadeIn">
   <div class="row">
@@ -36,11 +36,9 @@
                   #SHEDNAME
                 >
                   <option value="">Select SHED Name</option>
-                  <option
-                    value="{{ shed._id }}"
-                    *ngFor="let shed of shedList"
-                    >{{ shed.SHED_Name }}</option
-                  >
+                  <option value="{{ shed._id }}" *ngFor="let shed of shedList">
+                    {{ shed.SHED_Name }}
+                  </option>
                 </select>
 
                 <app-error-message
@@ -60,11 +58,9 @@
                   #LOOMTYPE
                 >
                   <option value="">Select Loom Type</option>
-                  <option
-                    value="{{ loom._id }}"
-                    *ngFor="let loom of loomTypes"
-                    >{{ loom.Loom_Type }}</option
-                  >
+                  <option value="{{ loom._id }}" *ngFor="let loom of loomTypes">
+                    {{ loom.Loom_Type }}
+                  </option>
                 </select>
 
                 <app-error-message
@@ -85,11 +81,9 @@
                   #LOOMNO
                 >
                   <option value="">Select Loom No.</option>
-                  <option
-                    value="{{ loom._id }}"
-                    *ngFor="let loom of loomList"
-                    >{{ loom.Loom_No }}</option
-                  >
+                  <option value="{{ loom._id }}" *ngFor="let loom of loomList">
+                    {{ loom.Loom_No }}
+                  </option>
                 </select>
 
                 <app-error-message
@@ -108,12 +102,14 @@
                   #QUALITY
                   (change)="fetchParty(QUALITY.value)"
                 >
+                  <!-- fetchBeamInward(QUALITY.value) -->
                   <option value="">Select Quality</option>
                   <option
                     value="{{ quality._id }}"
                     *ngFor="let quality of qualityList"
-                    >{{ quality.Design_Name }}</option
                   >
+                    {{ quality.Design_Name }}
+                  </option>
                 </select>
 
                 <app-error-message
@@ -127,14 +123,16 @@
                 <select
                   class="form-control"
                   formControlName="Party_Name"
+                  (change)="fetchBeamInward(QUALITY.value, PARTYNAME.value)"
                   #PARTYNAME
                 >
                   <option value="">Select Party Name</option>
                   <option
                     value="{{ party._id }}"
                     *ngFor="let party of partyList"
-                    >{{ party.Company_Name }}</option
                   >
+                    {{ party.Company_Name }}
+                  </option>
                 </select>
 
                 <app-error-message
@@ -156,8 +154,9 @@
                   <option
                     value="{{ sat }}"
                     *ngFor="let sat of satList; let i = index"
-                    >{{ sat }}</option
                   >
+                    {{ sat }}
+                  </option>
                 </select>
 
                 <app-error-message
@@ -170,9 +169,9 @@
                 <label for="BINO">BI NO</label>
                 <select class="form-control" formControlName="BI_NO">
                   <option value="">Select BI NO</option>
-                  <option value="{{ bi.BI_Code }}" *ngFor="let bi of biList"
-                    >Beam No - {{ bi.BI_No }}</option
-                  >
+                  <option value="{{ bi.BI_Code }}" *ngFor="let bi of biList">
+                    {{ bi.BI_No }}
+                  </option>
                 </select>
 
                 <app-error-message

@@ -6,7 +6,7 @@ export const navItems: INavData[] = [
     url: "/dashboard",
     icon: "icon-chart",
   },
-  {
+  /* {
     name: "Admin Specific",
     url: "/masters/common-master",
     icon: "icon-arrow-right",
@@ -21,13 +21,8 @@ export const navItems: INavData[] = [
         url: "/masters/common-master-child",
         icon: "icon-cursor",
       },
-      /* {
-        name: "Company Master",
-        url: "/masters/company-master",
-        icon: "icon-cursor",
-      }, */
     ],
-  },
+  }, */
   {
     name: "Masters",
     url: "/masters/yarn-master",
@@ -72,6 +67,40 @@ export const navItems: INavData[] = [
         name: "Account Master",
         url: "/masters/account-master",
         icon: "icon-cursor",
+      },
+      {
+        name: "Contract Master",
+        url: "/masters/yarn-contract",
+        icon: "icon-arrow-right",
+        children: [
+          {
+            name: "Yarn Contract",
+            url: "/masters/yarn-contract",
+            icon: "icon-cursor",
+          },
+          {
+            name: "Job Contract",
+            url: "/masters/inward-job-contract",
+            icon: "icon-cursor",
+            children: [
+              {
+                name: "Inward",
+                url: "/masters/inward-job-contract",
+                icon: "icon-cursor",
+              },
+              {
+                name: "Outward",
+                url: "/masters/outward-job-contract",
+                icon: "icon-cursor",
+              },
+            ],
+          },
+          {
+            name: "Sales Contract",
+            url: "/masters/sales-contract",
+            icon: "icon-cursor",
+          },
+        ],
       },
     ],
   },
@@ -143,11 +172,11 @@ export const navItems: INavData[] = [
     url: "/weaving/weaving-mag",
     icon: "icon-arrow-right",
     children: [
-      {
+      /* {
         name: "Weaving Load (Mag)",
         url: "/weaving/weaving-mag",
         icon: "icon-cursor",
-      },
+      }, */
       {
         name: "Weaving Load (Auto)",
         url: "/weaving/weaving-auto",

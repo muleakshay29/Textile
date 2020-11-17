@@ -25,6 +25,7 @@ export class AddBeamInwardComponent implements OnInit {
   qualityList = [];
   defaultZero: number = 0;
   beamErr = 0;
+  contractList = [];
 
   constructor(
     private fb: FormBuilder,
@@ -43,6 +44,7 @@ export class AddBeamInwardComponent implements OnInit {
     this.fetchShed();
     this.fetchBroker();
     this.fetchQuality();
+    // this.fetchContract();
 
     this.route.params.subscribe((params: Params) => {
       this.beamInwardID = params["id"] ? params["id"] : "";
@@ -56,7 +58,7 @@ export class AddBeamInwardComponent implements OnInit {
     return this.fb.group({
       F_No: ["", Validators.required],
       Meaters: ["", Validators.required],
-      Weaver: ["", Validators.required],
+      Weaver: [""],
       Quality: ["", Validators.required],
       BI_Code: [this.generateBICode(), Validators.required],
     });
@@ -80,10 +82,11 @@ export class AddBeamInwardComponent implements OnInit {
   createForm() {
     this.beamInward = this.fb.group({
       SAT_NO: ["", Validators.required],
-      Invoice_No: [
+      /* Invoice_No: [
         this.invoiceNo,
         [Validators.required, Validations.alphaNumericPattern],
-      ],
+      ], */
+      Invoice_No: ["", Validations.alphaNumericPattern],
       Date: ["", Validators.required],
       Party_Name: ["", Validators.required],
       Sizing_Name: ["", Validators.required],
@@ -103,8 +106,9 @@ export class AddBeamInwardComponent implements OnInit {
       Rate_Pick: [this.defaultZero],
       // Quality: ["", Validators.required],
       Shed: ["", Validators.required],
-      Broker: [this.defaultZero],
+      Broker: ["", Validators.required],
       beamList: this.fb.array([this.createBeam()]),
+      Contract: ["", Validators.required],
     });
 
     this.beamList = this.beamInward.get("beamList") as FormArray;
@@ -125,6 +129,10 @@ export class AddBeamInwardComponent implements OnInit {
       Math.random().toString(36).substring(2, 5)
     ).toUpperCase();
     return bicode;
+  }
+
+  get Contract() {
+    return this.beamInward.get("Contract");
   }
 
   get SAT_NO() {
@@ -423,12 +431,21 @@ export class AddBeamInwardComponent implements OnInit {
           const formatedDate =
             formatedYear + "-" + formatedMonth + "-" + formatedDay;
 
+          let setContract = "";
+          if (details.Contract) {
+            setContract = details.Contract;
+          } else {
+            details.Contract = 0;
+          }
+          this.fetchContract(details.Party_Name);
+
           this.beamInward.setValue({
             SAT_NO: details.SAT_NO,
             Invoice_No: details.Invoice_No,
             Date: formatedDate,
             Party_Name: details.Party_Name,
             Sizing_Name: details.Sizing_Name,
+            Contract: setContract,
             COUNT: details.COUNT,
             Yarn_Source: details.Yarn_Source,
             WARP: details.WARP,
@@ -517,6 +534,19 @@ export class AddBeamInwardComponent implements OnInit {
     this.cmaster.fetchData(0, 0, "fetch-quality").subscribe((list) => {
       this.qualityList = list;
     });
+  }
+
+  fetchContract(party) {
+    this.contractList = [];
+    this.cmaster
+      .findData({ Party_Name: party }, "find-party-inward-job-contract")
+      .subscribe((list) => {
+        if (list.length > 0) {
+          this.contractList = list;
+        } else {
+          this.Contract.patchValue(0);
+        }
+      });
   }
 
   onCancel() {

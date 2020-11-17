@@ -39,9 +39,6 @@ export class AddWeavingLoadAutoComponent implements OnInit {
     this.getYearId();
     this.fetchShed();
     this.fetchQuality();
-    // this.fetchParty();
-    // this.fetchLoomTypes("5ea1271697f4150c8cf37a52");
-    // this.fetchBeamInward();
 
     this.route.params.subscribe((params: Params) => {
       this.weavingLoadAutoID = params["id"] ? params["id"] : "";
@@ -182,6 +179,7 @@ export class AddWeavingLoadAutoComponent implements OnInit {
           this.fetchParty(details.Quality);
           this.fetchLoomNo("", details.Shed);
           this.fetchBeamDetails("", details.SAT_NO, details.Shed);
+          this.fetchBeamInward(details.Quality, details.Party_Name);
 
           this.weavingLoadAuto.setValue({
             Date: formatedDate,
@@ -219,37 +217,57 @@ export class AddWeavingLoadAutoComponent implements OnInit {
                 _id: result._id,
                 Loom_Type: result.CMC_Name,
               });
-
-              this.fetchBeamInward(shed);
             });
         });
       });
   }
 
   fetchLoomNoList(shed = "", loomtype = "") {
+    this.spinner.show();
     this.cmaster
       .findData({ SHED_Name: shed, Loom_Type: loomtype }, "fetch-common-loomno")
       .subscribe((list) => {
+        this.loomList = [];
         list.forEach((element) => {
           this.cmaster
-            .findData(
-              { Loom_No: element, SHED_Name: shed, Loom_Type: loomtype },
-              "find-loom_no"
-            )
-            .subscribe((result) => {
-              this.loomList = [];
-              this.cmaster
-                .findData({ Loom_No: result[0]._id }, "find-loom-weaving-auto")
-                .subscribe((loom) => {
-                  if (loom.length == 0) {
-                    this.loomList.push({
-                      _id: result[0]._id,
-                      Loom_No: result[0].Loom_No,
-                    });
-                  }
+            .findData({ Loom_No: element._id }, "find-loom-weaving-auto")
+            .subscribe((loom) => {
+              if (loom.length > 0) {
+                this.cmaster
+                  .findData(
+                    {
+                      Shed: shed,
+                      Loom_Type: loomtype,
+                      Loom_No: element._id,
+                    },
+                    "find-distinct-auto-production-details"
+                  )
+                  .subscribe((prodDetails) => {
+                    if (
+                      Array.isArray(prodDetails) &&
+                      prodDetails.length &&
+                      prodDetails[0].Unload_Beam
+                    ) {
+                      this.loomList.push({
+                        _id: element._id,
+                        Loom_No: element.Loom_No,
+                      });
+                    }
+                  });
+              }
+
+              if (loom.length == 0) {
+                this.loomList.push({
+                  _id: element._id,
+                  Loom_No: element.Loom_No,
                 });
+              }
+
+              this.loomList.sort();
             });
         });
+
+        this.spinner.hide();
       });
   }
 
@@ -257,11 +275,11 @@ export class AddWeavingLoadAutoComponent implements OnInit {
     this.cmaster
       .findData({ Quality: quality }, "fetch-beam-inward-party")
       .subscribe((list) => {
+        this.partyList = [];
         list.forEach((element) => {
           this.cmaster
             .fetchDetails(element, "party-details")
             .subscribe((result) => {
-              this.partyList = [];
               this.partyList.push({
                 _id: result._id,
                 Company_Name: result.Company_Name,
@@ -277,9 +295,12 @@ export class AddWeavingLoadAutoComponent implements OnInit {
     });
   }
 
-  fetchBeamInward(SHED_Name) {
+  fetchBeamInward(quality, party) {
     this.cmaster
-      .findData({ Shed: SHED_Name }, "fetch-sat")
+      .findData(
+        { Quality: quality, Party_Name: party },
+        "fetch-sat-quality-party"
+      )
       .subscribe((list) => {
         this.satList = list;
       });
@@ -287,7 +308,6 @@ export class AddWeavingLoadAutoComponent implements OnInit {
 
   fetchLoomNo(event, shed = "") {
     if (this.editMode) {
-      this.fetchBeamInward(shed);
       this.cmaster
         .findData({ SHED_Name: shed }, "find-all-looms")
         .subscribe((result) => {
@@ -295,7 +315,6 @@ export class AddWeavingLoadAutoComponent implements OnInit {
         });
     } else {
       const shed = event.target.value;
-      this.fetchBeamInward(shed);
       this.cmaster
         .findData({ SHED_Name: shed }, "find-all-looms")
         .subscribe((result) => {
@@ -307,7 +326,8 @@ export class AddWeavingLoadAutoComponent implements OnInit {
   fetchBeamDetails(event, satno = "", shed = "") {
     if (this.editMode) {
       this.cmaster
-        .findData({ SAT_NO: satno, Shed: shed }, "beam-details")
+        .findData({ SAT_NO: satno }, "beam-details")
+        // .findData({ SAT_NO: satno, Shed: shed }, "beam-details")
         .subscribe((result) => {
           this.biList = result;
         });
@@ -316,7 +336,8 @@ export class AddWeavingLoadAutoComponent implements OnInit {
       const shed = this.Shed.value;
 
       this.cmaster
-        .findData({ SAT_NO: satno, Shed: shed }, "fetch-common-beams")
+        .findData({ SAT_NO: satno }, "fetch-common-beams")
+        // .findData({ SAT_NO: satno, Shed: shed }, "fetch-common-beams")
         .subscribe((list) => {
           list.forEach((element) => {
             this.cmaster
@@ -335,7 +356,7 @@ export class AddWeavingLoadAutoComponent implements OnInit {
                   .subscribe((beam) => {
                     if (beam.length == 0) {
                       this.biList.push({
-                        BI_No: result[0].BI_No,
+                        BI_No: "Beam No-" + satno + "-" + result[0].BI_No,
                         BI_Code: result[0].BI_Code,
                       });
                     }

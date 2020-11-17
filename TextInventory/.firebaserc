@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "textile-app-6e0e0"
+  },
+  "targets": {
+    "textile-app-6e0e0": {
+      "hosting": {
+        "ng": [
+          "textile-app-6e0e0"
+        ]
+      }
+    }
   }
 }

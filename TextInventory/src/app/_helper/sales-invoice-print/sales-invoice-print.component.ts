@@ -3,6 +3,7 @@ import { BsModalRef } from "ngx-bootstrap/modal";
 import { Subject } from "rxjs";
 import { CommonService } from "../../_services/common.service";
 import { NgxSpinnerService } from "ngx-spinner";
+var converter = require("number-to-words");
 
 @Component({
   selector: "app-sales-invoice-print",
@@ -56,6 +57,10 @@ export class SalesInvoicePrintComponent implements OnInit {
     IGST_Amt: null,
     Round_Off: null,
     Grand_Total: null,
+    Amount_in_Words: null,
+    Bank_Name: null,
+    Account_No: null,
+    IFSC_Code: null,
   };
   salesInvoiceID: string;
   _id: string;
@@ -76,61 +81,85 @@ export class SalesInvoicePrintComponent implements OnInit {
     this.commonservice
       .fetchDetails(this._id, "sales-invoice-details")
       .subscribe((details) => {
-        const invoiceData = {
-          Firm_Name: details.From_Party["Company_Name"],
-          Firm_Address: details.From_Party.Address,
-          Firm_Mobile: details.From_Party.Mobile_No,
-          Firm_Alternate_No: details.From_Party.Alternate_No,
-          Firm_GST_No: details.From_Party.GST_No,
-          Firm_Pan_No: details.From_Party.Pan_No,
-          Party_Name: details.To_Party.Company_Name,
-          Party_Address: details.To_Party.Address,
-          Party_GST_No: details.To_Party.GST_No,
-          Party_Pan_No: details.To_Party.Pan_No,
-          Party_State_Code: "",
-          Total_Due: "XXX",
-          Invoice_No: details.Invoice_No,
-          Date: details.Date,
-          Place_of_Delivery: "XXX",
-          Broker_Name: details.Broker_Name.Broker_Name,
-          DC_NO: details.DC_NO,
-          Quality: details.Quality.Design_Name,
-          Loom_No: details.Loom_No,
-          HSN_NO: details.HSN_NO,
-          No_Of_Pieces: details.No_Of_Pieces,
-          Total_Meters: details.Total_Meters,
-          Rate: details.Rate,
-          Total_Amount: details.Total_Amount,
-          Packing: details.Packing,
-          Checking: details.Checking,
-          Packing_Other: details.Packing_Other,
-          ADD:
-            Number(details.Packing) +
-            Number(details.Checking) +
-            Number(details.Packing_Other),
-          Second: details.Second,
-          TP: details.TP,
-          SL: details.SL,
-          FOLD: details.FOLD,
-          Second_Other: details.Second_Other,
-          LESS:
-            Number(details.Second) +
-            Number(details.TP) +
-            Number(details.SL) +
-            Number(details.FOLD) +
-            Number(details.Second_Other),
-          Taxable_Amount: details.Taxable_Amount,
-          CGST: details.CGST,
-          CGST_Amt: details.CGST_Amt,
-          SGST: details.SGST,
-          SGST_Amt: details.SGST_Amt,
-          IGST: details.IGST,
-          IGST_Amt: details.IGST_Amt,
-          Round_Off: details.Round_Off,
-          Grand_Total: details.Grand_Total,
-        };
-        this.salesInvoiceDetails = invoiceData;
-        this.spinner.hide();
+        this.commonservice
+          .findData(
+            {
+              InvoiceNo: details.Invoice_No,
+              SalesUniqueCod: details.UniqueCode,
+            },
+            "find-delivery-chalan-details"
+          )
+          .subscribe((deliveryChalan) => {
+            const invoiceData = {
+              Firm_Name: details.From_Party["Company_Name"],
+              Firm_Address: details.From_Party.Address,
+              Firm_Mobile: details.From_Party.Mobile_No,
+              Firm_Alternate_No: details.From_Party.Alternate_No,
+              Firm_GST_No: details.From_Party.GST_No,
+              Firm_Pan_No: details.From_Party.Pan_No,
+              Party_Name: details.To_Party.Company_Name,
+              Party_Address: details.To_Party.Address,
+              Party_GST_No: details.To_Party.GST_No,
+              Party_Pan_No: details.To_Party.Pan_No,
+              Party_State_Code: details.To_Party.State.CMC_Name,
+              Total_Due: details.Grand_Total,
+              Invoice_No: details.Invoice_No,
+              Date: details.Date,
+              Place_of_Delivery: deliveryChalan[0].Place,
+              Broker_Name: details.Broker_Name.Broker_Name,
+              DC_NO: details.DC_NO,
+              Quality: details.Quality.Design_Name,
+              Loom_No: details.Loom_No,
+              HSN_NO: details.HSN_NO,
+              No_Of_Pieces: details.No_Of_Pieces,
+              Total_Meters: details.Total_Meters,
+              Rate: details.Rate,
+              Total_Amount: details.Total_Amount,
+              Packing: details.Packing,
+              Checking: details.Checking,
+              Packing_Other: details.Packing_Other,
+              ADD:
+                Number(details.Packing) +
+                Number(details.Checking) +
+                Number(details.Packing_Other),
+              Second: details.Second,
+              TP: details.TP,
+              SL: details.SL,
+              FOLD: details.FOLD,
+              Second_Other: details.Second_Other,
+              LESS:
+                Number(details.Second) +
+                Number(details.TP) +
+                Number(details.SL) +
+                Number(details.FOLD) +
+                Number(details.Second_Other),
+              Taxable_Amount: details.Taxable_Amount,
+              CGST: details.CGST,
+              CGST_Amt: details.CGST_Amt,
+              SGST: details.SGST,
+              SGST_Amt: details.SGST_Amt,
+              IGST: details.IGST,
+              IGST_Amt: details.IGST_Amt,
+              Round_Off: details.Round_Off,
+              Grand_Total: details.Grand_Total,
+              Amount_in_Words: converter.toWords(details.Grand_Total),
+              Bank_Name:
+                details.From_Party.Bank_Name == ""
+                  ? " - "
+                  : details.From_Party.Bank_Name,
+              Account_No:
+                details.From_Party.Account_No == ""
+                  ? " - "
+                  : details.From_Party.Account_No,
+              IFSC_Code:
+                details.From_Party.IFSC_Code == ""
+                  ? " - "
+                  : details.From_Party.IFSC_Code,
+            };
+
+            this.salesInvoiceDetails = invoiceData;
+            this.spinner.hide();
+          });
       });
   }
 }

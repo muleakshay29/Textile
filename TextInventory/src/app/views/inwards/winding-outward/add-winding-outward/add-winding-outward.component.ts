@@ -25,6 +25,7 @@ export class AddWindingOutwardComponent implements OnInit {
   konTotal = 0;
   weightTotal = 0;
   selectedSUT;
+  contractList = [];
 
   constructor(
     private fb: FormBuilder,
@@ -42,6 +43,7 @@ export class AddWindingOutwardComponent implements OnInit {
     this.fetchShed();
     this.fetchYarn();
     this.fetchSutType("5ead05572a1e063f14ea6c17");
+    this.fetchContract();
 
     this.route.params.subscribe((params: Params) => {
       this.windingOutwardID = params["id"] ? params["id"] : "";
@@ -70,6 +72,7 @@ export class AddWindingOutwardComponent implements OnInit {
       Bag_TOTAL: [this.defaultZero],
       Kon_TOTAL: [this.defaultZero],
       Weight_TOTAL: [this.defaultZero],
+      Contract: ["", Validators.required],
     });
   }
 
@@ -81,6 +84,10 @@ export class AddWindingOutwardComponent implements OnInit {
       .subscribe((result) => {
         this.Year_Id = result[0]._id;
       });
+  }
+
+  get Contract() {
+    return this.windingOutward.get("Contract");
   }
 
   get GETPASS() {
@@ -221,6 +228,7 @@ export class AddWindingOutwardComponent implements OnInit {
             Date: formatedDate,
             Party_Name: details.Party_Name,
             Shed_Name: details.Shed_Name,
+            Contract: details.Contract,
             SUT_Name: details.SUT_Name,
             SUT_Type: details.SUT_Type,
             Color: details.Color,
@@ -263,6 +271,14 @@ export class AddWindingOutwardComponent implements OnInit {
       .fetchDataFrom(_id, "fetch-commonchild-fromCM")
       .subscribe((list) => {
         this.sutTypeList = list;
+      });
+  }
+
+  fetchContract() {
+    this.cmaster
+      .fetchData(0, 0, "fetch-outward-job-contract")
+      .subscribe((list) => {
+        this.contractList = list;
       });
   }
 

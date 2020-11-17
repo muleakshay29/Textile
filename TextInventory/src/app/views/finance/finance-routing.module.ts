@@ -13,6 +13,7 @@ import { SalesReceiptRegisterComponent } from "./sales-receipt-register/sales-re
 import { AddSalesReceiptRegisterComponent } from "./sales-receipt-register/add-sales-receipt-register/add-sales-receipt-register.component";
 import { BankTransactionComponent } from "./bank-transaction/bank-transaction.component";
 import { BankBalanceComponent } from "./bank-balance/bank-balance.component";
+import { AuthGuard } from "../../_guards/auth.guard";
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
         path: "",
         redirectTo: "journal-voucher",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "journal-voucher",
@@ -32,6 +34,7 @@ const routes: Routes = [
         data: {
           title: "Journal Voucher",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-journal-voucher",
@@ -39,6 +42,7 @@ const routes: Routes = [
         data: {
           title: "Add Journal Voucher",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-journal-voucher/:id",
@@ -46,12 +50,14 @@ const routes: Routes = [
         data: {
           title: "Edit Journal Voucher",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "purchase-payment",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "purchase-payment",
@@ -59,6 +65,7 @@ const routes: Routes = [
         data: {
           title: "Purchase Payment",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-purchase-payment/:id",
@@ -66,6 +73,7 @@ const routes: Routes = [
         data: {
           title: "Add Purchase Payment",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-purchase-payment/:id/:id2",
@@ -73,12 +81,14 @@ const routes: Routes = [
         data: {
           title: "Edit Purchase Payment",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "sales-receipt",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "sales-receipt",
@@ -86,6 +96,7 @@ const routes: Routes = [
         data: {
           title: "Sales Receipt",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-sales-receipt/:id/:id2",
@@ -93,6 +104,7 @@ const routes: Routes = [
         data: {
           title: "Add Sales Receipt",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-sales-receipt/:id",
@@ -100,12 +112,14 @@ const routes: Routes = [
         data: {
           title: "Edit Sales Receipt",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "party-payment-register",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "party-payment-register",
@@ -113,6 +127,7 @@ const routes: Routes = [
         data: {
           title: "Party Payment Register",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-party-payment-register",
@@ -120,6 +135,7 @@ const routes: Routes = [
         data: {
           title: "Add Party Payment Register",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-party-payment-register/:id",
@@ -127,12 +143,14 @@ const routes: Routes = [
         data: {
           title: "Edit Party Payment Register",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "sales-receipt-register",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "sales-receipt-register",
@@ -140,6 +158,7 @@ const routes: Routes = [
         data: {
           title: "Sales Receipt Register",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-sales-receipt-register",
@@ -147,6 +166,7 @@ const routes: Routes = [
         data: {
           title: "Add Sales Receipt Register",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-sales-receipt-register/:id",
@@ -154,12 +174,14 @@ const routes: Routes = [
         data: {
           title: "Edit Sales Receipt Register",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "bank-transaction",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "bank-transaction",
@@ -167,12 +189,14 @@ const routes: Routes = [
         data: {
           title: "Bank Transaction",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "bank-balance",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "bank-balance",
@@ -180,6 +204,7 @@ const routes: Routes = [
         data: {
           title: "Bank Balance",
         },
+        canActivate: [AuthGuard],
       },
     ],
   },

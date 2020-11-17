@@ -4,6 +4,7 @@ import { AutoProductionComponent } from "./auto-production/auto-production.compo
 import { AddAutoProductionComponent } from "./auto-production/add-auto-production/add-auto-production.component";
 import { MagProductionComponent } from "./mag-production/mag-production.component";
 import { AddMagProductionComponent } from "./mag-production/add-mag-production/add-mag-production.component";
+import { AuthGuard } from "../../_guards/auth.guard";
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
         path: "",
         redirectTo: "auto-production",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "auto-production",
@@ -23,6 +25,7 @@ const routes: Routes = [
         data: {
           title: "Auto Production",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-auto-production",
@@ -30,6 +33,7 @@ const routes: Routes = [
         data: {
           title: "Add Auto Production",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-auto-production/:id",
@@ -37,12 +41,14 @@ const routes: Routes = [
         data: {
           title: "Edit Auto Production",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "mag-production",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "mag-production",
@@ -50,6 +56,7 @@ const routes: Routes = [
         data: {
           title: "Mag Production",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-mag-production",
@@ -57,6 +64,7 @@ const routes: Routes = [
         data: {
           title: "Add Mag Production",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-mag-production/:id",
@@ -64,6 +72,7 @@ const routes: Routes = [
         data: {
           title: "Edit Mag Production",
         },
+        canActivate: [AuthGuard],
       },
     ],
   },

@@ -29,6 +29,7 @@ export class AddWindingInwardComponent implements OnInit {
   westage = 0;
   totalKon = 0;
   redusedWeight = 0;
+  contractList = [];
 
   constructor(
     private fb: FormBuilder,
@@ -46,6 +47,7 @@ export class AddWindingInwardComponent implements OnInit {
     this.fetchShed();
     this.fetchYarn();
     this.fetchSutType("5ead05572a1e063f14ea6c17");
+    this.fetchContract();
 
     this.route.params.subscribe((params: Params) => {
       this.windingInwardID = params["id"] ? params["id"] : "";
@@ -87,6 +89,7 @@ export class AddWindingInwardComponent implements OnInit {
       Total_Kon: [this.defaultZero],
       Westage: [this.defaultZero, Validators.required],
       Redused_Weight: [this.defaultZero],
+      Contract: ["", Validators.required],
     });
   }
 
@@ -98,6 +101,10 @@ export class AddWindingInwardComponent implements OnInit {
       .subscribe((result) => {
         this.Year_Id = result[0]._id;
       });
+  }
+
+  get Contract() {
+    return this.windingInward.get("Contract");
   }
 
   get GETPASS() {
@@ -298,6 +305,7 @@ export class AddWindingInwardComponent implements OnInit {
             Date: getpassDate,
             Party_Name: details.Party_Name,
             Shed_Name: details.Shed_Name,
+            Contract: details.Contract,
             Outward_GETPASS: details.Outward_GETPASS,
             Outward_Date: outwardgetpassDate,
             SUT_Name: details.SUT_Name,
@@ -346,6 +354,14 @@ export class AddWindingInwardComponent implements OnInit {
     this.cmaster.fetchData(0, 0, "fetch-yarn").subscribe((list) => {
       this.yarnList = list;
     });
+  }
+
+  fetchContract() {
+    this.cmaster
+      .fetchData(0, 0, "fetch-outward-job-contract")
+      .subscribe((list) => {
+        this.contractList = list;
+      });
   }
 
   fetchSutType(_id: string) {

@@ -29,6 +29,7 @@ export class AddSizingInwardComponent implements OnInit {
   grandtotal = 0;
   roundOff = 0;
   sizingErr = 0;
+  contractList = [];
 
   constructor(
     private fb: FormBuilder,
@@ -48,6 +49,7 @@ export class AddSizingInwardComponent implements OnInit {
     this.fetchFirm();
     this.fetchBroker();
     this.fetchQuality();
+    // this.fetchContract();
 
     this.route.params.subscribe((params: Params) => {
       this.sizingInwardID = params["id"] ? params["id"] : "";
@@ -122,6 +124,7 @@ export class AddSizingInwardComponent implements OnInit {
       R_OFF: [this.defaultZero],
       Grand_Total: [this.defaultZero],
       sizingList: this.fb.array([this.createSizing()]),
+      Contract: ["", Validators.required],
     });
 
     this.sizingList = this.sizingInward.get("sizingList") as FormArray;
@@ -142,6 +145,10 @@ export class AddSizingInwardComponent implements OnInit {
       Math.random().toString(36).substring(2, 5)
     ).toUpperCase();
     return bicode;
+  }
+
+  get Contract() {
+    return this.sizingInward.get("Contract");
   }
 
   get Invoice_No() {
@@ -426,11 +433,14 @@ export class AddSizingInwardComponent implements OnInit {
           const formatedDate =
             formatedYear + "-" + formatedMonth + "-" + formatedDay;
 
+          this.fetchContract(details.Party_Name);
+
           this.sizingInward.setValue({
             Invoice_No: details.Invoice_No,
             Date: formatedDate,
             Firm_Name: details.Firm_Name,
             Party_Name: details.Party_Name,
+            Contract: details.Contract,
             COUNT: details.COUNT,
             Mill: details.Mill,
             HSN_SAC_Code: details.HSN_SAC_Code,
@@ -535,6 +545,19 @@ export class AddSizingInwardComponent implements OnInit {
     this.cmaster.fetchData(0, 0, "fetch-quality").subscribe((list) => {
       this.qualityList = list;
     });
+  }
+
+  fetchContract(party) {
+    this.contractList = [];
+    this.cmaster
+      .findData({ Party_Name: party }, "find-party-outward-job-contract")
+      .subscribe((list) => {
+        if (list.length > 0) {
+          this.contractList = list;
+        } else {
+          this.Contract.patchValue(0);
+        }
+      });
   }
 
   calculateAmount(KG, Rate, Flag) {

@@ -4,6 +4,7 @@ import { SizingInwardComponent } from "./sizing-inward/sizing-inward.component";
 import { AddSizingInwardComponent } from "./sizing-inward/add-sizing-inward/add-sizing-inward.component";
 import { BeamInwardComponent } from "./beam-inward/beam-inward.component";
 import { AddBeamInwardComponent } from "./beam-inward/add-beam-inward/add-beam-inward.component";
+import { AuthGuard } from "../../_guards/auth.guard";
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
         path: "",
         redirectTo: "sizing-inward",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "sizing-inward",
@@ -23,6 +25,7 @@ const routes: Routes = [
         data: {
           title: "Sizing Inward",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-sizing-inward",
@@ -30,6 +33,7 @@ const routes: Routes = [
         data: {
           title: "Sizing Inward",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-sizing-inward/:id",
@@ -37,12 +41,14 @@ const routes: Routes = [
         data: {
           title: "Sizing Inward",
         },
+        canActivate: [AuthGuard],
       },
 
       {
         path: "",
         redirectTo: "beam-inward",
         pathMatch: "full",
+        canActivate: [AuthGuard],
       },
       {
         path: "beam-inward",
@@ -50,6 +56,7 @@ const routes: Routes = [
         data: {
           title: "Beam Inward",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-beam-inward",
@@ -57,6 +64,7 @@ const routes: Routes = [
         data: {
           title: "Beam Inward",
         },
+        canActivate: [AuthGuard],
       },
       {
         path: "add-beam-inward/:id",
@@ -64,6 +72,7 @@ const routes: Routes = [
         data: {
           title: "Beam Inward",
         },
+        canActivate: [AuthGuard],
       },
     ],
   },

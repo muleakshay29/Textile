@@ -18,6 +18,8 @@ import { JwtInterceptor } from "./_helper/jwt.interceptor";
 import { DeleteConfirmationComponent } from "./_helper/delete-confirmation/delete-confirmation.component";
 import { InwardsModule } from "./views/inwards/inwards.module";
 import { SalesInvoicePrintComponent } from "./_helper/sales-invoice-print/sales-invoice-print.component";
+import { DeliveryChalanPrintComponent } from "./_helper/delivery-chalan-print/delivery-chalan-print.component";
+import { ConfirmWindowComponent } from "./_helper/confirm-window/confirm-window.component";
 
 @NgModule({
   imports: [
@@ -36,6 +38,8 @@ import { SalesInvoicePrintComponent } from "./_helper/sales-invoice-print/sales-
     RegisterCompanyComponent,
     DeleteConfirmationComponent,
     SalesInvoicePrintComponent,
+    DeliveryChalanPrintComponent,
+    ConfirmWindowComponent,
   ],
   providers: [
     {
@@ -48,7 +52,12 @@ import { SalesInvoicePrintComponent } from "./_helper/sales-invoice-print/sales-
       multi: true,
     },
   ],
-  entryComponents: [DeleteConfirmationComponent, SalesInvoicePrintComponent],
+  entryComponents: [
+    DeleteConfirmationComponent,
+    SalesInvoicePrintComponent,
+    DeliveryChalanPrintComponent,
+    ConfirmWindowComponent,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

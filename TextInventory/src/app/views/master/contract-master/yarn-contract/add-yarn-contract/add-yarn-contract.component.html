@@ -1,0 +1,232 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="yarnContract" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-header text-center">
+            <span class="h4">Yarn Contract</span>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="ContractNumber">Contract Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Contract Number"
+                  formControlName="Contract_No"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Contract_No"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="Date">Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="Date"
+                  formControlName="Date"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Date"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="PartyName">Party Name</label>
+              <select class="form-control" formControlName="Party_Name">
+                <option value="">Select Party Name</option>
+                <option value="{{ party._id }}" *ngFor="let party of partyList">
+                  {{ party.Company_Name }}
+                </option>
+              </select>
+
+              <app-error-message
+                class="d-block w-100"
+                [control]="Party_Name"
+              ></app-error-message>
+            </div>
+
+            <div class="form-group">
+              <label for="BrokerName">Broker Name</label>
+              <select class="form-control" formControlName="Broker_Name">
+                <option value="">Select Broker</option>
+                <option
+                  value="{{ broker._id }}"
+                  *ngFor="let broker of brokerList"
+                >
+                  {{ broker.Broker_Name }}
+                </option>
+              </select>
+
+              <app-error-message
+                class="d-block w-100"
+                [control]="Broker_Name"
+              ></app-error-message>
+            </div>
+
+            <div class="form-group">
+              <label for="YarnName">Yarn Name</label>
+              <select
+                class="form-control"
+                formControlName="Yarn_Name"
+                (change)="fetchYarnDetails($event)"
+              >
+                <option value="">Select Yarn</option>
+                <option value="{{ yarn._id }}" *ngFor="let yarn of yarnList">
+                  {{ yarn.SUT_Name }}
+                </option>
+              </select>
+
+              <app-error-message
+                class="d-block w-100"
+                [control]="Yarn_Name"
+              ></app-error-message>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="Count">Count</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Count"
+                  formControlName="Count"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Count"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="Mill">Mill</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Mill"
+                  formControlName="Mill"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Mill"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="Bags">Bags</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Bags"
+                  formControlName="Bags"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Bags"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="Weight">Weight</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Weight"
+                  formControlName="Weight"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Weight"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <label for="NetRateIncluding">Net Rate Including</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Net Rate Including"
+                  formControlName="Net_Rate_Including"
+                  (change)="calculateNetRate($event, 1)"
+                  [readonly]="includingReadonly"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Net_Rate_Including"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="NetRateExcluding">Net Rate Excluding</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Net Rate Excluding"
+                  formControlName="Net_Rate_Excluding"
+                  (change)="calculateNetRate($event, 2)"
+                  [readonly]="excludingReadonly"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Net_Rate_Excluding"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="RateKG">Rate / KG</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Rate / KG"
+                  formControlName="Rate_KG"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Rate_KG"
+                ></app-error-message>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!yarnContract.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> Submit
+            </button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

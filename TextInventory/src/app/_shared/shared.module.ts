@@ -14,6 +14,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 import { P404Component } from "../views/error/404.component";
 import { ErrorMessageComponent } from "../_helper/error-message/error-message.component";
 import { PaginationComponent } from "../_helper/pagination/pagination.component";
+import { UniqueRecordsDirective } from "../_helper/unique-records.directive";
 
 import {
   AppAsideModule,
@@ -41,6 +42,7 @@ import { NgxPrintModule } from "ngx-print";
     ErrorMessageComponent,
     PaginationComponent,
     CommonGridComponent,
+    UniqueRecordsDirective,
   ],
   imports: [
     CommonModule,
@@ -88,6 +90,7 @@ import { NgxPrintModule } from "ngx-print";
     PaginationComponent,
     CommonGridComponent,
     NgxPrintModule,
+    UniqueRecordsDirective,
   ],
 })
 export class SharedModule {}

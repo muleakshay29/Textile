@@ -97,4 +97,23 @@ export class WeavingLoadAutoComponent implements OnInit {
       }
     });
   }
+
+  unloadBeam(_id) {
+    this.spinner.show();
+    this.cmservice
+      .updateData(_id, { Unload_Beam: true }, "unload-weaving-beam")
+      .subscribe((result) => {
+        if (result != null) {
+          this.toastr.success("Record updated successfuly", "Success");
+          this.fetchWeavingAuto();
+          this.spinner.hide();
+        } else {
+          this.toastr.error(
+            "Error updating record. Please try again.",
+            "Error"
+          );
+          this.spinner.hide();
+        }
+      });
+  }
 }

@@ -1,5 +1,5 @@
 <ngx-spinner type="ball-beat" [fullScreen]="true"
-  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
 >
 
 <div class="animated fadeIn">
@@ -59,6 +59,15 @@
                       class="text-decoration-none"
                     >
                       <i class="cui-trash icons font-xl d-inline"></i>
+                    </a>
+                    &nbsp; &nbsp;
+                    <a
+                      href="javascript:void(0)"
+                      (click)="unloadBeam(content._id)"
+                      title="Unload Beam"
+                      class="text-decoration-none"
+                    >
+                      <i class="cui-lock-unlocked icons font-xl d-inline"></i>
                     </a>
                   </td>
                   <td class="text-center">

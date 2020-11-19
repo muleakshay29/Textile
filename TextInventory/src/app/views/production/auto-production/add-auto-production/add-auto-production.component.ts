@@ -73,7 +73,7 @@ export class AddAutoProductionComponent implements OnInit {
       Meter: [this.defaultValue, Validators.required],
       Weight: [this.defaultValue, Validators.required],
       RPM: [this.defaultValue, Validators.required],
-      Unload_Beam: [this.unloadBeam, Validators.required],
+      // Unload_Beam: [this.unloadBeam, Validators.required],
     });
   }
 
@@ -131,9 +131,9 @@ export class AddAutoProductionComponent implements OnInit {
     return this.autoProduction.get("RPM");
   }
 
-  get Unload_Beam() {
+  /* get Unload_Beam() {
     return this.autoProduction.get("Unload_Beam");
-  }
+  } */
 
   onSubmit() {
     this.spinner.show();
@@ -273,7 +273,7 @@ export class AddAutoProductionComponent implements OnInit {
             Meter: details.Meter,
             Weight: details.Weight,
             RPM: details.RPM,
-            Unload_Beam: details.Unload_Beam,
+            // Unload_Beam: details.Unload_Beam,
           });
           this.spinner.hide();
         });
@@ -335,7 +335,34 @@ export class AddAutoProductionComponent implements OnInit {
     this.cmaster
       .findData({ Shed: shed, Loom_Type: loomtype }, "fetch-distinct-loomno")
       .subscribe((list) => {
+        list.forEach((element) => {
+          this.cmaster
+            .fetchDetails(element, "loom-no-details")
+            .subscribe((result) => {
+              this.loomList.push({
+                _id: result._id,
+                Loom_No: result.Loom_No,
+              });
+
+              this.cmaster
+                .findData(
+                  {
+                    Shed: shed,
+                    Loom_Type: loomtype,
+                    Loom_No: element,
+                  },
+                  "find-auto-production-details"
+                )
+                .subscribe((details) => {
+                  console.log(`${result.Loom_No} details`, details);
+                });
+            });
+        });
+      });
+
+    /* .subscribe((list) => {
         this.distinctLooms = list;
+        console.log("loomList", this.loomList);
         list.forEach((element, key, arr) => {
           this.cmaster
             .findData(
@@ -355,8 +382,9 @@ export class AddAutoProductionComponent implements OnInit {
               }
             });
         });
+        console.log("loomList", this.loomList);
         // this.fetchDistinctLooms();
-      });
+      }); */
 
     /* .subscribe((list) => {
         this.loomList = [];

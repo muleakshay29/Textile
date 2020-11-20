@@ -323,7 +323,7 @@ export class AddWeavingLoadAutoComponent implements OnInit {
     }
   }
 
-  fetchBeamDetails(event, satno = "", shed = "") {
+  fetchBeamDetails(event, satno = "", party = "") {
     if (this.editMode) {
       this.cmaster
         .findData({ SAT_NO: satno }, "beam-details")
@@ -334,9 +334,10 @@ export class AddWeavingLoadAutoComponent implements OnInit {
     } else {
       const satno = event.target.value;
       const shed = this.Shed.value;
+      const party = this.Party_Name.value;
 
       this.cmaster
-        .findData({ SAT_NO: satno }, "fetch-common-beams")
+        .findData({ SAT_NO: satno, Party_Name:party }, "fetch-common-beams")
         // .findData({ SAT_NO: satno, Shed: shed }, "fetch-common-beams")
         .subscribe((list) => {
           list.forEach((element) => {

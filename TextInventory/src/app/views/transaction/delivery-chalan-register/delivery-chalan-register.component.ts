@@ -81,6 +81,7 @@ export class DeliveryChalanRegisterComponent implements OnInit {
 
   getDocumentDefinition(content, data) {
     return {
+      
       content: [
         {
           text: content.Shade_Name.SHED_Name,

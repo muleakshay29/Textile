@@ -203,7 +203,8 @@
                   type="number"
                   class="form-control"
                   formControlName="TAGA_NO"
-                />
+                  [readonly]="editMode"
+                  />
 
                 <app-error-message
                   class="d-block w-100"
@@ -217,7 +218,7 @@
                   type="number"
                   class="form-control"
                   formControlName="Meter"
-                  [readonly]="editMode"
+                  
                 />
 
                 <app-error-message

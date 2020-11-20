@@ -334,7 +334,6 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          FOLD.value,
                           SECONDOTHER.value
                         )
                       "
@@ -361,7 +360,6 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          FOLD.value,
                           SECONDOTHER.value
                         )
                       "
@@ -386,7 +384,6 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          FOLD.value,
                           SECONDOTHER.value
                         )
                       "
@@ -406,12 +403,9 @@
                       formControlName="FOLD"
                       #FOLD
                       (blur)="
-                        deductTaxableAmt(
-                          SECOND.value,
-                          TP.value,
-                          SL.value,
-                          FOLD.value,
-                          SECONDOTHER.value
+                        foldcalculation(
+                          Total_Meters.value,
+                          RATE.value,
                         )
                       "
                     />
@@ -434,7 +428,6 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          FOLD.value,
                           SECONDOTHER.value
                         )
                       "

@@ -104,6 +104,7 @@ export class WeavingLoadAutoComponent implements OnInit {
       .updateData(_id, { Unload_Beam: true }, "unload-weaving-beam")
       .subscribe((result) => {
         if (result != null) {
+          console.log("Result is " +result);
           this.toastr.success("Record updated successfuly", "Success");
           this.fetchWeavingAuto();
           this.spinner.hide();

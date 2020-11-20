@@ -46,14 +46,14 @@
                   <td class="text-center">
                     <a
                       routerLink="/production/add-auto-production/{{
-                        content._id
+                        content.ProductionID._id
                       }}"
                       title="Edit"
                       class="text-decoration-none"
                     >
                       <i class="cui-pencil icons font-xl d-inline"></i>
                     </a>
-                    &nbsp; &nbsp;
+                    <!-- &nbsp; &nbsp;
                     <a
                       href="javascript:void(0)"
                       (click)="openModal(content.Shed, content._id)"
@@ -61,7 +61,7 @@
                       class="text-decoration-none"
                     >
                       <i class="cui-trash icons font-xl d-inline"></i>
-                    </a>
+                    </a> -->
                   </td>
                   <td class="text-center">
                     {{ content.Shed.SHED_Name }}
@@ -70,10 +70,10 @@
                     {{ content.Loom_No.Loom_No }}
                   </td>
                   <td class="text-center">
-                    {{ content.Available_Mtrs - content.Meter }}
+                    {{ content.ProductionID.Available_Mtrs - content.ProductionID.Meter }}
                   </td>
                   <td class="text-center">
-                    {{ content.Total_Beam_Mtrs }}
+                    {{ content.ProductionID.Total_Beam_Mtrs }}
                   </td>
                 </tr>
               </tbody>

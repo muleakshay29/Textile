@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ɵConsole } from "@angular/core";
 import { PageChangedEvent } from "ngx-bootstrap/pagination";
 import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
@@ -11,6 +11,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 })
 export class AutoProductionComponent implements OnInit {
   returnedArray: any[];
+  unUsedTagaList:any[];
   dataLength: number;
   itemsPerPage: number = 10;
 
@@ -33,15 +34,31 @@ export class AutoProductionComponent implements OnInit {
     });
   }
 
-  fetchAutoProduction(pageIndex = 0, pageSize = this.itemsPerPage) {
+  // my chages 20-11-2020 
+  // fetchAutoProduction(pageIndex = 0, pageSize = this.itemsPerPage) {
+  //   this.spinner.show();
+  //   this.cmservice
+  //     .fetchData(pageIndex, pageSize, "fetch-auto-production")
+  //     .subscribe((list) => {
+  //       this.returnedArray = list.slice(0, this.itemsPerPage);
+  //       this.spinner.hide();
+  //     });
+  // }
+
+
+ fetchAutoProduction(pageIndex = 0, pageSize = this.itemsPerPage) {
     this.spinner.show();
     this.cmservice
-      .fetchData(pageIndex, pageSize, "fetch-auto-production")
+    .fetchData(pageIndex,pageSize,"fetch-unused-taga")
       .subscribe((list) => {
-        this.returnedArray = list.slice(0, this.itemsPerPage);
+         this.unUsedTagaList=[];
+         console.log(list)
+        this.returnedArray = list.slice(0, this.itemsPerPage); 
         this.spinner.hide();
       });
   }
+
+
 
   pageChanged(event: PageChangedEvent): void {
     this.fetchAutoProduction(event.page - 1, this.itemsPerPage);

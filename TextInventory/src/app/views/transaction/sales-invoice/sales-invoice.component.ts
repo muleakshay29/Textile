@@ -14,6 +14,7 @@ export class SalesInvoiceComponent implements OnInit {
   salesInvoice: FormGroup;
   salesInvoiceID: string;
   beamList: FormArray;
+  contractId:string;
   editMode = false;
   buttonText: string;
   Year_Id: any;
@@ -50,6 +51,7 @@ export class SalesInvoiceComponent implements OnInit {
     // this.fetchParty();
     // this.fetchFirm();
     this.fetchBroker();
+   // this.fetchContract();
 
     this.route.params.subscribe((params: Params) => {
       this.salesInvoiceID = params["id"];
@@ -358,6 +360,16 @@ export class SalesInvoiceComponent implements OnInit {
       });
   }
 
+  fetchContract(contract){
+    this.commonservice
+      .fetchDetails(contract, "contract-details-sales")
+      .subscribe((details) => {
+       const rateCalc = (details.Pick * details.Rate) / 100;
+       this.Rate.patchValue(rateCalc)
+       console.log(rateCalc)
+  });
+}
+
   fetchFirm(firmid) {
     this.commonservice
       .fetchDetails(firmid, "firm-details")
@@ -415,7 +427,8 @@ export class SalesInvoiceComponent implements OnInit {
           From_Party: deliveryChalan.Firm_Name._id,
           To_Party: deliveryChalan.Party_Name._id,
         });
-
+        
+        this.fetchContract(deliveryChalan.Contract);
         this.fetchFirm(deliveryChalan.Firm_Name._id);
         this.fetchParty(deliveryChalan.Party_Name._id);
         this.getInvoice(deliveryChalan.Firm_Name._id);
@@ -423,12 +436,13 @@ export class SalesInvoiceComponent implements OnInit {
   }
 
   fetchDeliveryChalanDetails() {
+    console.log(this.salesInvoiceID)
     this.commonservice
       .fetchDetails(this.salesInvoiceID, "delivery-chalan-child-details")
       .subscribe((deliveryChalanDetails) => {
-        this.fetchLoomDetails(deliveryChalanDetails[0].Loom_No);
-        this.selectedShed = deliveryChalanDetails[0].Shade_Name;
-
+        // this.fetchLoomDetails(deliveryChalanDetails[0].Loom_No);delivery-chalan-child-details
+       // this.selectedShed = deliveryChalanDetails[0].Shade_Name;
+        console.log(deliveryChalanDetails);
         this.salesInvoice.patchValue({
           Quality: deliveryChalanDetails[0].Quality._id,
           // Loom_No: deliveryChalanDetails[0]._id,
@@ -461,7 +475,7 @@ export class SalesInvoiceComponent implements OnInit {
     this.Total_Amount.patchValue(totalAmt.toFixed(2));
     this.Taxable_Amount.patchValue(totalAmt.toFixed(2));
   }
-
+  
   addTaxableAmt(PACKING, CHECKING, PACKINGOTHER) {
     let taxAmt = this.Total_Amount.value;
     taxAmt =
@@ -472,7 +486,7 @@ export class SalesInvoiceComponent implements OnInit {
     this.Taxable_Amount.patchValue(taxAmt);
   }
 
-  deductTaxableAmt(SECOND, TP, SL, FOLD, SECONDOTHER) {
+  deductTaxableAmt(SECOND, TP, SL,  SECONDOTHER) {
     let amount =
       parseFloat(this.Total_Amount.value) +
       parseFloat(this.Packing.value) +
@@ -483,7 +497,6 @@ export class SalesInvoiceComponent implements OnInit {
       parseFloat(SECOND) -
       parseFloat(TP) -
       parseFloat(SL) -
-      parseFloat(FOLD) -
       parseFloat(SECONDOTHER);
     this.Taxable_Amount.patchValue(taxAmt);
   }

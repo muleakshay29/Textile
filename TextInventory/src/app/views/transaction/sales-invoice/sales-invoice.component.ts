@@ -275,6 +275,7 @@ export class SalesInvoiceComponent implements OnInit {
       "SALESINVOICE",
       this.Year_Id
     );
+    formData.Form_Type=0;
 
     this.commonservice
       .addData(formData, "add-sales-invoice")
@@ -470,10 +471,23 @@ export class SalesInvoiceComponent implements OnInit {
       });
   }
 
-  calculateTotalAmt(rate) {
-    const totalAmt = rate * this.Total_Meters.value;
+  calculateTotalAmt(rate,fold) {
+    let mtr = this.Total_Meters.value;
+    if(fold>0)
+    {
+      const per = 100-fold;
+      mtr = this.Total_Meters.value - (((this.Total_Meters.value)/100)*per);
+    }
+    const totalAmt = rate * mtr;
     this.Total_Amount.patchValue(totalAmt.toFixed(2));
     this.Taxable_Amount.patchValue(totalAmt.toFixed(2));
+    this.addTaxableAmt(
+      this.Packing.value,
+      this.Checking.value,
+      this.Packing_Other.value
+    )
+    this.deductTaxableAmt(this.Second.value, this.TP.value, this.SL.value,  this.Second_Other.value)
+     
   }
   
   addTaxableAmt(PACKING, CHECKING, PACKINGOTHER) {
@@ -484,6 +498,7 @@ export class SalesInvoiceComponent implements OnInit {
       parseFloat(CHECKING) +
       parseFloat(PACKINGOTHER);
     this.Taxable_Amount.patchValue(taxAmt);
+    this.deductTaxableAmt(this.Second.value, this.TP.value, this.SL.value,  this.Second_Other.value)
   }
 
   deductTaxableAmt(SECOND, TP, SL,  SECONDOTHER) {

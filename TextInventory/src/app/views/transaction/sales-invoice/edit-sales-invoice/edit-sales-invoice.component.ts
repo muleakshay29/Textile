@@ -239,6 +239,7 @@ export class EditSalesInvoiceComponent implements OnInit {
     this.commonservice
       .fetchDetails(this.salesInvoiceID, "sales-invoice-details")
       .subscribe((details) => {
+        console.log(details);
         this.salesInvoiceDetails = details;
         const date = new Date(details.Date);
         const formatedMonth =
@@ -264,17 +265,18 @@ export class EditSalesInvoiceComponent implements OnInit {
         const DCDate =
           formateddcYear + "-" + formateddcMonth + "-" + formateddcDay;
 
+           console.log("Quality is "+details.Quality.Design_Name);
         this.salesInvoice.setValue({
           Invoice_No: details.Invoice_No,
           Date: formatedDate,
-          From_Party: details.From_Party,
-          To_Party: details.To_Party,
+          From_Party: details.From_Party._id,
+          To_Party: details.To_Party._id,
           Loom_No: details.Loom_No,
           HSN_NO: details.HSN_NO,
-          Broker_Name: details.Broker_Name,
+          Broker_Name: details.Broker_Name._id,
           DC_NO: details.DC_NO,
           DC_Date: DCDate,
-          Quality: details.Quality,
+          Quality: details.Quality._id,
           No_Of_Pieces: details.No_Of_Pieces,
           Total_Meters: details.Total_Meters,
           Sample_Cut_Meters: details.Sample_Cut_Meters,
@@ -300,10 +302,10 @@ export class EditSalesInvoiceComponent implements OnInit {
           Grand_Total: details.Grand_Total,
         });
 
-        this.fetchFirm(details.From_Party);
-        this.fetchParty(details.To_Party);
-        this.fetchQuality(details.Quality);
-        this.fetchBroker(details.Broker_Name);
+        this.fetchFirm(details.From_Party._id);
+        this.fetchParty(details.To_Party._id);
+        this.fetchQuality(details.Quality._id);
+        this.fetchBroker(details.Broker_Name._id);
         this.findDeliveryChalan(details.Invoice_No, details.UniqueCode);
         this.spinner.hide();
       });
@@ -353,10 +355,23 @@ export class EditSalesInvoiceComponent implements OnInit {
       });
   }
 
-  calculateTotalAmt(rate) {
-    const totalAmt = rate * this.Total_Meters.value;
+  calculateTotalAmt(rate,fold) {
+    let mtr = this.Total_Meters.value;
+    if(fold>0)
+    {
+      const per = 100-fold;
+      mtr = this.Total_Meters.value - (((this.Total_Meters.value)/100)*per);
+    }
+    const totalAmt = rate * mtr;
     this.Total_Amount.patchValue(totalAmt.toFixed(2));
     this.Taxable_Amount.patchValue(totalAmt.toFixed(2));
+    this.addTaxableAmt(
+      this.Packing.value,
+      this.Checking.value,
+      this.Packing_Other.value
+    )
+    this.deductTaxableAmt(this.Second.value, this.TP.value, this.SL.value,  this.Second_Other.value)
+     
   }
 
   addTaxableAmt(PACKING, CHECKING, PACKINGOTHER) {
@@ -367,9 +382,11 @@ export class EditSalesInvoiceComponent implements OnInit {
       parseFloat(CHECKING) +
       parseFloat(PACKINGOTHER);
     this.Taxable_Amount.patchValue(taxAmt);
+    this.deductTaxableAmt(this.Second.value, this.TP.value, this.SL.value,  this.Second_Other.value)
+     
   }
 
-  deductTaxableAmt(SECOND, TP, SL, FOLD, SECONDOTHER) {
+  deductTaxableAmt(SECOND, TP, SL, SECONDOTHER) {
     let amount =
       parseFloat(this.Total_Amount.value) +
       parseFloat(this.Packing.value) +
@@ -380,7 +397,6 @@ export class EditSalesInvoiceComponent implements OnInit {
       parseFloat(SECOND) -
       parseFloat(TP) -
       parseFloat(SL) -
-      parseFloat(FOLD) -
       parseFloat(SECONDOTHER);
     this.Taxable_Amount.patchValue(taxAmt);
   }

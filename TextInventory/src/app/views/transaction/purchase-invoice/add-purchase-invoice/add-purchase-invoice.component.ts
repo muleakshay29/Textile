@@ -285,6 +285,12 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       this.Year_Id
     );
 
+    if(formData.Payment_Type === "5ead078e2a1e063f14ea6c2a"){
+      formData.Pay_From_Acc="5fb53be6bda8512a448f224f"
+    }
+   
+    console.log(formData);
+     
     this.commonservice
       .addData(formData, "add-purchase-invoice")
       .subscribe((result) => {
@@ -328,6 +334,16 @@ export class AddPurchaseInvoiceComponent implements OnInit {
               });
           });
 
+//     Payment_Type:
+// CMC_Name: "CREDIT"
+// // _id: "5ead078e2a1e063f14ea6c2a"
+// Pay_From_Acc:
+// Bank_Name: "N/A"
+// _id: "5fb53be6bda8512a448f224f"
+// Payment_Type:
+// CMC_Name: "CASH"
+// _id: "5ead07862a1e063f14ea6c29"
+         if(formData.Payment_Type === "5ead07862a1e063f14ea6c29"){    
           const bankTrans = {
             ACC_Code: formData.Pay_From_Acc,
             TransactionForm: "Purchase Invoice",
@@ -359,6 +375,43 @@ export class AddPurchaseInvoiceComponent implements OnInit {
               }
             });
 
+            const accountTrans = {
+              T_Code: result._id,
+              Party: formData.Supplier_Name,
+              Against_Voucher: "Purchase INVOICE",
+              Invoice_No: formData.Invoice_No,
+              GETPASS: "",
+              AmtIn: formData.Grand_Total,
+              AmtOut: formData.Grand_Total,
+              PaidBy: formData.Paid_By,
+              Date: formData.Date,
+              Cheque_No: formData.Cheque_No,
+              PaymentID: "",
+              Paid_From_Acc: "",
+              Voucher_Type: "PURCHASE INVOICE",
+              Shed: formData.Shed_Name,
+              Amount: formData.Grand_Total,
+              Balance_Type: "",
+              Firm: formData.Firm_Name,
+              UniqueCode: this.commonservice.generateUniqueCode(
+                "PURCHASEINVOICE",
+                this.Year_Id
+              ),
+              Company_Id: this.commonservice.currentUser.Company_Id,
+              Year_Id: this.Year_Id,
+              Created_By: this.commonservice.currentUser.Company_Id,
+              Created_Date: new Date(),
+            };
+  
+            this.commonservice
+              .addData(accountTrans, "add-account-transaction")
+              .subscribe((account) => {
+                if (account == null) {
+                  errorArr.push(-1);
+                }
+              });
+          }            
+          else {
           const accountTrans = {
             T_Code: result._id,
             Party: formData.Supplier_Name,
@@ -394,7 +447,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
                 errorArr.push(-1);
               }
             });
-
+          }
           if (errorArr.includes(-1)) {
             this.toastr.error(
               "Error adding record. Please try again.",

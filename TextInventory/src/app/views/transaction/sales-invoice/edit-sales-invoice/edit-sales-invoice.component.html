@@ -45,8 +45,8 @@
                     <label for="FromParty">From Party</label>
                     <select class="form-control" formControlName="From_Party">
                       <option
-                        value="{{ firm._id }}"
-                        *ngFor="let firm of firmList"
+                          *ngFor="let firm of firmList"  
+                          value="{{ firm._id }}"
                         >{{ firm.Company_Name }}</option
                       >
                     </select>
@@ -223,7 +223,7 @@
                   class="form-control"
                   formControlName="Rate"
                   placeholder="Rate"
-                  (blur)="calculateTotalAmt(RATE.value)"
+                  (blur)="calculateTotalAmt(RATE.value,FOLD.value)"
                   #RATE
                 />
 
@@ -327,7 +327,6 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          FOLD.value,
                           SECONDOTHER.value
                         )
                       "
@@ -354,7 +353,6 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          FOLD.value,
                           SECONDOTHER.value
                         )
                       "
@@ -379,7 +377,6 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          FOLD.value,
                           SECONDOTHER.value
                         )
                       "
@@ -399,13 +396,7 @@
                       formControlName="FOLD"
                       #FOLD
                       (blur)="
-                        deductTaxableAmt(
-                          SECOND.value,
-                          TP.value,
-                          SL.value,
-                          FOLD.value,
-                          SECONDOTHER.value
-                        )
+                      calculateTotalAmt(RATE.value,FOLD.value)
                       "
                     />
 
@@ -427,7 +418,6 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          FOLD.value,
                           SECONDOTHER.value
                         )
                       "

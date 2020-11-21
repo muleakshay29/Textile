@@ -38,6 +38,7 @@ export class PurchaseInvoiceComponent implements OnInit {
     this.cmservice
       .fetchData(pageIndex, pageSize, "fetch-purchase-invoice")
       .subscribe((list) => {
+        console.log(list);
         this.returnedArray = list.slice(0, this.itemsPerPage);
         this.spinner.hide();
       });

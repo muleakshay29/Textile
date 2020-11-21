@@ -230,7 +230,7 @@
                   class="form-control"
                   formControlName="Rate"
                   placeholder="Rate"
-                  (blur)="calculateTotalAmt(RATE.value)"
+                  (blur)="calculateTotalAmt(RATE.value,FOLD.value)"
                   #RATE
                 />
 
@@ -403,10 +403,8 @@
                       formControlName="FOLD"
                       #FOLD
                       (blur)="
-                        foldcalculation(
-                          Total_Meters.value,
-                          RATE.value,
-                        )
+                      calculateTotalAmt(RATE.value,FOLD.value)
+                      
                       "
                     />
 

@@ -264,7 +264,9 @@ export class AddSalesInvoiceManualComponent implements OnInit {
         "SALESINVOICEMANUAL",
         this.Year_Id
       );
-
+      formData.Form_Type = 1;
+      
+      console.log(formData);
       this.commonservice
         .addData(formData, "add-sales-invoice-manual")
         .subscribe((result) => {
@@ -296,12 +298,12 @@ export class AddSalesInvoiceManualComponent implements OnInit {
               Created_By: this.commonservice.currentUser.Company_Id,
               Created_Date: new Date(),
             };
-
+          
             this.commonservice
               .addData(accountTrans, "add-account-transaction")
               .subscribe();
 
-            this.toastr.success("Record added successfuly", "Success");
+            this.toastr.success("Record added successfully", "Success");
             this.salesInvoice.reset();
             this.router.navigate(["/transaction/sales-invoice-manual"]);
             this.spinner.hide();
@@ -317,6 +319,7 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       formData.Year_Id = this.Year_Id;
       formData.Updated_By = this.commonservice.currentUser.Company_Id;
       formData.Updated_Date = new Date();
+      let invoiceNo = formData.Invoice_No;
       delete formData.Invoice_No;
 
       this.commonservice
@@ -327,15 +330,18 @@ export class AddSalesInvoiceManualComponent implements OnInit {
         )
         .subscribe((data) => {
           if (data != null) {
+            console.log("Record updated")
             this.commonservice
               .deleteData(this.salesInvoiceID, "delete-common-account-trans")
               .subscribe((result) => {
+                console.log("Record Deleted count "+this.salesInvoiceID+" result.deletedCount is "+result.deletedCount);
+                console.log("Invoice no is "+invoiceNo);
                 if (result.deletedCount > 0) {
                   const accountTrans = {
-                    T_Code: result._id,
+                    T_Code: this.salesInvoiceID,
                     Party: formData.To_Party,
                     Against_Voucher: "SALES INVOICE MANUAL",
-                    Invoice_No: formData.Invoice_No,
+                    Invoice_No: invoiceNo,
                     GETPASS: "",
                     AmtIn: 0,
                     AmtOut: formData.Grand_Total,
@@ -357,8 +363,9 @@ export class AddSalesInvoiceManualComponent implements OnInit {
                     Year_Id: this.Year_Id,
                     Created_By: this.commonservice.currentUser.Company_Id,
                     Created_Date: new Date(),
-                  };
-
+                 };
+                   
+                  
                   this.commonservice
                     .addData(accountTrans, "add-account-transaction")
                     .subscribe();
@@ -503,10 +510,23 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       });
   }
 
-  calculateTotalAmt(rate) {
-    const totalAmt = rate * this.Total_Meters.value;
+  calculateTotalAmt(rate,fold) {
+    let mtr = this.Total_Meters.value;
+    if(fold>0)
+    {
+      const per = 100-fold;
+      mtr = this.Total_Meters.value - (((this.Total_Meters.value)/100)*per);
+    }
+    const totalAmt = rate * mtr;
     this.Total_Amount.patchValue(totalAmt.toFixed(2));
     this.Taxable_Amount.patchValue(totalAmt.toFixed(2));
+    this.addTaxableAmt(
+      this.Packing.value,
+      this.Checking.value,
+      this.Packing_Other.value
+    )
+    this.deductTaxableAmt(this.Second.value, this.TP.value, this.SL.value,  this.Second_Other.value)
+     
   }
 
   addTaxableAmt(PACKING, CHECKING, PACKINGOTHER) {
@@ -517,9 +537,10 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       parseFloat(CHECKING) +
       parseFloat(PACKINGOTHER);
     this.Taxable_Amount.patchValue(taxAmt);
+    this.deductTaxableAmt(this.Second.value, this.TP.value, this.SL.value,  this.Second_Other.value)
   }
 
-  deductTaxableAmt(SECOND, TP, SL, FOLD, SECONDOTHER) {
+  deductTaxableAmt(SECOND, TP, SL, SECONDOTHER) {
     let amount =
       parseFloat(this.Total_Amount.value) +
       parseFloat(this.Packing.value) +
@@ -530,7 +551,6 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       parseFloat(SECOND) -
       parseFloat(TP) -
       parseFloat(SL) -
-      parseFloat(FOLD) -
       parseFloat(SECONDOTHER);
     this.Taxable_Amount.patchValue(taxAmt);
   }

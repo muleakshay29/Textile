@@ -86,9 +86,6 @@
                   readonly
                 />
               </div>
-            </div>
-
-            <div class="row">
               <div class="form-group col-sm-6">
                 <label for="Paying_Amount">Paying Amount</label>
                 <input
@@ -102,6 +99,24 @@
                 <app-error-message
                   class="d-block w-100"
                   [control]="Paying_Amount"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="Tds_Amount">TDS Amount</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="TDS Amount"
+                  formControlName="Tds_Amount"
+                  (change)="calculateRemainingAfterTds($event)"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Tds_Amount"
                 ></app-error-message>
               </div>
 

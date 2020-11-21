@@ -26,6 +26,7 @@ export class AddSalesReceiptComponent implements OnInit {
   selectedFirm: string;
   transactionDetails = [];
   RemainingAmount = 0;
+  TdsSmount=0;
 
   constructor(
     private fb: FormBuilder,
@@ -64,6 +65,7 @@ export class AddSalesReceiptComponent implements OnInit {
       Amount: [this.defaultValue],
       Paying_Amount: [this.defaultValue, Validators.required],
       Remaining_Amount: [this.defaultValue],
+      Tds_Amount : [this.defaultValue],
       Paid_By: ["", Validators.required],
       Cheque_No: [""],
       Cheque_Date: [],
@@ -108,7 +110,10 @@ export class AddSalesReceiptComponent implements OnInit {
   get Remaining_Amount() {
     return this.salesReceipt.get("Remaining_Amount");
   }
-
+  
+  get Tds_Amount(){
+    return this.salesReceipt.get("Tds_Amount");
+  }
   get Paid_By() {
     return this.salesReceipt.get("Paid_By");
   }
@@ -256,6 +261,7 @@ export class AddSalesReceiptComponent implements OnInit {
               Party_Name: details.Party._id,
               Amount: details.AmtOut,
               Remaining_Amount: balance,
+              Tds_Amount: details.Tds_Amount,
               Receipt_No: details.Invoice_No,
             });
 
@@ -356,9 +362,20 @@ export class AddSalesReceiptComponent implements OnInit {
     }
   }
 
+  calculateRemainingAfterTds(event){
+     let remAmt =this.RemainingAmount;
+     console.log(remAmt);
+     remAmt = remAmt - this.Paying_Amount - event.target.value;
+
+ this.Remaining_Amount.patchValue(remAmt);
+  }
+
   calculateRemaining(event) {
     const payingAmt = event.target.value;
     const availableAmt = this.Amount.value;
+    //const tds = event2.target.value;
+
+    console.log("paying amount ;- "+payingAmt+" avaiilableAmt is :- "+availableAmt);
     let remainingAmt = 0;
 
     if (this.RemainingAmount > 0 && this.RemainingAmount == availableAmt) {

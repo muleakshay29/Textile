@@ -14,7 +14,7 @@ export class SalesInvoiceComponent implements OnInit {
   salesInvoice: FormGroup;
   salesInvoiceID: string;
   beamList: FormArray;
-  contractId:string;
+  contractId: string;
   editMode = false;
   buttonText: string;
   Year_Id: any;
@@ -33,6 +33,7 @@ export class SalesInvoiceComponent implements OnInit {
   selectedFromPartyState: string = "";
   selectedToPartyState: string = "";
   enableIGST = false;
+  deliveryChalanDetails: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -51,7 +52,7 @@ export class SalesInvoiceComponent implements OnInit {
     // this.fetchParty();
     // this.fetchFirm();
     this.fetchBroker();
-   // this.fetchContract();
+    // this.fetchContract();
 
     this.route.params.subscribe((params: Params) => {
       this.salesInvoiceID = params["id"];
@@ -275,7 +276,8 @@ export class SalesInvoiceComponent implements OnInit {
       "SALESINVOICE",
       this.Year_Id
     );
-    formData.Form_Type=0;
+    formData.Form_Type = 0;
+    formData.Shed_Name = this.deliveryChalanDetails[0].Shade_Name;
 
     this.commonservice
       .addData(formData, "add-sales-invoice")
@@ -361,15 +363,16 @@ export class SalesInvoiceComponent implements OnInit {
       });
   }
 
-  fetchContract(contract){
-    this.commonservice
-      .fetchDetails(contract, "contract-details-sales")
-      .subscribe((details) => {
-       const rateCalc = (details.Pick * details.Rate) / 100;
-       this.Rate.patchValue(rateCalc)
-       console.log(rateCalc)
-  });
-}
+  fetchContract(contract) {
+    if (contract) {
+      this.commonservice
+        .fetchDetails(contract, "contract-details-sales")
+        .subscribe((details) => {
+          const rateCalc = (details[0].Pick * details[0].Rate) / 100;
+          this.Rate.patchValue(rateCalc);
+        });
+    }
+  }
 
   fetchFirm(firmid) {
     this.commonservice
@@ -428,7 +431,9 @@ export class SalesInvoiceComponent implements OnInit {
           From_Party: deliveryChalan.Firm_Name._id,
           To_Party: deliveryChalan.Party_Name._id,
         });
-        
+
+        this.deliveryChalanDetails.push(deliveryChalan);
+
         this.fetchContract(deliveryChalan.Contract);
         this.fetchFirm(deliveryChalan.Firm_Name._id);
         this.fetchParty(deliveryChalan.Party_Name._id);
@@ -437,12 +442,12 @@ export class SalesInvoiceComponent implements OnInit {
   }
 
   fetchDeliveryChalanDetails() {
-    console.log(this.salesInvoiceID)
+    console.log(this.salesInvoiceID);
     this.commonservice
       .fetchDetails(this.salesInvoiceID, "delivery-chalan-child-details")
       .subscribe((deliveryChalanDetails) => {
         // this.fetchLoomDetails(deliveryChalanDetails[0].Loom_No);delivery-chalan-child-details
-       // this.selectedShed = deliveryChalanDetails[0].Shade_Name;
+        // this.selectedShed = deliveryChalanDetails[0].Shade_Name;
         console.log(deliveryChalanDetails);
         this.salesInvoice.patchValue({
           Quality: deliveryChalanDetails[0].Quality._id,
@@ -471,12 +476,11 @@ export class SalesInvoiceComponent implements OnInit {
       });
   }
 
-  calculateTotalAmt(rate,fold) {
+  calculateTotalAmt(rate, fold) {
     let mtr = this.Total_Meters.value;
-    if(fold>0)
-    {
-      const per = 100-fold;
-      mtr = this.Total_Meters.value - (((this.Total_Meters.value)/100)*per);
+    if (fold > 0) {
+      const per = 100 - fold;
+      mtr = this.Total_Meters.value - (this.Total_Meters.value / 100) * per;
     }
     const totalAmt = rate * mtr;
     this.Total_Amount.patchValue(totalAmt.toFixed(2));
@@ -485,11 +489,15 @@ export class SalesInvoiceComponent implements OnInit {
       this.Packing.value,
       this.Checking.value,
       this.Packing_Other.value
-    )
-    this.deductTaxableAmt(this.Second.value, this.TP.value, this.SL.value,  this.Second_Other.value)
-     
+    );
+    this.deductTaxableAmt(
+      this.Second.value,
+      this.TP.value,
+      this.SL.value,
+      this.Second_Other.value
+    );
   }
-  
+
   addTaxableAmt(PACKING, CHECKING, PACKINGOTHER) {
     let taxAmt = this.Total_Amount.value;
     taxAmt =
@@ -498,10 +506,15 @@ export class SalesInvoiceComponent implements OnInit {
       parseFloat(CHECKING) +
       parseFloat(PACKINGOTHER);
     this.Taxable_Amount.patchValue(taxAmt);
-    this.deductTaxableAmt(this.Second.value, this.TP.value, this.SL.value,  this.Second_Other.value)
+    this.deductTaxableAmt(
+      this.Second.value,
+      this.TP.value,
+      this.SL.value,
+      this.Second_Other.value
+    );
   }
 
-  deductTaxableAmt(SECOND, TP, SL,  SECONDOTHER) {
+  deductTaxableAmt(SECOND, TP, SL, SECONDOTHER) {
     let amount =
       parseFloat(this.Total_Amount.value) +
       parseFloat(this.Packing.value) +

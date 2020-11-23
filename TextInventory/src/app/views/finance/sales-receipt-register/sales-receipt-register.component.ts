@@ -49,13 +49,15 @@ export class SalesReceiptRegisterComponent implements OnInit {
       this.cmservice
         .fetchDetails(element._id, "sales-receipt-details")
         .subscribe((details) => {
+          console.log(details);
           let paidAmt = 0;
           const amtToRcv = details[0].Amount;
+
 
           details.forEach((element) => {
             paidAmt += element.Paying_Amount;
           });
-
+           
           const remAmt = amtToRcv - paidAmt;
 
           const data = {

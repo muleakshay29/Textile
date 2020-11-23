@@ -70,6 +70,14 @@
             </table>
           </div>
         </div>
+        <div class="card-footer" *ngIf="dataLength > itemsPerPage">
+          <appPagination
+            [dataLength]="dataLength"
+            [itemsPerPage]="itemsPerPage"
+            (pageChanged)="pageChanged($event)"
+            (change)="setItemPerPage($event)"
+          ></appPagination>
+        </div>
       </div>
     </div>
   </div>

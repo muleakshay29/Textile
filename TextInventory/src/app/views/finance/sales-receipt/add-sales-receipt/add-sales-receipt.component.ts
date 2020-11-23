@@ -65,7 +65,7 @@ export class AddSalesReceiptComponent implements OnInit {
       Amount: [this.defaultValue],
       Paying_Amount: [this.defaultValue, Validators.required],
       Remaining_Amount: [this.defaultValue],
-      Tds_Amount: [this.defaultValue],
+      Tds_Amount: [0, Validators.required],
       Paid_By: ["", Validators.required],
       Cheque_No: [""],
       Cheque_Date: [],
@@ -362,9 +362,8 @@ export class AddSalesReceiptComponent implements OnInit {
     }
   }
 
-  calculateRemainingAfterTds(event) {
-    const remAmt =
-      this.RemainingAmount - this.Paying_Amount.value - event.target.value;
+  calculateRemainingAfterTds(tds) {
+    const remAmt = this.RemainingAmount - this.Paying_Amount.value - tds;
     this.Remaining_Amount.patchValue(remAmt);
   }
 
@@ -385,6 +384,7 @@ export class AddSalesReceiptComponent implements OnInit {
     }
 
     this.Remaining_Amount.patchValue(remainingAmt);
+    this.calculateRemainingAfterTds(this.Tds_Amount.value);
   }
 
   onCancel() {

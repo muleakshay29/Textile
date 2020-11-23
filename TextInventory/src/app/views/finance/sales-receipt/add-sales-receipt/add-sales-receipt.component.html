@@ -111,7 +111,8 @@
                   class="form-control"
                   placeholder="TDS Amount"
                   formControlName="Tds_Amount"
-                  (change)="calculateRemainingAfterTds($event)"
+                  (blur)="calculateRemainingAfterTds(Tds_Amount.value)"
+                  #tds
                 />
 
                 <app-error-message

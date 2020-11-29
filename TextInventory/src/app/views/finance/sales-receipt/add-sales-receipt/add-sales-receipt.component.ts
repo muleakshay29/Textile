@@ -65,7 +65,7 @@ export class AddSalesReceiptComponent implements OnInit {
       Amount: [this.defaultValue],
       Paying_Amount: [this.defaultValue, Validators.required],
       Remaining_Amount: [this.defaultValue],
-      Tds_Amount: [0, Validators.required],
+      Tds_Amount: [this.defaultValue, Validators.required],
       Paid_By: ["", Validators.required],
       Cheque_No: [""],
       Cheque_Date: [],
@@ -261,7 +261,7 @@ export class AddSalesReceiptComponent implements OnInit {
               Party_Name: details.Party._id,
               Amount: details.AmtOut,
               Remaining_Amount: balance,
-              Tds_Amount: details.Tds_Amount,
+              Tds_Amount: details.Tds_Amount || 0,
               Receipt_No: details.Invoice_No,
             });
 
@@ -370,21 +370,17 @@ export class AddSalesReceiptComponent implements OnInit {
   calculateRemaining(event) {
     const payingAmt = event.target.value;
     const availableAmt = this.Amount.value;
-    //const tds = event2.target.value;
-
-    console.log(
-      "paying amount ;- " + payingAmt + " avaiilableAmt is :- " + availableAmt
-    );
+    const tds = this.Tds_Amount.value;
     let remainingAmt = 0;
 
     if (this.RemainingAmount > 0 && this.RemainingAmount == availableAmt) {
       remainingAmt = availableAmt - payingAmt;
     } else {
-      remainingAmt = this.RemainingAmount - payingAmt;
+      remainingAmt = this.RemainingAmount - payingAmt - tds;
     }
 
     this.Remaining_Amount.patchValue(remainingAmt);
-    this.calculateRemainingAfterTds(this.Tds_Amount.value);
+    // this.calculateRemainingAfterTds(this.Tds_Amount.value);
   }
 
   onCancel() {

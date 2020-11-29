@@ -1,5 +1,5 @@
 <ngx-spinner type="ball-beat" [fullScreen]="true"
-  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
 >
 <div class="animated fadeIn">
   <div class="row">
@@ -52,11 +52,9 @@
                   formControlName="Firm_Name"
                   readonly
                 >
-                  <option
-                    value="{{ firm._id }}"
-                    *ngFor="let firm of firmList"
-                    >{{ firm.Company_Name }}</option
-                  >
+                  <option value="{{ firm._id }}" *ngFor="let firm of firmList">
+                    {{ firm.Company_Name }}
+                  </option>
                 </select>
               </div>
 
@@ -70,22 +68,24 @@
                   <option
                     value="{{ party._id }}"
                     *ngFor="let party of partyList"
-                    >{{ party.Company_Name }}</option
                   >
+                    {{ party.Company_Name }}
+                  </option>
                 </select>
               </div>
             </div>
 
             <div class="row">
               <div class="form-group col-sm-6">
-                <label for="Amount">Amount</label>
+                <label for="Remaining_Amount">Remaining Amount</label>
                 <input
-                  type="text"
+                  type="number"
                   class="form-control"
-                  formControlName="Amount"
+                  formControlName="Remaining_Amount"
                   readonly
                 />
               </div>
+
               <div class="form-group col-sm-6">
                 <label for="Paying_Amount">Paying Amount</label>
                 <input
@@ -111,7 +111,7 @@
                   class="form-control"
                   placeholder="TDS Amount"
                   formControlName="Tds_Amount"
-                  (blur)="calculateRemainingAfterTds(Tds_Amount.value)"
+                  (change)="calculateRemainingAfterTds(Tds_Amount.value)"
                   #tds
                 />
 
@@ -122,11 +122,11 @@
               </div>
 
               <div class="form-group col-sm-6">
-                <label for="Remaining_Amount">Remaining Amount</label>
+                <label for="Amount">Amount</label>
                 <input
-                  type="number"
+                  type="text"
                   class="form-control"
-                  formControlName="Remaining_Amount"
+                  formControlName="Amount"
                   readonly
                 />
               </div>
@@ -145,8 +145,9 @@
                   <option
                     value="{{ paid._id }}"
                     *ngFor="let paid of paidByList"
-                    >{{ paid.CMC_Name }}</option
                   >
+                    {{ paid.CMC_Name }}
+                  </option>
                 </select>
 
                 <app-error-message
@@ -200,8 +201,9 @@
                   <option
                     value="{{ account._id }}"
                     *ngFor="let account of accountList"
-                    >{{ account.Bank_Name }}</option
                   >
+                    {{ account.Bank_Name }}
+                  </option>
                 </select>
               </div>
             </div>

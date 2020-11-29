@@ -265,7 +265,7 @@ export class AddSalesInvoiceManualComponent implements OnInit {
         this.Year_Id
       );
       formData.Form_Type = 1;
-      
+
       console.log(formData);
       this.commonservice
         .addData(formData, "add-sales-invoice-manual")
@@ -298,7 +298,7 @@ export class AddSalesInvoiceManualComponent implements OnInit {
               Created_By: this.commonservice.currentUser.Company_Id,
               Created_Date: new Date(),
             };
-          
+
             this.commonservice
               .addData(accountTrans, "add-account-transaction")
               .subscribe();
@@ -330,13 +330,45 @@ export class AddSalesInvoiceManualComponent implements OnInit {
         )
         .subscribe((data) => {
           if (data != null) {
-            console.log("Record updated")
             this.commonservice
-              .deleteData(this.salesInvoiceID, "delete-common-account-trans")
-              .subscribe((result) => {
-                console.log("Record Deleted count "+this.salesInvoiceID+" result.deletedCount is "+result.deletedCount);
-                console.log("Invoice no is "+invoiceNo);
-                if (result.deletedCount > 0) {
+              .findData(
+                { T_Code: this.salesInvoiceID },
+                "find-common-account-transaction"
+              )
+              .subscribe((count) => {
+                if (count && count.length > 0) {
+                  const accountTrans = {
+                    Party: formData.To_Party,
+                    Against_Voucher: "SALES INVOICE MANUAL",
+                    Invoice_No: invoiceNo,
+                    AmtOut: formData.Grand_Total,
+                    Date: formData.Date,
+                    Voucher_Type: "SALES INVOICE MANUAL",
+                    Amount: formData.Grand_Total,
+                    Firm: formData.From_Party,
+                    Company_Id: this.commonservice.currentUser.Company_Id,
+                    Year_Id: this.Year_Id,
+                    Updated_By: this.commonservice.currentUser.Company_Id,
+                    Updated_Date: new Date(),
+                  };
+
+                  this.commonservice
+                    .updateData(
+                      this.salesInvoiceID,
+                      accountTrans,
+                      "update-common-account-transaction"
+                    )
+                    .subscribe((update) => {
+                      this.toastr.success(
+                        "Record updated successfuly",
+                        "Success"
+                      );
+                      this.router.navigate([
+                        "/transaction/sales-invoice-manual",
+                      ]);
+                      this.spinner.hide();
+                    });
+                } else {
                   const accountTrans = {
                     T_Code: this.salesInvoiceID,
                     Party: formData.To_Party,
@@ -359,13 +391,13 @@ export class AddSalesInvoiceManualComponent implements OnInit {
                       "SALESINVOICEMANUAL",
                       this.Year_Id
                     ),
+                    Tds_Amount: 0,
                     Company_Id: this.commonservice.currentUser.Company_Id,
                     Year_Id: this.Year_Id,
                     Created_By: this.commonservice.currentUser.Company_Id,
                     Created_Date: new Date(),
-                 };
-                   
-                  
+                  };
+
                   this.commonservice
                     .addData(accountTrans, "add-account-transaction")
                     .subscribe();
@@ -510,12 +542,11 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       });
   }
 
-  calculateTotalAmt(rate,fold) {
+  calculateTotalAmt(rate, fold) {
     let mtr = this.Total_Meters.value;
-    if(fold>0)
-    {
-      const per = 100-fold;
-      mtr = this.Total_Meters.value - (((this.Total_Meters.value)/100)*per);
+    if (fold > 0) {
+      const per = 100 - fold;
+      mtr = this.Total_Meters.value - (this.Total_Meters.value / 100) * per;
     }
     const totalAmt = rate * mtr;
     this.Total_Amount.patchValue(totalAmt.toFixed(2));
@@ -524,9 +555,13 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       this.Packing.value,
       this.Checking.value,
       this.Packing_Other.value
-    )
-    this.deductTaxableAmt(this.Second.value, this.TP.value, this.SL.value,  this.Second_Other.value)
-     
+    );
+    this.deductTaxableAmt(
+      this.Second.value,
+      this.TP.value,
+      this.SL.value,
+      this.Second_Other.value
+    );
   }
 
   addTaxableAmt(PACKING, CHECKING, PACKINGOTHER) {
@@ -537,7 +572,12 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       parseFloat(CHECKING) +
       parseFloat(PACKINGOTHER);
     this.Taxable_Amount.patchValue(taxAmt);
-    this.deductTaxableAmt(this.Second.value, this.TP.value, this.SL.value,  this.Second_Other.value)
+    this.deductTaxableAmt(
+      this.Second.value,
+      this.TP.value,
+      this.SL.value,
+      this.Second_Other.value
+    );
   }
 
   deductTaxableAmt(SECOND, TP, SL, SECONDOTHER) {

@@ -5,7 +5,7 @@ import { CommonService } from "../../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { element } from "protractor";
-import { DeliveryChalanPrintComponent } from '../../../../_helper/delivery-chalan-print/delivery-chalan-print.component';
+import { DeliveryChalanPrintComponent } from "../../../../_helper/delivery-chalan-print/delivery-chalan-print.component";
 
 @Component({
   selector: "app-add-delivery-chalan",
@@ -28,7 +28,7 @@ export class AddDeliveryChalanComponent implements OnInit {
   invoiceNo: any;
   TagaStockDetails = [];
   SelectedTagaStockDetails = [];
-  
+
   totalMtrs = 0;
   totalPieces = 0;
   checkboxCounter = 0;
@@ -59,7 +59,7 @@ export class AddDeliveryChalanComponent implements OnInit {
     this.fetchFirm();
     this.fetchBroker();
     this.getItemCount();
-   
+
     // this.fetchContract();
 
     this.route.params.subscribe((params: Params) => {
@@ -171,10 +171,6 @@ export class AddDeliveryChalanComponent implements OnInit {
     const formData = this.deliveryChalan.value;
 
     if (!this.editMode) {
-      /* if (
-        formData.Total_Warf_Consumption != 0 &&
-        formData.Total_Weft_Consumption != 0
-      ) { */
       formData.Company_Id = this.commonservice.currentUser.Company_Id;
       formData.Year_Id = this.Year_Id;
       formData.Created_By = this.commonservice.currentUser.Company_Id;
@@ -190,6 +186,7 @@ export class AddDeliveryChalanComponent implements OnInit {
           if (data != null) {
             let pieceCounter = 0;
             let errorArr = [];
+
             this.SelectedTagaStockDetails.forEach((element) => {
               pieceCounter++;
               const gramez = 0;
@@ -219,27 +216,34 @@ export class AddDeliveryChalanComponent implements OnInit {
                   }
                 });
 
-                const updateStockData = {
-                  Delivery_Chalan_Id:data._id,
-                  Updated_By:this.commonservice.currentUser.Company_Id,
-                  Updated_Date:new Date(),
-                  IsUsed:1,
-                }
-                 
-                this.commonservice.updateData(element.id, updateStockData, 'update-stock-taga-with-delivery-chaln')
-                .subscribe(result => {
+              const updateStockData = {
+                Delivery_Chalan_Id: data._id,
+                Updated_By: this.commonservice.currentUser.Company_Id,
+                Updated_Date: new Date(),
+                IsUsed: 1,
+              };
+
+              this.commonservice
+                .updateData(
+                  element.id,
+                  updateStockData,
+                  "update-stock-taga-with-delivery-chaln"
+                )
+                .subscribe((result) => {
                   if (result !== null) {
-                    this.toastr.success("Record added successfuly in stock taga", "Success");  
-                    } else {
-                      this.toastr.error(
-                        "Error adding record In Staock taga. Please try again.",
-                        "Error"
-                      );                      
-                    }
-                })
+                    this.toastr.success(
+                      "Record added successfuly in stock taga",
+                      "Success"
+                    );
+                  } else {
+                    this.toastr.error(
+                      "Error adding record In Staock taga. Please try again.",
+                      "Error"
+                    );
+                  }
+                });
             });
-            
-           
+
             this.warfList.forEach((element) => {
               const yarnStockData = {
                 InwardOutwardId: data._id,
@@ -273,8 +277,10 @@ export class AddDeliveryChalanComponent implements OnInit {
                 .subscribe((stock) => {
                   if (stock !== null) {
                     errorArr.push(0);
-                    this.toastr.success("Record added successfuly in stock taga", "Success");
-             
+                    this.toastr.success(
+                      "Record added successfuly in stock taga",
+                      "Success"
+                    );
                   } else {
                     errorArr.push(-1);
                     this.toastr.error(
@@ -326,8 +332,32 @@ export class AddDeliveryChalanComponent implements OnInit {
               );
               this.spinner.hide();
             } else {
+              this.commonservice
+                .fetchDetails(
+                  data._id,
+                  "fetch-delivery-chalan-sales-invoice-by-id"
+                )
+                .subscribe((content) => {
+                  const result = this.commonservice.openPrintModal(
+                    content,
+                    data._id,
+                    DeliveryChalanPrintComponent
+                  );
+                  result.content.onClose.subscribe((result: boolean) => {
+                    if (result == true) {
+                      this.spinner.show();
+                      // this.toastr.success(
+                      //   "Record added successfuly",
+                      //   "Success"
+                      // );
+                      // this.deliveryChalan.reset();
+                      // this.router.navigate(["/transaction/delivery-chalan"]);
+                      // this.spinner.hide();
+                    }
+                  });
+                });
+
               this.toastr.success("Record added successfuly", "Success");
-             
               this.deliveryChalan.reset();
               this.router.navigate(["/transaction/delivery-chalan"]);
               this.spinner.hide();
@@ -337,7 +367,7 @@ export class AddDeliveryChalanComponent implements OnInit {
               "Error adding record. Please try again.",
               "Error"
             );
-            this.spinner.hide(); 
+            this.spinner.hide();
           }
         });
     } else {
@@ -350,10 +380,12 @@ export class AddDeliveryChalanComponent implements OnInit {
         .updateData(this.deliveryChalanID, formData, "update-delivery-chalan")
         .subscribe((data) => {
           if (data != null) {
-            
-            console.log(data)
+            console.log(data);
 
-            this.toastr.success("Record updated successfuly "+data, "Success");
+            this.toastr.success(
+              "Record updated successfuly " + data,
+              "Success"
+            );
             this.deliveryChalan.reset();
             this.router.navigate(["/transaction/delivery-chalan"]);
             this.spinner.hide();
@@ -491,7 +523,7 @@ export class AddDeliveryChalanComponent implements OnInit {
       });
   }
 
-  fetchStockTagaDetails(Quality, Shed,Party_Name) {
+  fetchStockTagaDetails(Quality, Shed, Party_Name) {
     this.commonservice
       .findData({ Quality, Shed, Party_Name }, "fetch-stock-taga-details")
       .subscribe((tagaDetails) => {
@@ -527,7 +559,13 @@ export class AddDeliveryChalanComponent implements OnInit {
       //           Weight: element.TAGA_Weight,
       //           TAGA_NO: element.TAGA_NO,
 
-      this.SelectedTagaStockDetails.push({Loom_No: TAGA.Loom_No, TAGA_Meter:TAGA.TAGA_Meter, TAGA_Weight:TAGA.TAGA_Weight,TAGA_NO: TAGA.TAGA_NO, id:TAGA._id})
+      this.SelectedTagaStockDetails.push({
+        Loom_No: TAGA.Loom_No,
+        TAGA_Meter: TAGA.TAGA_Meter,
+        TAGA_Weight: TAGA.TAGA_Weight,
+        TAGA_NO: TAGA.TAGA_NO,
+        id: TAGA._id,
+      });
 
       this.calculateTotalConsumptions();
     } else {
@@ -699,6 +737,4 @@ export class AddDeliveryChalanComponent implements OnInit {
       }
     });
   }
-
-  
 }

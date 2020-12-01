@@ -53,6 +53,7 @@ export class SalesInvoiceComponent implements OnInit {
     // this.fetchFirm();
     this.fetchBroker();
     // this.fetchContract();
+    this.fetchShed();
 
     this.route.params.subscribe((params: Params) => {
       this.salesInvoiceID = params["id"];
@@ -99,6 +100,7 @@ export class SalesInvoiceComponent implements OnInit {
       Total_GST_Amt: [this.defaultValue],
       Round_Off: [this.defaultValue],
       Grand_Total: [this.defaultValue],
+      Shed: ["", Validators.required],
     });
   }
 
@@ -234,6 +236,10 @@ export class SalesInvoiceComponent implements OnInit {
     return this.salesInvoice.get("Grand_Total");
   }
 
+  get Shed() {
+    return this.salesInvoice.get("Shed");
+  }
+
   getYearId() {
     let today = new Date();
     const year = today.getFullYear();
@@ -314,7 +320,7 @@ export class SalesInvoiceComponent implements OnInit {
             PaymentID: "",
             Paid_From_Acc: "",
             Voucher_Type: "SALES INVOICE",
-            Shed: this.selectedShed,
+            Shed: formData.Shed,
             Amount: formData.Grand_Total,
             Balance_Type: "",
             Firm: formData.From_Party,
@@ -407,6 +413,13 @@ export class SalesInvoiceComponent implements OnInit {
     });
   }
 
+  fetchShed() {
+    this.commonservice.fetchData(0, 0, "fetch-loom").subscribe((list) => {
+      this.shedList = list;
+      console.log(list);
+    });
+  }
+
   fetchDeliveryChalan() {
     this.commonservice
       .fetchDetails(this.salesInvoiceID, "delivery-chalan-details")
@@ -422,6 +435,10 @@ export class SalesInvoiceComponent implements OnInit {
         const formatedYear = date.getFullYear();
         const dcDate = formatedYear + "-" + formatedMonth + "-" + formatedDay;
 
+        if (deliveryChalan.Shed) {
+          this.Shed.disable();
+        }
+
         this.salesInvoice.patchValue({
           DC_Date: dcDate,
           No_Of_Pieces: deliveryChalan.Pieces,
@@ -430,6 +447,7 @@ export class SalesInvoiceComponent implements OnInit {
           Broker_Name: deliveryChalan.Broker_Name._id,
           From_Party: deliveryChalan.Firm_Name._id,
           To_Party: deliveryChalan.Party_Name._id,
+          Shed: deliveryChalan.Shed || "",
         });
 
         this.deliveryChalanDetails.push(deliveryChalan);

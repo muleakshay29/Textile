@@ -1,4 +1,3 @@
-<!-- <div class="modal fade" id="exampleModal" tabindex="-1"> -->
 <div class="modal-dialog mw-100 mx-4" id="print-html">
   <div class="modal-content">
     <div class="modal-body">
@@ -45,7 +44,11 @@
         </div>
 
         <div class="row">
-          <div class="col-6 p-0 border" *ngIf="data">
+          <div
+            class="p-0"
+            [className]="data.length <= 30 ? 'col-12 px-0' : 'col-6'"
+            *ngIf="data.length > 0"
+          >
             <table class="table table-hover table-outline mb-0 table-bordered">
               <thead>
                 <tr>
@@ -58,16 +61,16 @@
               </thead>
               <tbody>
                 <tr *ngFor="let d of data">
-                  <td>{{ d.Loom_No.Loom_No }}</td>
-                  <td>{{ d.Piece_No }}</td>
-                  <td>{{ d.Meters }}</td>
-                  <td>{{ d.Weight }}</td>
-                  <td>{{ d.GRAMEZ }}</td>
+                  <td class="text-center">{{ d.Loom_No.Loom_No }}</td>
+                  <td class="text-center">{{ d.Piece_No }}</td>
+                  <td class="text-center">{{ d.Meters }}</td>
+                  <td class="text-center">{{ d.Weight }}</td>
+                  <td class="text-center">{{ d.GRAMEZ }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class="col-6 p-0 border" *ngIf="data2">
+          <div class="col-6 p-0" *ngIf="data2.length > 0">
             <table class="table table-hover table-outline mb-0 table-bordered">
               <thead>
                 <tr>
@@ -95,10 +98,8 @@
 
     <div class="modal-footer d-print-none">
       <a class="btn btn-info font-weight-bold" (click)="printPdf('print-html')">
-        <!-- <i class="nav-icon icon-plus font-weight-bold"></i> &nbsp;Print -->
         <i class="cui-print icons font-xl d-inline"></i> &nbsp;Print
       </a>
     </div>
   </div>
 </div>
-<!-- </div> -->

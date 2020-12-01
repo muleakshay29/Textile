@@ -46,6 +46,7 @@ export class EditSalesInvoiceComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.getYearId();
+    this.fetchShed();
 
     this.route.params.subscribe((params: Params) => {
       this.salesInvoiceID = params["id"];
@@ -89,6 +90,7 @@ export class EditSalesInvoiceComponent implements OnInit {
       Total_GST_Amt: [this.defaultValue],
       Round_Off: [this.defaultValue],
       Grand_Total: [this.defaultValue],
+      Shed: ["", Validators.required],
     });
   }
 
@@ -224,6 +226,10 @@ export class EditSalesInvoiceComponent implements OnInit {
     return this.salesInvoice.get("Grand_Total");
   }
 
+  get Shed() {
+    return this.salesInvoice.get("Shed");
+  }
+
   getYearId() {
     let today = new Date();
     const year = today.getFullYear();
@@ -265,7 +271,10 @@ export class EditSalesInvoiceComponent implements OnInit {
         const DCDate =
           formateddcYear + "-" + formateddcMonth + "-" + formateddcDay;
 
-           console.log("Quality is "+details.Quality.Design_Name);
+        if (details.Shed) {
+          this.Shed.disable();
+        }
+
         this.salesInvoice.setValue({
           Invoice_No: details.Invoice_No,
           Date: formatedDate,
@@ -300,6 +309,7 @@ export class EditSalesInvoiceComponent implements OnInit {
           Total_GST_Amt: details.Total_GST_Amt,
           Round_Off: details.Round_Off,
           Grand_Total: details.Grand_Total,
+          Shed: details.Shed || "",
         });
 
         this.fetchFirm(details.From_Party._id);
@@ -355,12 +365,18 @@ export class EditSalesInvoiceComponent implements OnInit {
       });
   }
 
-  calculateTotalAmt(rate,fold) {
+  fetchShed() {
+    this.commonservice.fetchData(0, 0, "fetch-loom").subscribe((list) => {
+      this.shedList = list;
+      console.log(list);
+    });
+  }
+
+  calculateTotalAmt(rate, fold) {
     let mtr = this.Total_Meters.value;
-    if(fold>0)
-    {
-      const per = 100-fold;
-      mtr = this.Total_Meters.value - (((this.Total_Meters.value)/100)*per);
+    if (fold > 0) {
+      const per = 100 - fold;
+      mtr = this.Total_Meters.value - (this.Total_Meters.value / 100) * per;
     }
     const totalAmt = rate * mtr;
     this.Total_Amount.patchValue(totalAmt.toFixed(2));
@@ -369,9 +385,13 @@ export class EditSalesInvoiceComponent implements OnInit {
       this.Packing.value,
       this.Checking.value,
       this.Packing_Other.value
-    )
-    this.deductTaxableAmt(this.Second.value, this.TP.value, this.SL.value,  this.Second_Other.value)
-     
+    );
+    this.deductTaxableAmt(
+      this.Second.value,
+      this.TP.value,
+      this.SL.value,
+      this.Second_Other.value
+    );
   }
 
   addTaxableAmt(PACKING, CHECKING, PACKINGOTHER) {
@@ -382,8 +402,12 @@ export class EditSalesInvoiceComponent implements OnInit {
       parseFloat(CHECKING) +
       parseFloat(PACKINGOTHER);
     this.Taxable_Amount.patchValue(taxAmt);
-    this.deductTaxableAmt(this.Second.value, this.TP.value, this.SL.value,  this.Second_Other.value)
-     
+    this.deductTaxableAmt(
+      this.Second.value,
+      this.TP.value,
+      this.SL.value,
+      this.Second_Other.value
+    );
   }
 
   deductTaxableAmt(SECOND, TP, SL, SECONDOTHER) {
@@ -479,7 +503,7 @@ export class EditSalesInvoiceComponent implements OnInit {
       .updateData(this.salesInvoiceID, formData, "update-sales-invoice")
       .subscribe((data) => {
         if (data != null) {
-          this.commonservice
+          /* this.commonservice
             .deleteData(this.salesInvoiceID, "delete-common-account-trans")
             .subscribe((result) => {
               if (result.ok == 1) {
@@ -497,7 +521,85 @@ export class EditSalesInvoiceComponent implements OnInit {
                   PaymentID: "",
                   Paid_From_Acc: "",
                   Voucher_Type: "SALES INVOICE",
-                  Shed: this.selectedShed,
+                  Shed: formData.Shed,
+                  Amount: formData.Grand_Total,
+                  Balance_Type: "",
+                  Firm: this.salesInvoiceDetails["From_Party"],
+                  UniqueCode: this.commonservice.generateUniqueCode(
+                    "SALESINVOICE",
+                    this.Year_Id
+                  ),
+                  Company_Id: this.commonservice.currentUser.Company_Id,
+                  Year_Id: this.Year_Id,
+                  Created_By: this.commonservice.currentUser.Company_Id,
+                  Created_Date: new Date(),
+                };
+
+                this.commonservice
+                  .addData(accountTrans, "add-account-transaction")
+                  .subscribe();
+
+                this.toastr.success("Record updated successfuly", "Success");
+                this.router.navigate(["/transaction/sales-invoice-register"]);
+                this.spinner.hide();
+              }
+            }); */
+
+          this.commonservice
+            .findData(
+              { T_Code: this.salesInvoiceID },
+              "find-common-account-transaction"
+            )
+            .subscribe((count) => {
+              if (count && count.length > 0) {
+                const accountTrans = {
+                  Party: this.salesInvoiceDetails["To_Party"],
+                  Against_Voucher: "SALES INVOICE",
+                  Invoice_No: this.salesInvoiceDetails["Invoice_No"],
+                  AmtOut: formData.Grand_Total,
+                  Date: this.salesInvoiceDetails["Date"],
+                  Voucher_Type: "SALES INVOICE",
+                  Amount: formData.Grand_Total,
+                  Firm: this.salesInvoiceDetails["From_Party"],
+                  Shed: this.salesInvoiceDetails["Shed"],
+                  Company_Id: this.commonservice.currentUser.Company_Id,
+                  Year_Id: this.Year_Id,
+                  Updated_By: this.commonservice.currentUser.Company_Id,
+                  Updated_Date: new Date(),
+                };
+
+                this.commonservice
+                  .updateData(
+                    this.salesInvoiceID,
+                    accountTrans,
+                    "update-common-account-transaction"
+                  )
+                  .subscribe((update) => {
+                    this.toastr.success(
+                      "Record updated successfuly",
+                      "Success"
+                    );
+                    this.router.navigate([
+                      "/transaction/sales-invoice-register",
+                    ]);
+                    this.spinner.hide();
+                  });
+              } else {
+                const accountTrans = {
+                  T_Code: this.salesInvoiceID,
+                  Party: this.salesInvoiceDetails["To_Party"],
+                  Against_Voucher: "SALES INVOICE",
+                  Invoice_No: this.salesInvoiceDetails["Invoice_No"],
+                  GETPASS: "",
+                  AmtIn: 0,
+                  AmtOut: formData.Grand_Total,
+                  PaidBy: "",
+                  Date: this.salesInvoiceDetails["Date"],
+                  Cheque_No: "",
+                  PaymentID: "",
+                  Paid_From_Acc: "",
+                  Voucher_Type: "SALES INVOICE",
+                  Shed: formData.Shed,
                   Amount: formData.Grand_Total,
                   Balance_Type: "",
                   Firm: this.salesInvoiceDetails["From_Party"],

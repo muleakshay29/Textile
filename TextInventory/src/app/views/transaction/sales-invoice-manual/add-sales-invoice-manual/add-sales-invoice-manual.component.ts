@@ -49,6 +49,7 @@ export class AddSalesInvoiceManualComponent implements OnInit {
     this.fetchParty();
     this.fetchFirm();
     this.fetchBroker();
+    this.fetchShed();
 
     this.route.params.subscribe((params: Params) => {
       this.salesInvoiceID = params["id"] ? params["id"] : "";
@@ -93,6 +94,7 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       Total_GST_Amt: [this.defaultValue],
       Round_Off: [this.defaultValue],
       Grand_Total: [this.defaultValue],
+      Shed: ["", Validators.required],
     });
   }
 
@@ -228,6 +230,10 @@ export class AddSalesInvoiceManualComponent implements OnInit {
     return this.salesInvoice.get("Grand_Total");
   }
 
+  get Shed() {
+    return this.salesInvoice.get("Shed");
+  }
+
   getYearId() {
     let today = new Date();
     const year = today.getFullYear();
@@ -285,7 +291,7 @@ export class AddSalesInvoiceManualComponent implements OnInit {
               PaymentID: "",
               Paid_From_Acc: "",
               Voucher_Type: "SALES INVOICE MANUAL",
-              Shed: "",
+              Shed: formData.Shed,
               Amount: formData.Grand_Total,
               Balance_Type: "",
               Firm: formData.From_Party,
@@ -346,6 +352,7 @@ export class AddSalesInvoiceManualComponent implements OnInit {
                     Voucher_Type: "SALES INVOICE MANUAL",
                     Amount: formData.Grand_Total,
                     Firm: formData.From_Party,
+                    Shed: formData.Shed,
                     Company_Id: this.commonservice.currentUser.Company_Id,
                     Year_Id: this.Year_Id,
                     Updated_By: this.commonservice.currentUser.Company_Id,
@@ -383,7 +390,7 @@ export class AddSalesInvoiceManualComponent implements OnInit {
                     PaymentID: "",
                     Paid_From_Acc: "",
                     Voucher_Type: "SALES INVOICE MANUAL",
-                    Shed: "",
+                    Shed: formData.Shed,
                     Amount: formData.Grand_Total,
                     Balance_Type: "",
                     Firm: formData.From_Party,
@@ -445,6 +452,10 @@ export class AddSalesInvoiceManualComponent implements OnInit {
           const DCDate =
             formateddcYear + "-" + formateddcMonth + "-" + formateddcDay;
 
+          if (details.Shed) {
+            this.Shed.disable();
+          }
+
           this.salesInvoice.setValue({
             Invoice_No: details.Invoice_No,
             Date: formatedDate,
@@ -479,6 +490,7 @@ export class AddSalesInvoiceManualComponent implements OnInit {
             Total_GST_Amt: details.Total_GST_Amt,
             Round_Off: details.Round_Off,
             Grand_Total: details.Grand_Total,
+            Shed: details.Shed || "",
           });
           this.spinner.hide();
         });
@@ -506,6 +518,13 @@ export class AddSalesInvoiceManualComponent implements OnInit {
   fetchBroker() {
     this.commonservice.fetchData(0, 0, "fetch-broker").subscribe((list) => {
       this.brokerList = list;
+    });
+  }
+
+  fetchShed() {
+    this.commonservice.fetchData(0, 0, "fetch-loom").subscribe((list) => {
+      this.shedList = list;
+      console.log(list);
     });
   }
 

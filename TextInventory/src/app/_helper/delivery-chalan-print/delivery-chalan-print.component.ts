@@ -5,6 +5,13 @@ import { HtmltopaperService } from "../../_services/htmltopaper.service";
 @Component({
   selector: "app-delivery-chalan-print",
   templateUrl: "./delivery-chalan-print.component.html",
+  styles: [
+    `
+      .modal-body {
+        padding: 0.9rem;
+      }
+    `,
+  ],
 })
 export class DeliveryChalanPrintComponent implements OnInit {
   content: any;
@@ -35,8 +42,8 @@ export class DeliveryChalanPrintComponent implements OnInit {
     this.cmservice
       .fetchDetails(this._id, "delivery-chalan-child-details")
       .subscribe((details) => {
-        this.data = details.splice(0, 30);
-        this.data2 = details.splice(30, 30);
+        this.data = details.slice(0, 30);
+        this.data2 = details.slice(30, 30);
 
         console.log(this.data);
         console.log(this.data2);

@@ -1,4 +1,4 @@
-<div class="modal-body text-center">
+<!-- <div class="modal-body text-center">
   <button
     type="button"
     printSectionId="print-section"
@@ -634,3 +634,382 @@
     </div>
   </div>
 </div> -->
+-->
+
+<div class="modal-body text-center">
+  <button
+    type="button"
+    printSectionId="print-section"
+    class="btn btn-info font-weight-bolder"
+    [useExistingCss]="true"
+    ngxPrint
+  >
+    Print Invoice
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-warning font-weight-bolder"
+    (click)="bsModalRef.hide()"
+  >
+    Cancel
+  </button>
+
+  <div
+    id="print-section"
+    class="table-responsive-sm pl-5 pr-5"
+    width="2480"
+    height="3508"
+  >
+    <div class="text-center pt-2" style="background-color: white">
+      TAX INVOICE
+    </div>
+    <div
+      class="border-bottom border p-3"
+      style="
+        background: url(../../../assets/PATIL\ NEW\ LOGO-3.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+      "
+    >
+      <div class="row border-bottom">
+        <div class="col-1">
+          <img
+            class="mt-0 ml-3"
+            src="../../../assets/220px-Jainism.png"
+            height="150"
+            width="100"
+          />
+        </div>
+        <div class="col-11">
+          <div class="text-center display-4 font-weight-bolder">
+            <h1>{{ salesInvoiceDetails.Firm_Name }}</h1>
+          </div>
+          <div class="text-center">
+            <h4>{{ salesInvoiceDetails.Firm_Address }}</h4>
+          </div>
+          <div class="text-center">
+            <h6>
+              <b>Contact No :- </b>
+              <span class="pl-1 pr-1"
+                >{{ salesInvoiceDetails.Firm_Mobile }},</span
+              >
+              <span class="pl-1 pr-1">{{
+                salesInvoiceDetails.Firm_Alternate_No
+              }}</span>
+
+              <b>Mail Id :- </b>papatil1960@gmail.com
+            </h6>
+          </div>
+        </div>
+      </div>
+      <div
+        class="row border-top border-right border-left border-bottom pt-3 pb-3"
+      >
+        <div class="col-4 text-center">
+          <b
+            >GSTN NO :-
+            <span class="ml-1 mr-1">{{
+              salesInvoiceDetails.Firm_GST_No
+            }}</span></b
+          >
+        </div>
+        <div class="col-4"></div>
+        <div class="col-4 text-center">
+          <b
+            >PAN NO :-
+            <span class="ml-1 mr-1">{{
+              salesInvoiceDetails.Firm_Pan_No
+            }}</span></b
+          >
+        </div>
+      </div>
+      <div class="row border-top border-right border-left border-bottom">
+        <div class="col-8 border-top border-right border-left border-bottom">
+          <div class="row pl-4 pt-2">
+            <h5>
+              <b><i>To,</i></b>
+            </h5>
+          </div>
+          <div class="row pl-4 pt-2">
+            <h4>
+              <b>{{ salesInvoiceDetails.Party_Name }}</b>
+            </h4>
+          </div>
+          <div class="row pl-4 pt-2">
+            <h6>{{ salesInvoiceDetails.Party_Address }}</h6>
+          </div>
+          <div class="row pl-4 pt-2">
+            <div class="col-6">
+              <strong>GSTN :</strong>
+              <span class="ml-1 mr-1">{{
+                salesInvoiceDetails.Party_GST_No
+              }}</span>
+            </div>
+            <div class="col-6">
+              <strong>PAN :</strong>
+              <span class="ml-1 mr-1">{{
+                salesInvoiceDetails.Party_Pan_No
+              }}</span>
+            </div>
+          </div>
+          <div class="row pl-3 pt-2">
+            <div class="col-6">
+              <strong>STATE :</strong>
+              <span class="ml-1 mr-1">MAHARASHTRA</span>
+            </div>
+            <div class="col-6">
+              <strong>CODE :</strong>
+              <span class="ml-1 mr-1">{{
+                salesInvoiceDetails.Party_State_Code
+              }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="row pl-4 pt-2"></div>
+          <div class="row pl-4 pt-2">
+            <strong>INVOICE NO : </strong>
+            <span class="ml-1 mr-1">{{ salesInvoiceDetails.Invoice_No }}</span>
+          </div>
+          <div class="row pl-4 pt-2">
+            <strong>DATE : </strong>
+            <span class="ml-1 mr-1">{{
+              salesInvoiceDetails.Date | date: "MM/dd/yyyy"
+            }}</span>
+          </div>
+          <div class="row pl-4 pt-2"><strong>BROKER :</strong></div>
+          <div class="row pl-4 pt-2">{{ salesInvoiceDetails.Broker_Name }}</div>
+        </div>
+      </div>
+      <div
+        class="row border-top border-right border-left border-bottom pt-3 pb-3"
+      >
+        <div class="col-1 text-center"><h6>SLIP NO</h6></div>
+        <div class="col-4 text-center"><h6>PERTICULARS</h6></div>
+        <div class="col-1 text-center"><h6>PIECES</h6></div>
+        <div class="col-2 text-center"><h6>METERS</h6></div>
+        <div class="col-2 text-center"><h6>RATE</h6></div>
+        <div class="col-2 text-center"><h6>AMOUNT</h6></div>
+      </div>
+      <div class="row pt-4 pb-5">
+        <div class="col-1 text-center">
+          <h6>{{ salesInvoiceDetails.DC_NO }}</h6>
+        </div>
+        <div class="col-4 text-center">
+          <div class="row text-left">
+            <h6>{{ salesInvoiceDetails.Quality }}</h6>
+          </div>
+          <div class="row text-left pt-1">
+            <strong>LOOM NO: </strong>
+            <span class="mr-1 ml-1">{{ salesInvoiceDetails.Loom_No }}</span>
+          </div>
+          <div class="row text-left pt-1">
+            <strong>HSN NO: </strong>
+            <span class="mr-1 ml-1">{{ salesInvoiceDetails.HSN_NO }}</span>
+          </div>
+        </div>
+        <div class="col-1 text-center">
+          <h6>{{ salesInvoiceDetails.No_Of_Pieces }}</h6>
+        </div>
+        <div class="col-2 text-center">
+          <h6>{{ salesInvoiceDetails.Total_Meters }}</h6>
+        </div>
+        <div class="col-2 text-center">
+          <h6>{{ salesInvoiceDetails.Rate }}</h6>
+          >
+        </div>
+        <div class="col-2 text-center">
+          <h6>{{ salesInvoiceDetails.Total_Amount }}</h6>
+          >
+        </div>
+      </div>
+      <div class="row pt-5 pb-5"></div>
+      <div
+        class="row border-top border-right border-left border-bottom pt-3 pb-3"
+      >
+        <div class="col-2 text-center"><h6>ADD</h6></div>
+        <div class="col-2 text-center"><h6>PACKING</h6></div>
+        <div class="col-2 text-center"><h6>CHECKING</h6></div>
+        <div class="col-2 text-center"><h6>OTHER</h6></div>
+        <div class="col-2 text-center"><h6>ADD :</h6></div>
+      </div>
+      <div
+        class="row border-top border-right border-left border-bottom pt-3 pb-3"
+      >
+        <div class="col-2 text-center"></div>
+        <div class="col-2 text-center">
+          <h6>{{ salesInvoiceDetails.Packing }}</h6>
+        </div>
+        <div class="col-2 text-center">
+          <h6>{{ salesInvoiceDetails.Checking }}</h6>
+        </div>
+        <div class="col-2 text-center">
+          <h6>{{ salesInvoiceDetails.Packing_Other }}</h6>
+        </div>
+        <div class="col-2 text-center"></div>
+        <div class="col-2 text-center">
+          <h6>{{ salesInvoiceDetails.ADD }}</h6>
+        </div>
+      </div>
+
+      <div
+        class="row border-top border-right border-left border-bottom pt-3 pb-3"
+      >
+        <div class="col-1 text-center"><h6>LESS</h6></div>
+        <div class="col-2 text-center"><h6>SECAND</h6></div>
+        <div class="col-2 text-center"><h6>T.P</h6></div>
+        <div class="col-1 text-center"><h6>S.L</h6></div>
+        <div class="col-1 text-center"><h6>FOLD</h6></div>
+        <div class="col-2 text-center"><h6>OTHER</h6></div>
+        <div class="col-1 text-center"><h6>LESS :</h6></div>
+      </div>
+      <div
+        class="row border-top border-right border-left border-bottom pt-3 pb-3"
+      >
+        <div class="col-1 text-center"></div>
+        <div class="col-2 text-center">
+          <h6>{{ salesInvoiceDetails.Second }}</h6>
+        </div>
+        <div class="col-2 text-center">
+          <h6>{{ salesInvoiceDetails.TP }}</h6>
+        </div>
+        <div class="col-1 text-center">
+          <h6>{{ salesInvoiceDetails.SL }}</h6>
+        </div>
+        <div class="col-1 text-center">
+          <h6>{{ salesInvoiceDetails.FOLD }}</h6>
+        </div>
+        <div class="col-2 text-center">
+          <h6>{{ salesInvoiceDetails.Second_Other }}</h6>
+        </div>
+        <div class="col-1 text-center"></div>
+        <div class="col-2 text-center">
+          <h6>{{ salesInvoiceDetails.LESS }}</h6>
+        </div>
+      </div>
+
+      <div class="row border-top border-right border-left border-bottom">
+        <div class="col-7">
+          <div class="row pl-4 pt-2 pb-1"><b>AMOUNT IN WORDS</b></div>
+          <div class="row pl-4 pt-2 pb-2">
+            <h5>
+              {{ salesInvoiceDetails.Amount_in_Words | uppercase }}
+            </h5>
+          </div>
+          <div class="row pl-4 pt-2">
+            <div class="col-6">
+              <div class="row ml-4 pt-2">BANK DETAILS</div>
+              <hr />
+              <div class="row ml-4 pt-2">
+                <h6>{{ salesInvoiceDetails.Bank_Name }}</h6>
+              </div>
+              <div class="row ml-4 pt-2">
+                <h6>{{ salesInvoiceDetails.Account_No }}</h6>
+              </div>
+              <div class="row ml-4 pt-2">
+                <h6>{{ salesInvoiceDetails.IFSC_Code }}</h6>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="row ml-4 pt-2">PAYMENT DUE</div>
+              <hr />
+              <div class="row ml-4 pt-2">30 Day's From Invoice</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-5">
+          <div
+            class="row border-top border-right border-left border-bottom pt-1 pb-1 pr-2"
+          >
+            <div class="col-8 border-right border-left">TAXABLE AMOUNT</div>
+            <div class="col-4 text-right">
+              {{ salesInvoiceDetails.Taxable_Amount }}
+            </div>
+          </div>
+          <div
+            class="row border-top border-right border-left border-bottom pt-1 pb-1 pr-2"
+          >
+            <div class="col-8 border-right border-left">
+              CGST @ {{ salesInvoiceDetails.CGST }}
+            </div>
+            <div class="col-4 text-right">
+              {{ salesInvoiceDetails.CGST_Amt }}
+            </div>
+          </div>
+          <div
+            class="row border-top border-right border-left border-bottom pt-1 pb-1 pr-2"
+          >
+            <div class="col-8 border-right border-left">
+              SGST @ {{ salesInvoiceDetails.SGST }}
+            </div>
+            <div class="col-4 text-right">
+              {{ salesInvoiceDetails.SGST_Amt }}
+            </div>
+          </div>
+          <div
+            class="row border-top border-right border-left border-bottom pt-1 pb-1 pr-2"
+          >
+            <div class="col-8 border-right border-left">
+              IGST @ {{ salesInvoiceDetails.IGST }}
+            </div>
+            <div class="col-4 text-right">
+              {{ salesInvoiceDetails.IGST_Amt }}
+            </div>
+          </div>
+          <div
+            class="row border-top border-right border-left border-bottom pt-1 pb-1 pr-2"
+          >
+            <div class="col-8 border-right border-left">R/OFF</div>
+            <div class="col-4 text-right">
+              {{ salesInvoiceDetails.Round_Off }}
+            </div>
+          </div>
+
+          <div
+            class="row border-top border-right border-left border-bottom pt-1 pb-1 pr-2"
+          >
+            <div class="col-8 border-right border-left"><b>GRAND TOTAL</b></div>
+            <div class="col-4 text-right">
+              ₹ {{ salesInvoiceDetails.Grand_Total }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row pl-3 pt-3"><h3>THANK YOU FOR YOUR BUSINESS</h3></div>
+      <div class="row pt-2 pl-3 pt-1"><b>TERMS & CONDITIONS :</b></div>
+
+      <div class="row pt-2 pl-3">
+        <div class="col-7">
+          1. Don't pay cash or goods to Agent. 2. Goods once's sold will not be
+          taken back. 3. Payment is requested by payee A/c Draft only. 4. 18%
+          interest will be charged on the net amount after due date. 5. All our
+          responsibility ceases as goods leave our godown premises
+        </div>
+      </div>
+      <div class="row pt-3 pl-3 text-center">
+        <div class="col-6">
+          <b>Subject To Ichalkaranji Jurisdiction</b>
+        </div>
+        <div class="col-6">
+          <b>FOR :- </b>
+          <br />
+          <b>{{ salesInvoiceDetails.Firm_Name }} </b>
+        </div>
+      </div>
+      <div class="row pt-4 pb-1 pl-3 text-center">
+        <div class="col-6">
+          <b>E. & O.E.</b>
+        </div>
+        <div class="col-6">
+          <b>PROPRIETOR</b>
+          <b></b>
+        </div>
+      </div>
+    </div>
+    <div class="row text-center p-3" style="background-color: white">
+      <div class="col-12"><b>THIS IS COMPUTER GENERATED INVOICE</b></div>
+    </div>
+  </div>
+</div>

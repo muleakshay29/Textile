@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { CommonService } from "../../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
+import { SalesInvoicePrintComponent } from "../../../../_helper/sales-invoice-print/sales-invoice-print.component";
 
 @Component({
   selector: "app-add-sales-invoice-manual",
@@ -249,8 +250,16 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       .findData({ From_Party: firm }, "sales-invoice-manual")
       .subscribe((details) => {
         if (details.length > 0) {
-          const invoiceno = details[0].Invoice_No;
-          this.Invoice_No.patchValue(Number(invoiceno) + 1);
+          const invoiceArr = [];
+          details.forEach((element) => {
+            invoiceArr.push(parseInt(element.Invoice_No));
+          });
+
+          const invoiceno = invoiceArr.sort(function (a, b) {
+            return b - a;
+          })[0];
+          // const invoiceno = details[0].Invoice_No;
+          this.Invoice_No.patchValue(invoiceno + 1);
         } else {
           this.Invoice_No.patchValue(1);
         }
@@ -308,6 +317,17 @@ export class AddSalesInvoiceManualComponent implements OnInit {
             this.commonservice
               .addData(accountTrans, "add-account-transaction")
               .subscribe();
+
+            const data = this.commonservice.openPrintModal(
+              "",
+              result._id,
+              SalesInvoicePrintComponent
+            );
+            data.content.onClose.subscribe((data: boolean) => {
+              if (result == true) {
+                this.spinner.show();
+              }
+            });
 
             this.toastr.success("Record added successfully", "Success");
             this.salesInvoice.reset();

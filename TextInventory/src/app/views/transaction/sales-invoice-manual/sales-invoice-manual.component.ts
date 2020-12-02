@@ -3,6 +3,7 @@ import { PageChangedEvent } from "ngx-bootstrap/pagination";
 import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
+import { SalesInvoicePrintComponent } from "../../../_helper/sales-invoice-print/sales-invoice-print.component";
 
 @Component({
   selector: "app-sales-invoice-manual",
@@ -73,5 +74,18 @@ export class SalesInvoiceManualComponent implements OnInit {
           this.spinner.hide();
         });
     }
+  }
+
+  viewInvoice(content) {
+    const result = this.cmservice.openPrintModal(
+      "",
+      content,
+      SalesInvoicePrintComponent
+    );
+    result.content.onClose.subscribe((result: boolean) => {
+      if (result == true) {
+        this.spinner.show();
+      }
+    });
   }
 }

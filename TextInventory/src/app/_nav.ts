@@ -259,7 +259,7 @@ export const navItems: INavData[] = [
         icon: "icon-cursor",
       },
       {
-        name: "Sales Register Register",
+        name: "Sales Register",
         url: "/finance/sales-receipt-register",
         icon: "icon-cursor",
       },

@@ -36,7 +36,7 @@ export class SalesReceiptRegisterComponent implements OnInit {
   fetchSalesReceipt(pageIndex = 0, pageSize = this.itemsPerPage) {
     this.spinner.show();
     this.cmservice
-      .fetchData(pageIndex, pageSize, "fetch-sales-receipt-aggrigate")
+      .fetchData(pageIndex, pageSize, "fetch-sales-receipt")
       .subscribe((list) => {
         /* this.returnedArray = list.slice(0, this.itemsPerPage);
         this.spinner.hide(); */
@@ -47,17 +47,16 @@ export class SalesReceiptRegisterComponent implements OnInit {
   calculateSumData(list) {
     list.forEach((element) => {
       this.cmservice
-        .fetchDetails(element._id, "sales-receipt-details")
+        .fetchDetails(element.TransactionID, "sales-receipt-details")
         .subscribe((details) => {
           console.log(details);
           let paidAmt = 0;
           const amtToRcv = details[0].Amount;
 
-
           details.forEach((element) => {
             paidAmt += element.Paying_Amount;
           });
-           
+
           const remAmt = amtToRcv - paidAmt;
 
           const data = {

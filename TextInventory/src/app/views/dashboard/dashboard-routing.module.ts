@@ -3,10 +3,18 @@ import { Routes, RouterModule } from "@angular/router";
 
 import { DashboardComponent } from "./dashboard.component";
 import { AuthGuard } from "../../_guards/auth.guard";
+import { DefaultLayoutComponent } from "../../containers";
 
 const routes: Routes = [
-  {
+  /* {
     path: "",
+    component: DefaultLayoutComponent,
+    data: {
+      title: "Home",
+    },
+  }, */
+  {
+    path: "dashboard",
     component: DashboardComponent,
     data: {
       title: "Dashboard",

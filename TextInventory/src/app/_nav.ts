@@ -275,4 +275,56 @@ export const navItems: INavData[] = [
       },
     ],
   },
+  {
+    name: "Reports",
+    url: "/reports/ledger-report",
+    icon: "icon-arrow-right",
+    children: [
+      {
+        name: "Ledger Report",
+        url: "/reports/ledger-report",
+        icon: "icon-cursor",
+      },
+      {
+        name: "GST1 Report",
+        url: "/reports/gst1-report",
+        icon: "icon-cursor",
+      },
+      {
+        name: "GST2 Report",
+        url: "/reports/gst2-report",
+        icon: "icon-cursor",
+      },
+      {
+        name: "Part Hishob Report",
+        url: "/reports/party-hishob-report",
+        icon: "icon-cursor",
+      },
+      {
+        name: "Beam Performance Report",
+        url: "/reports/beam-performance-report",
+        icon: "icon-cursor",
+      },
+      {
+        name: "Consumption Report",
+        url: "/reports/consumption-report",
+        icon: "icon-cursor",
+      },
+      {
+        name: "Stock Yarn Report",
+        url: "/reports/stock-yarn-report",
+        icon: "icon-cursor",
+      },
+      {
+        name: "Stock Tage Report",
+        url: "/reports/stock-tage-report",
+        icon: "icon-cursor",
+      },
+      {
+        name: "Stock Beam Report",
+        url: "/reports/stock-beam-report",
+        icon: "icon-cursor",
+      },
+    ],
+  },
 ];

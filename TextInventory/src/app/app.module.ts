@@ -17,6 +17,7 @@ import { RegisterComponent } from "./views/register/register.component";
 import { JwtInterceptor } from "./_helper/jwt.interceptor";
 import { DeleteConfirmationComponent } from "./_helper/delete-confirmation/delete-confirmation.component";
 import { InwardsModule } from "./views/inwards/inwards.module";
+import { ReportModule } from "./views/reports/report.module";
 import { SalesInvoicePrintComponent } from "./_helper/sales-invoice-print/sales-invoice-print.component";
 import { DeliveryChalanPrintComponent } from "./_helper/delivery-chalan-print/delivery-chalan-print.component";
 import { ConfirmWindowComponent } from "./_helper/confirm-window/confirm-window.component";
@@ -29,6 +30,7 @@ import { ConfirmWindowComponent } from "./_helper/confirm-window/confirm-window.
     MasterModule,
     SharedModule,
     InwardsModule,
+    ReportModule,
   ],
   declarations: [
     AppComponent,

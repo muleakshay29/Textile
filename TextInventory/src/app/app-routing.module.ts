@@ -9,6 +9,11 @@ import { RegisterCompanyComponent } from "./views/register-company/register-comp
 
 const routes: Routes = [
   {
+    path: "",
+    redirectTo: "/login",
+    pathMatch: "full",
+  },
+  {
     path: "login",
     component: LoginComponent,
     data: {
@@ -89,8 +94,63 @@ const routes: Routes = [
         loadChildren: () =>
           import("./views/finance/finance.module").then((m) => m.FinanceModule),
       },
+      {
+        path: "reports",
+        loadChildren: () =>
+          import("./views/reports/report.module").then((m) => m.ReportModule),
+      },
     ],
   },
+  /* {
+    children: [
+      {
+        path: "dashboard",
+        loadChildren: () =>
+          import("./views/dashboard/dashboard.module").then(
+            (m) => m.DashboardModule
+          ),
+      },
+      {
+        path: "masters",
+        loadChildren: () =>
+          import("./views/master/master.module").then((m) => m.MasterModule),
+      },
+      {
+        path: "inwards",
+        loadChildren: () =>
+          import("./views/inwards/inwards.module").then((m) => m.InwardsModule),
+      },
+      {
+        path: "beam",
+        loadChildren: () =>
+          import("./views/beam/beam.module").then((m) => m.BeamModule),
+      },
+      {
+        path: "weaving",
+        loadChildren: () =>
+          import("./views/weaving/weaving.module").then((m) => m.WeavingModule),
+      },
+      {
+        path: "production",
+        loadChildren: () =>
+          import("./views/production/production.module").then(
+            (m) => m.ProductionModule
+          ),
+      },
+      {
+        path: "transaction",
+        loadChildren: () =>
+          import("./views/transaction/transaction.module").then(
+            (m) => m.TransactionModule
+          ),
+      },
+      {
+        path: "finance",
+        loadChildren: () =>
+          import("./views/finance/finance.module").then((m) => m.FinanceModule),
+      },
+    ],
+  }, */
   { path: "**", component: P404Component },
 ];
 

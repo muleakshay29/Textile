@@ -1,4 +1,4 @@
-<ngx-spinner type="ball-beat" [fullScreen]="true"
+<!-- <ngx-spinner type="ball-beat" [fullScreen]="true"
   ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
 >
 <div class="app-body">
@@ -91,4 +91,102 @@
       </div>
     </div>
   </main>
+</div>
+ -->
+
+<div class="loginBackground">
+  <ngx-spinner type="ball-beat" [fullScreen]="true"
+    ><p style="color: white" class="lead">Loading...</p></ngx-spinner
+  >
+  <div class="app-body">
+    <main class="main d-flex align-items-center mt-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 mx-auto pt-lg-5 mt-lg-4 pt-md-4 mt-md-3">
+            <div class="card-group">
+              <div class="card p-4 loginCard">
+                <div class="card-body">
+                  <form [formGroup]="userLogin" (ngSubmit)="ngSubmit()">
+                    <h1>Login</h1>
+                    <p>Sign In to your account</p>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"
+                          ><i class="icon-user"></i
+                        ></span>
+                      </div>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Username"
+                        formControlName="Username"
+                        [ngClass]="{
+                          'is-invalid':
+                            Username.invalid &&
+                            Username.dirty &&
+                            Username.touched,
+                          'is-valid': !Username.invalid
+                        }"
+                      />
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Username"
+                      ></app-error-message>
+                    </div>
+                    <div class="input-group mb-4">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"
+                          ><i class="icon-lock"></i
+                        ></span>
+                      </div>
+                      <input
+                        type="password"
+                        class="form-control"
+                        placeholder="Password"
+                        formControlName="Password"
+                        [ngClass]="{
+                          'is-invalid':
+                            Password.invalid &&
+                            Password.dirty &&
+                            Password.touched,
+                          'is-valid': !Password.invalid
+                        }"
+                      />
+                      <app-error-message
+                        class="d-block w-100"
+                        [control]="Password"
+                      ></app-error-message>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <button
+                          type="submit"
+                          class="btn btn-primary btn-block px-4"
+                          [disabled]="!userLogin.valid"
+                        >
+                          Login
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="row mt-4">
+                      <div class="col-12 text-center">
+                        <a
+                          routerLink="/register-company"
+                          type="button"
+                          class="small loginCardLink"
+                        >
+                          Register Company!
+                        </a>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </div>

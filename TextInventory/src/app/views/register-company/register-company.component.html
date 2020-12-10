@@ -1,242 +1,493 @@
-<ngx-spinner type="ball-beat" [fullScreen]="true"
-  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
->
-<div class="app-body">
-  <main class="main d-flex align-items-center mt-4">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 mx-auto">
-          <div class="card mx-4">
-            <div class="card-body p-4">
-              <form [formGroup]="companyMaster" (ngSubmit)="register()">
-                <h2 class="text-center">Register Company</h2>
+<!-- <div class="loginBackground">
+  <ngx-spinner type="ball-beat" [fullScreen]="true"
+    ><p style="color: white" class="lead">Loading...</p></ngx-spinner
+  >
+  <div class="app-body">
+    <main class="main d-flex align-items-center mt-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mx-auto">
+            <div class="card mx-4">
+              <div class="card-body p-4">
+                <form [formGroup]="companyMaster" (ngSubmit)="register()">
+                  <h2 class="text-center">Register Company</h2>
 
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                        <label for="Comp_Name">Company Name</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Company Name"
-                          formControlName="Comp_Name"
-                        />
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="Comp_Name">Company Name</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Company Name"
+                            formControlName="Comp_Name"
+                          />
 
-                        <app-error-message
-                          class="d-block w-100"
-                          [control]="Comp_Name"
-                        ></app-error-message>
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Comp_Name"
+                          ></app-error-message>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="Comp_Address">Company Address</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Company Address"
+                            formControlName="Comp_Address"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Comp_Address"
+                          ></app-error-message>
+                        </div>
                       </div>
                     </div>
 
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                        <label for="Comp_Address">Company Address</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Company Address"
-                          formControlName="Comp_Address"
-                        />
-
-                        <app-error-message
-                          class="d-block w-100"
-                          [control]="Comp_Address"
-                        ></app-error-message>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                        <label for="Comp_State">Company State</label>
-                        <select
-                          class="form-control"
-                          formControlName="Comp_State"
-                        >
-                          <option value="">Select State</option>
-                          <option
-                            value="{{ state._id }}"
-                            *ngFor="let state of stateList"
-                            >{{ state.CMC_Name }}</option
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="Comp_State">Company State</label>
+                          <select
+                            class="form-control"
+                            formControlName="Comp_State"
                           >
-                        </select>
+                            <option value="">Select State</option>
+                            <option
+                              value="{{ state._id }}"
+                              *ngFor="let state of stateList"
+                            >
+                              {{ state.CMC_Name }}
+                            </option>
+                          </select>
 
-                        <app-error-message
-                          class="d-block w-100"
-                          [control]="Comp_State"
-                        ></app-error-message>
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Comp_State"
+                          ></app-error-message>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="Comp_Owner">Company Owner</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Company Owner"
+                            formControlName="Comp_Owner"
+                          />
+                        </div>
                       </div>
                     </div>
 
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                        <label for="Comp_Owner">Company Owner</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Company Owner"
-                          formControlName="Comp_Owner"
-                        />
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="Comp_Email">Company Email</label>
+                          <input
+                            type="email"
+                            class="form-control"
+                            placeholder="Company Email"
+                            formControlName="Comp_Email"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="Comp_GSTNo">Company GST</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Company GST"
+                            formControlName="Comp_GSTNo"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Comp_GSTNo"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="Comp_Pan">Company Pan</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Company Pan"
+                            formControlName="Comp_Pan"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Comp_Pan"
+                          ></app-error-message>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="Comp_Contact1">Company Contact1</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Company Contact1"
+                            formControlName="Comp_Contact1"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="Comp_Contact2">Company Contact2</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Company Contact2"
+                            formControlName="Comp_Contact2"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="Username">Username</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Username"
+                            formControlName="Username"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Username"
+                          ></app-error-message>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="Password">Password</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Password"
+                            formControlName="Password"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Password"
+                          ></app-error-message>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="Re_Password">Confirm Password</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Confirm Password"
+                            formControlName="Re_Password"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Re_Password"
+                          ></app-error-message>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                        <label for="Comp_Email">Company Email</label>
-                        <input
-                          type="email"
-                          class="form-control"
-                          placeholder="Company Email"
-                          formControlName="Comp_Email"
-                        />
-                      </div>
-                    </div>
+                  <button
+                    type="submit"
+                    class="btn btn-block btn-success"
+                    [disabled]="!companyMaster.valid"
+                  >
+                    {{ buttonText }}
+                  </button>
 
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                        <label for="Comp_GSTNo">Company GST</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Company GST"
-                          formControlName="Comp_GSTNo"
-                        />
-
-                        <app-error-message
-                          class="d-block w-100"
-                          [control]="Comp_GSTNo"
-                        ></app-error-message>
-                      </div>
+                  <div class="row mt-4">
+                    <div class="col-12 text-center">
+                      Already have an account?
+                      <a
+                        routerLink="/login"
+                        type="button"
+                        class="btn btn-link px-0"
+                      >
+                        Login!
+                      </a>
                     </div>
                   </div>
-
-                  <div class="row">
-                    <div class="col-sm-4">
-                      <div class="form-group">
-                        <label for="Comp_Pan">Company Pan</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Company Pan"
-                          formControlName="Comp_Pan"
-                        />
-
-                        <app-error-message
-                          class="d-block w-100"
-                          [control]="Comp_Pan"
-                        ></app-error-message>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-4">
-                      <div class="form-group">
-                        <label for="Comp_Contact1">Company Contact1</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Company Contact1"
-                          formControlName="Comp_Contact1"
-                        />
-                      </div>
-                    </div>
-
-                    <div class="col-sm-4">
-                      <div class="form-group">
-                        <label for="Comp_Contact2">Company Contact2</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Company Contact2"
-                          formControlName="Comp_Contact2"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-sm-4">
-                      <div class="form-group">
-                        <label for="Username">Username</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Username"
-                          formControlName="Username"
-                        />
-
-                        <app-error-message
-                          class="d-block w-100"
-                          [control]="Username"
-                        ></app-error-message>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-4">
-                      <div class="form-group">
-                        <label for="Password">Password</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Password"
-                          formControlName="Password"
-                        />
-
-                        <app-error-message
-                          class="d-block w-100"
-                          [control]="Password"
-                        ></app-error-message>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-4">
-                      <div class="form-group">
-                        <label for="Re_Password">Confirm Password</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Confirm Password"
-                          formControlName="Re_Password"
-                        />
-
-                        <app-error-message
-                          class="d-block w-100"
-                          [control]="Re_Password"
-                        ></app-error-message>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  class="btn btn-block btn-success"
-                  [disabled]="!companyMaster.valid"
-                >
-                  {{ buttonText }}
-                </button>
-
-                <div class="row mt-4">
-                  <div class="col-12 text-center">
-                    Already have an account?
-                    <a
-                      routerLink="/login"
-                      type="button"
-                      class="btn btn-link px-0"
-                    >
-                      Login!
-                    </a>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
+    </main>
+  </div>
+</div> -->
+
+<div class="loginBackground">
+  <ngx-spinner type="ball-beat" [fullScreen]="true"
+    ><p style="color: white" class="lead">Loading...</p></ngx-spinner
+  >
+  <div class="app-body">
+    <main class="main d-flex align-items-center mt-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mx-auto">
+            <div class="card mx-4 loginCard">
+              <div class="card-body p-4">
+                <form [formGroup]="companyMaster" (ngSubmit)="register()">
+                  <h2 class="text-center">Register Company</h2>
+
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="Comp_Name">Company Name</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Company Name"
+                            formControlName="Comp_Name"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Comp_Name"
+                          ></app-error-message>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="Comp_Address">Company Address</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Company Address"
+                            formControlName="Comp_Address"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Comp_Address"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="Comp_State">Company State</label>
+                          <select
+                            class="form-control"
+                            formControlName="Comp_State"
+                          >
+                            <option value="">Select State</option>
+                            <option
+                              value="{{ state._id }}"
+                              *ngFor="let state of stateList"
+                            >
+                              {{ state.CMC_Name }}
+                            </option>
+                          </select>
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Comp_State"
+                          ></app-error-message>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="Comp_Owner">Company Owner</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Company Owner"
+                            formControlName="Comp_Owner"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="Comp_Email">Company Email</label>
+                          <input
+                            type="email"
+                            class="form-control"
+                            placeholder="Company Email"
+                            formControlName="Comp_Email"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="Comp_GSTNo">Company GST</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Company GST"
+                            formControlName="Comp_GSTNo"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Comp_GSTNo"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="Comp_Pan">Company Pan</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Company Pan"
+                            formControlName="Comp_Pan"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Comp_Pan"
+                          ></app-error-message>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="Comp_Contact1">Company Contact1</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Company Contact1"
+                            formControlName="Comp_Contact1"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="Comp_Contact2">Company Contact2</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Company Contact2"
+                            formControlName="Comp_Contact2"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="Username">Username</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Username"
+                            formControlName="Username"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Username"
+                          ></app-error-message>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="Password">Password</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Password"
+                            formControlName="Password"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Password"
+                          ></app-error-message>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="Re_Password">Confirm Password</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Confirm Password"
+                            formControlName="Re_Password"
+                          />
+
+                          <app-error-message
+                            class="d-block w-100"
+                            [control]="Re_Password"
+                          ></app-error-message>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    class="btn btn-block btn-success"
+                    [disabled]="!companyMaster.valid"
+                  >
+                    Register Company
+                  </button>
+
+                  <div class="row mt-4">
+                    <div class="col-12 text-center">
+                      <span
+                        >Already have an account ?
+                        <a
+                          routerLink="/login"
+                          type="button"
+                          class="small loginCardLink"
+                        >
+                          Login Here
+                        </a>
+                      </span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </div>

@@ -1,5 +1,5 @@
 <ngx-spinner type="ball-beat" [fullScreen]="true"
-  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
 >
 <div class="app-body">
   <main class="main d-flex align-items-center mt-4">
@@ -97,8 +97,9 @@
                     <option
                       value="{{ company._id }}"
                       *ngFor="let company of companyList"
-                      >{{ company.Comp_Name }}</option
                     >
+                      {{ company.Comp_Name }}
+                    </option>
                   </select>
 
                   <app-error-message
@@ -176,16 +177,6 @@
                 </div>
               </form>
             </div>
-            <!-- <div class="card-footer p-4">
-              <div class="row">
-                <div class="col-6">
-                  <button class="btn btn-block btn-facebook" type="button"><span>facebook</span></button>
-                </div>
-                <div class="col-6">
-                  <button class="btn btn-block btn-twitter" type="button"><span>twitter</span></button>
-                </div>
-              </div>
-            </div> -->
           </div>
         </div>
       </div>

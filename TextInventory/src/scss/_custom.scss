@@ -21,3 +21,32 @@
   width: 100%;
   overflow-x: auto;
 }
+
+.loginBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  background-image: url(../assets/img/textile2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.loginCard {
+  background-color: transparent;
+  border: none;
+  color: aliceblue;
+}
+
+.loginCardLink {
+  color: white;
+  text-decoration: none;
+  font-size: large;
+}
+
+.loginCardLink:hover {
+  color: white;
+  text-decoration: none;
+  font-size: larger;
+}

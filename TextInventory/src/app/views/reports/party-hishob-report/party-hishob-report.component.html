@@ -1,1 +1,82 @@
-<p>party-hishob-report works!</p>
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="PartyHishob" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+                <div class="form-group col-sm-3">
+                    <label for="PartyName">Party Name</label>
+                    <select class="form-control" formControlName="Party_Name">
+                      <option value="">Select Firm Name</option>
+                      <option
+                        value="{{ Party._id }}"
+                        *ngFor="let Party of partyList"
+                        >{{ Party.Party_Name }}</option
+                      >
+                    </select>
+    
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Party_Name"
+                    ></app-error-message>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="ContractName">Contract Name</label>
+                    <select class="form-control" formControlName="Contract_Name">
+                      <option value="">Select Contract</option>
+                      <option
+                        value="{{ contract._id }}"
+                        *ngFor="let contract of contractList"
+                        >{{ contract.Contract_Name }}</option
+                      >
+                    </select>
+    
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Contract_Name"
+                    ></app-error-message>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="QualityName">Quality Name</label>
+                    <select class="form-control" formControlName="Quality_Name">
+                      <option value="">Select Quality</option>
+                      <option
+                        value="{{ quality._id }}"
+                        *ngFor="let quality of qualitytList"
+                        >{{ quality.quality_Name }}</option
+                      >
+                    </select>
+    
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="Quality_Name"
+                    ></app-error-message>
+                </div>
+            </div>
+          </div>
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!PartyHishob.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> View
+            </button>
+
+            <button type="reset" class="btn btn-danger">
+              <i class="fa fa-ban"></i> Reset
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+ 
+

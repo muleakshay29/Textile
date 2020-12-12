@@ -1,1 +1,216 @@
-<p>ledger-report works!</p>
+<!-- <p>ledger-report works!</p> -->
+
+
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="Ledger" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+                <div class="form-group col-sm-2">
+                     <label for="From_Date">From Date</label>
+                     <input
+                      type="date"
+                      class="form-control"
+                      placeholder="From Date"
+                      formControlName="From_Date"
+                      id="date-input"
+                     />
+
+                     <app-error-message
+                      class="d-block w-100"
+                      [control]="From_Date"
+                     ></app-error-message>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label for="To_Date">To Date</label>
+                    <input
+                     type="date"
+                     class="form-control"
+                     placeholder="To Date"
+                     formControlName="To_Date"
+                     id="date-input"
+                    />
+                    <app-error-message
+                     class="d-block w-100"
+                     [control]="To_Date"
+                    ></app-error-message>
+               </div>
+               <div class="form-group col-sm-4">
+                <label for="LedgerType">Ledger Type</label>
+                <select class="form-control" formControlName="Ledger_Type">
+                  <option value="">Select Ledger</option>
+                  <option 
+                    value="{{ shed._id }}"
+                    *ngFor="let shed of ledgerType"
+                    >{{ shed.Ledger_Type }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Ledger_Type"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="FirmName">Firm Name</label>
+                <select class="form-control" formControlName="Firm_Name">
+                  <option value="">Select Firm Name</option>
+                  <option
+                    value="{{ firm._id }}"
+                    *ngFor="let firm of firmList"
+                    >{{ firm.Company_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Firm_Name"
+                ></app-error-message>
+              </div>
+            </div>
+
+            <!-- <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="ShedName">Shed Name</label>
+                <select class="form-control" formControlName="Shed_Name">
+                  <option value="">Select Shed</option>
+                  <option
+                    value="{{ shed._id }}"
+                    *ngFor="let shed of shedList"
+                    >{{ shed.SHED_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Shed_Name"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="FirmName">Firm Name</label>
+                <select class="form-control" formControlName="Firm_Name">
+                  <option value="">Select Firm Name</option>
+                  <option
+                    value="{{ firm._id }}"
+                    *ngFor="let firm of firmList"
+                    >{{ firm.Company_Name }}</option
+                  >
+                </select>
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="Firm_Name"
+                ></app-error-message>
+              </div>
+            </div> -->
+          </div>
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!Ledger.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> Search
+            </button>
+
+            <button type="reset" class="btn btn-danger">
+              <i class="fa fa-ban"></i> Reset
+            </button>
+
+            <button type="button" class="btn btn-primary">
+              <i class="fa fa-print"></i> Print
+            </button>
+          </div>
+          <!-- <div class="card-footer text-center"> fa-print
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!salesReceipt.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> {{ buttonText }}
+            </button>
+
+            <button type="reset" class="btn btn-danger">
+              <i class="fa fa-ban"></i> Reset
+            </button>
+          </div> -->
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <div class="row" *ngIf="returnedArray != null">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-outline mb-0 table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="text-center">Party Name</th>
+                  <th class="text-center">Date</th>
+                  <th class="text-center">Invoice No</th>
+                  <th class="text-center">Quality</th>
+                  <th class="text-center">Meter's</th>
+                  <th class="text-center">Rate</th>
+                  <th class="text-center">Credit</th>
+                  <th class="text-center">Debit</th>
+                  <th class="text-center">Firm Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let content of returnedArray">
+                    <td class="text-center">
+                        {{ content.Party_Name }}
+                    </td>
+                    <td class="text-center">
+                       <!-- date -->
+                    </td>
+                  <td class="text-center">
+                    {{ content.Invoice_No }}
+                  </td>
+                  <td class="text-center">
+                    <!-- Quality -->
+                  </td>
+                  <td class="text-center">
+                    <!-- Meter's -->
+                  </td>
+                  <td class="text-center">
+                    <!-- Rate -->
+                  </td>
+                  <td class="text-center">
+                    {{ content.Balance }}
+                  </td>
+                  <td class="text-center">
+                    <!-- Debit -->
+                  </td>
+                  <td class="text-center">
+                    <!-- Firm -->
+                  </td>
+                  
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer" *ngIf="dataLength > itemsPerPage">
+          <appPagination
+            [dataLength]="dataLength"
+            [itemsPerPage]="itemsPerPage"
+            (pageChanged)="pageChanged($event)"
+            (change)="setItemPerPage($event)"
+          ></appPagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+ 

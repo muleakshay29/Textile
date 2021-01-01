@@ -1,5 +1,5 @@
 <ngx-spinner type="ball-beat" [fullScreen]="true"
-  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
 >
 <div class="animated fadeIn">
   <div class="row">
@@ -45,10 +45,11 @@
                     <label for="FromParty">From Party</label>
                     <select class="form-control" formControlName="From_Party">
                       <option
-                          *ngFor="let firm of firmList"  
-                          value="{{ firm._id }}"
-                        >{{ firm.Company_Name }}</option
+                        *ngFor="let firm of firmList"
+                        value="{{ firm._id }}"
                       >
+                        {{ firm.Company_Name }}
+                      </option>
                     </select>
 
                     <app-error-message
@@ -63,8 +64,9 @@
                       <option
                         value="{{ party._id }}"
                         *ngFor="let party of partyList"
-                        >{{ party.Company_Name }}</option
                       >
+                        {{ party.Company_Name }}
+                      </option>
                     </select>
 
                     <app-error-message
@@ -127,8 +129,9 @@
                       <option
                         value="{{ broker._id }}"
                         *ngFor="let broker of brokerList"
-                        >{{ broker.Broker_Name }}</option
                       >
+                        {{ broker.Broker_Name }}
+                      </option>
                     </select>
 
                     <app-error-message
@@ -177,8 +180,9 @@
                   <option
                     value="{{ quality._id }}"
                     *ngFor="let quality of qualityList"
-                    >{{ quality.Design_Name }}</option
                   >
+                    {{ quality.Design_Name }}
+                  </option>
                 </select>
 
                 <app-error-message
@@ -241,7 +245,7 @@
                   class="form-control"
                   formControlName="Rate"
                   placeholder="Rate"
-                  (blur)="calculateTotalAmt(RATE.value,FOLD.value)"
+                  (blur)="calculateTotalAmt(RATE.value)"
                   #RATE
                 />
 
@@ -345,7 +349,8 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          SECONDOTHER.value
+                          SECONDOTHER.value,
+                          FOLD.value
                         )
                       "
                     />
@@ -371,7 +376,8 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          SECONDOTHER.value
+                          SECONDOTHER.value,
+                          FOLD.value
                         )
                       "
                     />
@@ -395,7 +401,8 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          SECONDOTHER.value
+                          SECONDOTHER.value,
+                          FOLD.value
                         )
                       "
                     />
@@ -414,7 +421,13 @@
                       formControlName="FOLD"
                       #FOLD
                       (blur)="
-                      calculateTotalAmt(RATE.value,FOLD.value)
+                        deductTaxableAmt(
+                          SECOND.value,
+                          TP.value,
+                          SL.value,
+                          SECONDOTHER.value,
+                          FOLD.value
+                        )
                       "
                     />
 
@@ -436,7 +449,8 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          SECONDOTHER.value
+                          SECONDOTHER.value,
+                          FOLD.value
                         )
                       "
                     />

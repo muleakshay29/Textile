@@ -266,6 +266,19 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       });
   }
 
+  /* getInvoice(firm) {
+    this.commonservice
+      .findData({ From_Party: firm }, "sales-invoice-invoice")
+      .subscribe((details) => {
+        if (details.length > 0) {
+          const invoiceno = details[0].Invoice_No;
+          this.Invoice_No.patchValue(Number(invoiceno) + 1);
+        } else {
+          this.Invoice_No.patchValue(1);
+        }
+      });
+  } */
+
   onSubmit() {
     this.spinner.show();
     const formData = this.salesInvoice.value;
@@ -581,12 +594,12 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       });
   }
 
-  calculateTotalAmt(rate, fold) {
+  calculateTotalAmt(rate) {
     let mtr = this.Total_Meters.value;
-    if (fold > 0) {
+    /* if (fold > 0) {
       const per = 100 - fold;
       mtr = this.Total_Meters.value - (this.Total_Meters.value / 100) * per;
-    }
+    } */
     const totalAmt = rate * mtr;
     this.Total_Amount.patchValue(totalAmt.toFixed(2));
     this.Taxable_Amount.patchValue(totalAmt.toFixed(2));
@@ -599,7 +612,8 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       this.Second.value,
       this.TP.value,
       this.SL.value,
-      this.Second_Other.value
+      this.Second_Other.value,
+      this.FOLD.value
     );
   }
 
@@ -615,11 +629,22 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       this.Second.value,
       this.TP.value,
       this.SL.value,
-      this.Second_Other.value
+      this.Second_Other.value,
+      this.FOLD.value
     );
   }
 
-  deductTaxableAmt(SECOND, TP, SL, SECONDOTHER) {
+  deductTaxableAmt(SECOND, TP, SL, SECONDOTHER, FOLD) {
+    let mtr = 0;
+    if (FOLD > 0) {
+      const per = 100 - FOLD;
+      mtr = this.Total_Meters.value - (this.Total_Meters.value / 100) * per;
+      console.log("FOLD IS " + FOLD + " Mtr is " + mtr);
+      FOLD = mtr * this.Rate.value;
+      FOLD = this.Total_Meters.value * this.Rate.value - FOLD;
+      console.log("Fold Amount is " + FOLD);
+    }
+
     let amount =
       parseFloat(this.Total_Amount.value) +
       parseFloat(this.Packing.value) +
@@ -630,7 +655,8 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       parseFloat(SECOND) -
       parseFloat(TP) -
       parseFloat(SL) -
-      parseFloat(SECONDOTHER);
+      parseFloat(SECONDOTHER) -
+      parseFloat(FOLD);
     this.Taxable_Amount.patchValue(taxAmt);
   }
 

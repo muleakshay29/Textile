@@ -6,7 +6,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header">
+        <!-- <div class="card-header">
           <span class="h4">Sales Invoice Direct</span>
           <div class="card-header-actions">
             <a
@@ -15,6 +15,33 @@
             >
               <i class="nav-icon icon-plus font-weight-bold"></i> &nbsp;Add New
             </a>
+          </div>
+        </div> -->
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4">
+              <span class="h4">Sales Invoice Direct</span>
+            </div>
+            <div class="col-4">
+              <!-- <label for="INVOICE">Serach Invoice No</label> -->
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search Invoice No"
+                (keyup)="searchRecord($event)"
+              />
+            </div>
+            <div class="col-4">
+              <div class="card-header-actions">
+                <a
+                  routerLink="/transaction/add-sales-invoice-manual"
+                  class="btn btn-info font-weight-bold"
+                >
+                  <i class="nav-icon icon-plus font-weight-bold"></i> &nbsp;Add
+                  New
+                </a>
+              </div>
+            </div>
           </div>
         </div>
         <div class="card-body">

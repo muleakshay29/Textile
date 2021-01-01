@@ -4,10 +4,8 @@ import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { DeliveryChalanPrintComponent } from "../../../_helper/delivery-chalan-print/delivery-chalan-print.component";
-
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { SalesInvoicePrintComponent } from "../../../_helper/sales-invoice-print/sales-invoice-print.component";
 
 @Component({
   selector: "app-delivery-chalan-register",
@@ -19,6 +17,7 @@ export class DeliveryChalanRegisterComponent implements OnInit {
   dataLength: number;
   itemsPerPage: number = 10;
   PDFData: any = [];
+  bsModalRef: BsModalRef;
 
   constructor(
     private cmservice: CommonService,
@@ -40,16 +39,22 @@ export class DeliveryChalanRegisterComponent implements OnInit {
   }
 
   generatePdf(_id, content) {
-    /* this.spinner.show();
-    this.fetchDeliveryChalanChildDetails(_id, content);
-    setTimeout(() => {
-      pdfMake.createPdf(this.PDFData).open();
-      this.spinner.hide();
-    }, 1000); */
-
     const result = this.cmservice.openPrintModal(
       content,
       _id,
+      DeliveryChalanPrintComponent
+    );
+    result.content.onClose.subscribe((result: boolean) => {
+      if (result == true) {
+        this.spinner.show();
+      }
+    });
+  }
+
+  viewInvoice(id, content) {
+    const result = this.cmservice.openPrintModal(
+      content,
+      id,
       DeliveryChalanPrintComponent
     );
     result.content.onClose.subscribe((result: boolean) => {
@@ -77,149 +82,6 @@ export class DeliveryChalanRegisterComponent implements OnInit {
         // console.log(this.PDFData);
         return details;
       });
-  }
-
-  getDocumentDefinition(content, data) {
-    return {
-      
-      content: [
-        {
-          text: content.Shade_Name.SHED_Name,
-          bold: true,
-          fontSize: 20,
-          alignment: "center",
-          margin: [0, 0, 0, 20],
-        },
-        this.getPDFHead(content),
-        this.getDeliveryChild(data),
-      ],
-      styles: {
-        header: {
-          fontSize: 18,
-          bold: true,
-          margin: [0, 20, 0, 10],
-          decoration: "underline",
-        },
-        tableHeader: {
-          bold: true,
-        },
-      },
-    };
-  }
-
-  getPDFHead(content) {
-    const head = [];
-    let date = new Date(content.Date);
-    const formatedDate =
-      date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
-    head.push([
-      {
-        columns: [
-          [
-            {
-              width: "33.33%",
-              text: "DC No: " + content.Chalan_No,
-              margin: [0, 0, 0, 20],
-            },
-            {
-              width: "33.33%",
-              text: "TO PARTY: " + content.Party_Name.Company_Name,
-              margin: [0, 0, 0, 10],
-            },
-            {
-              width: "33.33%",
-              text: "PIECES: " + content.Pieces,
-              margin: [0, 0, 0, 10],
-            },
-            {
-              width: "33.33%",
-              text: "QUALITY: " + content.Design.Design_Name,
-            },
-          ],
-          [
-            {
-              width: "33.33%",
-              text: "DATE: " + formatedDate,
-              margin: [0, 0, 0, 20],
-            },
-            {
-              width: "33.33%",
-              text: "PLACE: " + content.Place,
-              margin: [0, 0, 0, 10],
-            },
-            {
-              width: "33.33%",
-              text: "METERS: " + content.Meters,
-            },
-          ],
-          [
-            {
-              width: "33.33%",
-              text: "FROM PARTY: " + content.Firm_Name.Company_Name,
-              margin: [0, 0, 0, 20],
-            },
-            {
-              width: "33.33%",
-              text: "BALES: " + content.Bales,
-              margin: [0, 0, 0, 10],
-            },
-            {
-              width: "33.33%",
-              text: "SAMPLE & CUT METERS: " + content.Sample_Cut_Pieces,
-            },
-          ],
-        ],
-      },
-    ]);
-
-    return {
-      table: {
-        widths: ["*"],
-        body: [head],
-      },
-    };
-  }
-
-  getDeliveryChild(childData) {
-    return {
-      table: {
-        widths: ["20%", "20%", "20%", "20%", "20%"],
-        alignment: "center",
-        body: [
-          [
-            {
-              text: "L.NO",
-              style: "tableHeader",
-            },
-            {
-              text: "Piece No",
-              style: "tableHeader",
-            },
-            {
-              text: "Meter",
-              style: "tableHeader",
-            },
-            {
-              text: "Weight",
-              style: "tableHeader",
-            },
-            {
-              text: "Gram",
-              style: "tableHeader",
-            },
-          ],
-          ...childData.map((ed) => {
-            return [
-              ed.Loom_No.Loom_No,
-              ed.Piece_No,
-              ed.Meters,
-              ed.Weight,
-              ed.GRAMEZ,
-            ];
-          }),
-        ],
-      },
-    };
   }
 
   pageChanged(event: PageChangedEvent): void {

@@ -1,0 +1,57 @@
+<div class="modal-dialog mw-100 mx-4" id="print-html">
+  <div class="modal-content border-0">
+    <div class="modal-body">
+      <table class="table table-outline table-bordered">
+        <thead>
+          <tr>
+            <th class="text-center">Date</th>
+            <th class="text-center">Invoice No</th>
+            <th class="text-center">Quality</th>
+            <th class="text-center">Meters</th>
+            <th class="text-center">Rate</th>
+            <th class="text-center">Credit</th>
+            <th class="text-center">Debit</th>
+            <th class="text-center">Firm Name</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let key of keysArr">
+          <tr>
+            <td colspan="8" class="bg-secondary p-0 pl-4">{{ key }}</td>
+          </tr>
+          <tr *ngFor="let content of returnArray[key]">
+            <td>
+              {{ content.Date | json | replaceQuotes | date: "MM/dd/yyyy" }}
+            </td>
+            <td class="text-center">
+              {{ content.Invoice_No | json | replaceQuotes }}
+            </td>
+            <td class="text-center">
+              {{ content.Quality | json | replaceQuotes }}
+            </td>
+            <td class="text-center">
+              {{ content.Total_Meters | json | replaceQuotes }}
+            </td>
+            <td class="text-center">
+              {{ content.Rate | json | replaceQuotes }}
+            </td>
+            <td class="text-center">
+              {{ content.Credit | json | replaceQuotes }}
+            </td>
+            <td class="text-center">
+              {{ content.Debit | json | replaceQuotes }}
+            </td>
+            <td class="text-center">
+              {{ content.Firm_Name | json | replaceQuotes }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="modal-footer d-print-none">
+      <a class="btn btn-info font-weight-bold" (click)="printPdf('print-html')">
+        <i class="cui-print icons font-xl d-inline"></i> &nbsp;Print
+      </a>
+    </div>
+  </div>
+</div>

@@ -77,7 +77,7 @@ export class SalesInvoicePrintComponent implements OnInit {
   }
 
   fetchSalesInvoiceDetails() {
-    this.spinner.show();
+    // this.spinner.show();
     this.commonservice
       .fetchDetails(this._id, "sales-invoice-details")
       .subscribe((details) => {
@@ -90,6 +90,21 @@ export class SalesInvoicePrintComponent implements OnInit {
             "find-delivery-chalan-details"
           )
           .subscribe((deliveryChalan) => {
+            let less = 0;
+            let mtr = 0;
+            let FOLD = 0;
+            if (details.FOLD > 0) {
+              //  less = details.Total_Meters - ((details.Total_Meters/100) *(100 - details.FOLD));
+              //  less = less * details.Rate;
+              //  less = (details.Total_Meters * details.Rate) - less;
+              const per = 100 - details.FOLD;
+              mtr = details.Total_Meters - (details.Total_Meters / 100) * per;
+              console.log("FOLD IS " + FOLD + " Mtr is " + mtr);
+              FOLD = mtr * details.Rate;
+              FOLD = details.Total_Meters * details.Rate - FOLD;
+              console.log("Fold Amount is " + FOLD);
+            }
+
             const invoiceData = {
               Firm_Name: details.From_Party["Company_Name"],
               Firm_Address: details.From_Party.Address,
@@ -131,7 +146,7 @@ export class SalesInvoicePrintComponent implements OnInit {
                 Number(details.Second) +
                 Number(details.TP) +
                 Number(details.SL) +
-                Number(details.FOLD) +
+                Number(FOLD) +
                 Number(details.Second_Other),
               Taxable_Amount: details.Taxable_Amount,
               CGST: details.CGST,
@@ -158,7 +173,7 @@ export class SalesInvoicePrintComponent implements OnInit {
             };
 
             this.salesInvoiceDetails = invoiceData;
-            this.spinner.hide();
+            // this.spinner.hide();
           });
       });
   }

@@ -1,1 +1,135 @@
-<p>gstr1-report works!</p>
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="GST_Report" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <label for="From_Date">From Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="From Date"
+                  formControlName="From_Date"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="From_Date"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="To_Date">To Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="To Date"
+                  formControlName="To_Date"
+                  id="date-input"
+                />
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="To_Date"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="FirmName">Firm Name</label>
+                <select class="form-control" formControlName="Firm_Name">
+                  <option value="">Select Firm Name</option>
+                  <option value="{{ firm._id }}" *ngFor="let firm of firmList">
+                    {{ firm.Company_Name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!GST_Report.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> Search
+            </button>
+
+            <button type="reset" class="btn btn-danger">
+              <i class="fa fa-ban"></i> Reset
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-primary"
+              *ngIf="returnedArray.length > 0"
+              (click)="generatePdf(returnedArray)"
+            >
+              <!-- <i class="fa fa-print"></i> Print -->
+              <i class="fa fa-print"></i> Download Excel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive-sm" id="printExcel">
+            <table class="table table-hover table-outline mb-0 table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="text-center">GSTIN/UIN of Recipients</th>
+                  <th class="text-center">Invoice No</th>
+                  <th class="text-center">Invoice Date</th>
+                  <th class="text-center">Invoice Amount</th>
+                  <th class="text-center">Place Of Supply</th>
+                  <th class="text-center">Reverse Charges</th>
+                  <th class="text-center">Invoice Type</th>
+                  <th class="text-center">E-Commerce GSTN</th>
+                  <th class="text-center">Rate</th>
+                  <th class="text-center">Taxable Value</th>
+                  <th class="text-center">Cess Amount</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let content of returnedArray">
+                  <td class="text-center">{{ content.To_Party.GST_No }}</td>
+                  <td class="text-center">{{ content.Invoice_No }}</td>
+                  <td class="text-center">
+                    {{ content.Created_Date | date: "dd/MM/yyyy" }}
+                  </td>
+                  <td class="text-center">{{ content.Grand_Total }}</td>
+                  <td>{{ content.To_Party.Address }}</td>
+                  <td class="text-center">N</td>
+                  <td class="text-center">REGULAR</td>
+                  <td class="text-center">-</td>
+                  <td class="text-center">{{ content.Rate }}</td>
+                  <td class="text-center">{{ content.Taxable_Amount }}</td>
+                  <td class="text-center">0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- <div class="card-footer" *ngIf="dataLength > itemsPerPage">
+          <appPagination
+            [dataLength]="dataLength"
+            [itemsPerPage]="itemsPerPage"
+            (pageChanged)="pageChanged($event)"
+            (change)="setItemPerPage($event)"
+          ></appPagination>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>

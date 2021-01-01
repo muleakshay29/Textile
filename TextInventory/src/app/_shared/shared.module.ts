@@ -15,6 +15,7 @@ import { P404Component } from "../views/error/404.component";
 import { ErrorMessageComponent } from "../_helper/error-message/error-message.component";
 import { PaginationComponent } from "../_helper/pagination/pagination.component";
 import { UniqueRecordsDirective } from "../_helper/unique-records.directive";
+import { ReplaceQuotesPipe } from "../_pipes/replace-quotes.pipe";
 
 import {
   AppAsideModule,
@@ -43,6 +44,7 @@ import { NgxPrintModule } from "ngx-print";
     PaginationComponent,
     CommonGridComponent,
     UniqueRecordsDirective,
+    ReplaceQuotesPipe,
   ],
   imports: [
     CommonModule,
@@ -91,6 +93,7 @@ import { NgxPrintModule } from "ngx-print";
     CommonGridComponent,
     NgxPrintModule,
     UniqueRecordsDirective,
+    ReplaceQuotesPipe,
   ],
 })
 export class SharedModule {}

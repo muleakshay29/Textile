@@ -1,8 +1,7 @@
 <!-- <p>ledger-report works!</p> -->
 
-
 <ngx-spinner type="ball-beat" [fullScreen]="true"
-  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
 >
 <div class="animated fadeIn">
   <div class="row">
@@ -11,105 +10,65 @@
         <div class="card">
           <div class="card-body">
             <div class="row">
-                <div class="form-group col-sm-2">
-                     <label for="From_Date">From Date</label>
-                     <input
-                      type="date"
-                      class="form-control"
-                      placeholder="From Date"
-                      formControlName="From_Date"
-                      id="date-input"
-                     />
-
-                     <app-error-message
-                      class="d-block w-100"
-                      [control]="From_Date"
-                     ></app-error-message>
-                </div>
-                <div class="form-group col-sm-2">
-                    <label for="To_Date">To Date</label>
-                    <input
-                     type="date"
-                     class="form-control"
-                     placeholder="To Date"
-                     formControlName="To_Date"
-                     id="date-input"
-                    />
-                    <app-error-message
-                     class="d-block w-100"
-                     [control]="To_Date"
-                    ></app-error-message>
-               </div>
-               <div class="form-group col-sm-4">
-                <label for="LedgerType">Ledger Type</label>
-                <select class="form-control" formControlName="Ledger_Type">
-                  <option value="">Select Ledger</option>
-                  <option 
-                    value="{{ shed._id }}"
-                    *ngFor="let shed of ledgerType"
-                    >{{ shed.Ledger_Type }}</option
-                  >
-                </select>
+              <div class="form-group col-sm-2">
+                <label for="From_Date">From Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="From Date"
+                  formControlName="From_Date"
+                  id="date-input"
+                />
 
                 <app-error-message
                   class="d-block w-100"
-                  [control]="Ledger_Type"
+                  [control]="From_Date"
                 ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-2">
+                <label for="To_Date">To Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="To Date"
+                  formControlName="To_Date"
+                  id="date-input"
+                />
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="To_Date"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label for="LedgerType">Ledger Type</label>
+                <select class="form-control" formControlName="Ledger_Type">
+                  <!-- <option value="">Select Ledger</option> -->
+                  <option value="sales">Sales</option>
+                </select>
+
+                <!-- <app-error-message
+                  class="d-block w-100"
+                  [control]="Ledger_Type"
+                ></app-error-message> -->
               </div>
 
               <div class="form-group col-sm-4">
                 <label for="FirmName">Firm Name</label>
                 <select class="form-control" formControlName="Firm_Name">
                   <option value="">Select Firm Name</option>
-                  <option
-                    value="{{ firm._id }}"
-                    *ngFor="let firm of firmList"
-                    >{{ firm.Company_Name }}</option
-                  >
+                  <option value="{{ firm._id }}" *ngFor="let firm of firmList">
+                    {{ firm.Company_Name }}
+                  </option>
                 </select>
 
-                <app-error-message
+                <!-- <app-error-message
                   class="d-block w-100"
                   [control]="Firm_Name"
-                ></app-error-message>
+                ></app-error-message> -->
               </div>
             </div>
-
-            <!-- <div class="row">
-              <div class="form-group col-sm-6">
-                <label for="ShedName">Shed Name</label>
-                <select class="form-control" formControlName="Shed_Name">
-                  <option value="">Select Shed</option>
-                  <option
-                    value="{{ shed._id }}"
-                    *ngFor="let shed of shedList"
-                    >{{ shed.SHED_Name }}</option
-                  >
-                </select>
-
-                <app-error-message
-                  class="d-block w-100"
-                  [control]="Shed_Name"
-                ></app-error-message>
-              </div>
-
-              <div class="form-group col-sm-6">
-                <label for="FirmName">Firm Name</label>
-                <select class="form-control" formControlName="Firm_Name">
-                  <option value="">Select Firm Name</option>
-                  <option
-                    value="{{ firm._id }}"
-                    *ngFor="let firm of firmList"
-                    >{{ firm.Company_Name }}</option
-                  >
-                </select>
-
-                <app-error-message
-                  class="d-block w-100"
-                  [control]="Firm_Name"
-                ></app-error-message>
-              </div>
-            </div> -->
           </div>
           <div class="card-footer text-center">
             <button
@@ -124,7 +83,12 @@
               <i class="fa fa-ban"></i> Reset
             </button>
 
-            <button type="button" class="btn btn-primary">
+            <button
+              type="button"
+              class="btn btn-primary"
+              *ngIf="keysArr.length > 0"
+              (click)="generatePdf(pdfData)"
+            >
               <i class="fa fa-print"></i> Print
             </button>
           </div>
@@ -145,8 +109,8 @@
       </form>
     </div>
   </div>
-  
-  <div class="row" *ngIf="returnedArray != null">
+
+  <div class="row" *ngIf="keysArr != null">
     <div class="col-md-12">
       <div class="card">
         <div class="card-body">
@@ -154,7 +118,7 @@
             <table class="table table-hover table-outline mb-0 table-bordered">
               <thead class="thead-dark">
                 <tr>
-                  <th class="text-center">Party Name</th>
+                  <!-- <th class="text-center">Party Name</th> -->
                   <th class="text-center">Date</th>
                   <th class="text-center">Invoice No</th>
                   <th class="text-center">Quality</th>
@@ -165,38 +129,70 @@
                   <th class="text-center">Firm Name</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody *ngFor="let key of keysArr">
+                <tr class="mt-2">
+                  <td colspan="8" class="bg-secondary p-0 pl-4">{{ key }}</td>
+                </tr>
+                <tr *ngFor="let content of returnedArray[key]">
+                  <td>
+                    {{
+                      content.Date | json | replaceQuotes | date: "MM/dd/yyyy"
+                    }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Invoice_No | json | replaceQuotes }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Quality | json | replaceQuotes }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Total_Meters | json | replaceQuotes }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Rate | json | replaceQuotes }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Credit | json | replaceQuotes }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Debit | json | replaceQuotes }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Firm_Name | json | replaceQuotes }}
+                  </td>
+                </tr>
+              </tbody>
+              <!-- <tbody>
                 <tr *ngFor="let content of returnedArray">
-                    <td class="text-center">
-                        {{ content.Party_Name }}
-                    </td>
-                    <td class="text-center">
-                       <!-- date -->
-                    </td>
+                  <td class="text-center">
+                    {{ content.To_Party }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Date | date: "MM/dd/yyyy" }}
+                  </td>
                   <td class="text-center">
                     {{ content.Invoice_No }}
                   </td>
                   <td class="text-center">
-                    <!-- Quality -->
+                    {{ content.Quality }}
                   </td>
                   <td class="text-center">
-                    <!-- Meter's -->
+                    {{ content.Total_Meters }}
                   </td>
                   <td class="text-center">
-                    <!-- Rate -->
+                    {{ content.Rate }}
                   </td>
                   <td class="text-center">
-                    {{ content.Balance }}
+                    {{ content.Credit }}
                   </td>
                   <td class="text-center">
-                    <!-- Debit -->
+                    {{ content.Debit }}
                   </td>
                   <td class="text-center">
-                    <!-- Firm -->
+                    {{ content.Firm_Name }}
                   </td>
-                  
                 </tr>
-              </tbody>
+              </tbody> -->
             </table>
           </div>
         </div>
@@ -212,5 +208,3 @@
     </div>
   </div>
 </div>
-
- 

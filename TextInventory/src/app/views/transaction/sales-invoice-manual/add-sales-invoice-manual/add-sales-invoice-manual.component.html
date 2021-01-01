@@ -258,7 +258,7 @@
                   class="form-control"
                   formControlName="Rate"
                   placeholder="Rate"
-                  (blur)="calculateTotalAmt(RATE.value, FOLD.value)"
+                  (blur)="calculateTotalAmt(RATE.value)"
                   #RATE
                 />
 
@@ -362,7 +362,8 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          SECONDOTHER.value
+                          SECONDOTHER.value,
+                          FOLD.value
                         )
                       "
                     />
@@ -388,7 +389,8 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          SECONDOTHER.value
+                          SECONDOTHER.value,
+                          FOLD.value
                         )
                       "
                     />
@@ -412,7 +414,8 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          SECONDOTHER.value
+                          SECONDOTHER.value,
+                          FOLD.value
                         )
                       "
                     />
@@ -430,7 +433,15 @@
                       class="form-control"
                       formControlName="FOLD"
                       #FOLD
-                      (blur)="calculateTotalAmt(RATE.value, FOLD.value)"
+                      (blur)="
+                        deductTaxableAmt(
+                          SECOND.value,
+                          TP.value,
+                          SL.value,
+                          SECONDOTHER.value,
+                          FOLD.value
+                        )
+                      "
                     />
 
                     <app-error-message
@@ -451,7 +462,8 @@
                           SECOND.value,
                           TP.value,
                           SL.value,
-                          SECONDOTHER.value
+                          SECONDOTHER.value,
+                          FOLD.value
                         )
                       "
                     />

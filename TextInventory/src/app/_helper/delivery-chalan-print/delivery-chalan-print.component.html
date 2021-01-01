@@ -1,14 +1,35 @@
 <div class="modal-dialog mw-100 mx-4" id="print-html">
   <div class="modal-content">
     <div class="modal-body">
-      <div>
+      <div class="row d-print-none">
+        <div class="col-12 text-center">
+          <button
+            type="button"
+            printSectionId="print-section"
+            class="btn btn-info font-weight-bolder"
+            (click)="printPdf('print-html')"
+          >
+            <i class="cui-print icons font-xl d-inline"></i> &nbsp;Print Invoice
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-warning font-weight-bolder"
+            (click)="bsModalRef.hide()"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+
+      <div id="print-html">
         <div class="row border-bottom p-2">
           <div class="col-12 p-0">
             <h3 class="text-center font-weight-bold">
-              {{ content.Shade_Name.SHED_Name }}
+              {{ content.Company_Id.Comp_Name }}
             </h3>
             <p class="text-center">
-              {{ content.Shade_Name.Location.CMC_Name }}
+              {{ content.Company_Id.Comp_Address }}
             </p>
           </div>
         </div>
@@ -70,7 +91,7 @@
               </tbody>
             </table>
           </div>
-          <div class="col-6 p-0" *ngIf="data2.length > 0">
+          <div class="col-6 p-0" *ngIf="data2 && data2.length > 0">
             <table class="table table-hover table-outline mb-0 table-bordered">
               <thead>
                 <tr>
@@ -96,10 +117,10 @@
       </div>
     </div>
 
-    <div class="modal-footer d-print-none">
-      <a class="btn btn-info font-weight-bold" (click)="printPdf('print-html')">
-        <i class="cui-print icons font-xl d-inline"></i> &nbsp;Print
-      </a>
-    </div>
+    <!-- <div class="modal-footer d-print-none">
+  <a class="btn btn-info font-weight-bold" (click)="printPdf('print-html')">
+    <i class="cui-print icons font-xl d-inline"></i> &nbsp;Print
+  </a>
+</div> -->
   </div>
 </div>

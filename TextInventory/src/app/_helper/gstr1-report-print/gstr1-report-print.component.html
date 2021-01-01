@@ -1,0 +1,46 @@
+<div class="modal-dialog mw-100 mx-4" id="print-html">
+  <div class="modal-content border-0">
+    <div class="modal-body">
+      <table class="table table-outline table-bordered">
+        <thead>
+          <tr>
+            <th class="text-center">GSTIN/UIN of Recipients</th>
+            <th class="text-center">Invoice No</th>
+            <th class="text-center">Invoice Date</th>
+            <th class="text-center">Invoice Amount</th>
+            <th class="text-center">Place Of Supply</th>
+            <th class="text-center">Reverse Charges</th>
+            <th class="text-center">Invoice Type</th>
+            <th class="text-center">E-Commerce GSTN</th>
+            <th class="text-center">Rate</th>
+            <th class="text-center">Taxable Value</th>
+            <th class="text-center">Cess Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of content">
+            <td class="text-center">{{ data.To_Party.GST_No }}</td>
+            <td class="text-center">{{ data.Invoice_No }}</td>
+            <td class="text-center">
+              {{ data.Created_Date | date: "dd/MM/yyyy" }}
+            </td>
+            <td class="text-center">{{ data.Grand_Total }}</td>
+            <td>{{ data.To_Party.Address }}</td>
+            <td class="text-center">N</td>
+            <td class="text-center">REGULAR</td>
+            <td class="text-center">-</td>
+            <td class="text-center">{{ data.Rate }}</td>
+            <td class="text-center">{{ data.Taxable_Amount }}</td>
+            <td class="text-center">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="modal-footer d-print-none">
+      <a class="btn btn-info font-weight-bold" (click)="printPdf('print-html')">
+        <i class="cui-print icons font-xl d-inline"></i> &nbsp;Print
+      </a>
+    </div>
+  </div>
+</div>

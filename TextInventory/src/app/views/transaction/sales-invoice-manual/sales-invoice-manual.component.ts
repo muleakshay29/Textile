@@ -57,6 +57,7 @@ export class SalesInvoiceManualComponent implements OnInit {
 
   searchRecord(event) {
     const searchTxt = event.target.value;
+    console.log("searchTxt", searchTxt);
 
     if (searchTxt == "" || searchTxt.length == 0) {
       this.fetchSalesInvoiceManual();
@@ -64,10 +65,10 @@ export class SalesInvoiceManualComponent implements OnInit {
       this.spinner.hide();
     }
 
-    if (searchTxt.length >= 3) {
+    if (searchTxt.length >= 1) {
       this.spinner.show();
       this.cmservice
-        .findData({ Firm_Name: searchTxt }, "find-sales-invoice-manual")
+        .findData({ Invoice_No: searchTxt }, "find-sales-invoice")
         .subscribe((result) => {
           this.returnedArray = result;
           this.dataLength = result.length;

@@ -1,27 +1,22 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonService } from "../../_services/common.service";
 import { HtmltopaperService } from "../../_services/htmltopaper.service";
+import { BsModalRef } from "ngx-bootstrap/modal";
 
 @Component({
   selector: "app-delivery-chalan-print",
   templateUrl: "./delivery-chalan-print.component.html",
-  styles: [
-    `
-      .modal-body {
-        padding: 0.9rem;
-      }
-    `,
-  ],
 })
 export class DeliveryChalanPrintComponent implements OnInit {
   content: any;
-  date: Date;
+  date: any;
   _id: string;
   formatedDate;
-  data: any;
-  data2: any;
+  data: any = [];
+  data2: any = [];
 
   constructor(
+    public bsModalRef: BsModalRef,
     private cmservice: CommonService,
     private htmltopaper: HtmltopaperService
   ) {}
@@ -29,13 +24,23 @@ export class DeliveryChalanPrintComponent implements OnInit {
   ngOnInit(): void {
     // console.log(this.content);
     this.fetchDeliveryChalanChildDetails();
-    this.date = new Date(this.content.Date);
+    // console.log("this.content.Date", this.content.Date);
+    const tempDate = new Date(this.content.Date).toLocaleDateString("sq-AL", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    this.date = tempDate.split("/");
+    this.formatedDate = this.date[1] + "/" + this.date[0] + "/" + this.date[2];
+
+    /* this.date = new Date(tempDate);
+    console.log("this.date", this.date);
     this.formatedDate =
       this.date.getDay() +
       "/" +
       this.date.getMonth() +
       "/" +
-      this.date.getFullYear();
+      this.date.getFullYear(); */
   }
 
   fetchDeliveryChalanChildDetails() {

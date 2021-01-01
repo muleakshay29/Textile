@@ -1,111 +1,41 @@
 <!-- <p>beam-performance-report works!</p> -->
 
 <ngx-spinner type="ball-beat" [fullScreen]="true"
-  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
 >
 <div class="animated fadeIn">
   <div class="row">
+    <div class="col-sm-12"></div>
+  </div>
+
+  <div class="row">
     <div class="col-sm-12">
-      <form [formGroup]="BeamPerformance" (ngSubmit)="onSubmit()">
-        <div class="card">
-          <div class="card-body">
-            <div class="row">
-                <div class="form-group col-sm-3">
-                    <label for="PartyName">Party Name</label>
-                    <select class="form-control" formControlName="Party_Name">
-                      <option value="">Select Party Name</option>
-                      <!-- <option
-                        value="{{ firm._id }}"
-                        *ngFor="let firm of firmList"
-                        >{{ firm.Company_Name }}</option
-                      > -->
-                    </select>
-    
-                    <app-error-message
-                      class="d-block w-100"
-                      [control]="Party_Name"
-                    ></app-error-message>
-                </div>
-                <div class="form-group col-sm-3">
-                    <label for="SatNo">Sat No</label>
-                    <select class="form-control" formControlName="Sat_No">
-                      <option value="">Select Sat No</option>
-                      <!-- <option
-                        value="{{ firm._id }}"
-                        *ngFor="let firm of firmList"
-                        >{{ firm.Company_Name }}</option
-                      > -->
-                    </select>
-    
-                    <app-error-message
-                      class="d-block w-100"
-                      [control]="Sat_No"
-                    ></app-error-message>
-               </div>
-               <div class="form-group col-sm-3">
-                <label for="BeamNo">Beam No</label>
-                <select class="form-control" formControlName="Beam_No">
-                  <option value="">Select Beam No</option>
-                  <!-- <option
-                    value="{{ firm._id }}"
-                    *ngFor="let firm of firmList"
-                    >{{ firm.Company_Name }}</option
-                  > -->
-                </select>
-
-                <app-error-message
-                  class="d-block w-100"
-                  [control]="Beam_No"
-                ></app-error-message>
-              </div>
-            </div>           
-          </div>
-          <div class="card-footer text-center">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              [disabled]="!BeamPerformance.valid"
-            >
-              <i class="fa fa-dot-circle-o"></i> View
-            </button>
-
-            <button type="reset" class="btn btn-danger">
-              <i class="fa fa-ban"></i> Reset
-            </button>
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="form-group col-sm-3">
+              <label>Quality</label>
+              <label>Display Quality</label>
+            </div>
+            <div class="form-group col-sm-3">
+              <label>Total Meter</label>
+              <label>Show Total Meter</label>
+            </div>
+            <div class="form-group col-sm-3">
+              <label>Production Meter</label>
+              <label>Show Production Meter</label>
+            </div>
+            <div class="form-group col-sm-3">
+              <label>Production (%)</label>
+              <label>Show Production (%)</label>
+            </div>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 
   <div class="row">
-      <div class="col-sm-12">
-          <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="form-group col-sm-3">
-                        <label >Quality</label>
-                        <label >Display Quality</label>
-                    </div>
-                    <div class="form-group col-sm-3">
-                        <label >Total Meter</label>
-                        <label >Show Total Meter</label>
-                   </div>
-                   <div class="form-group col-sm-3">
-                    <label >Production Meter</label>
-                    <label>Show Production Meter</label>
-                  </div>
-                  <div class="form-group col-sm-3">
-                    <label >Production (%)</label>
-                    <label >Show Production (%)</label>
-                  </div>
-                </div>           
-              </div>
-          </div>
-      </div>
-  </div>
-  
-  <div class="row" >
     <div class="col-md-12">
       <div class="card">
         <div class="card-body">
@@ -120,36 +50,17 @@
                   <th class="text-center">Weight</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr *ngFor="let content of returnedArray">
-                    <td class="text-center">
-                       <!-- date -->
-                    </td>
-                  <td class="text-center">
-                    <!-- Loom No -->
-                  </td>
-                  <td class="text-center">
-                    <!-- Pice No -->
-                  </td>
-                  <td class="text-center">
-                    <!-- Meter -->
-                  </td>
-                  <td class="text-center">
-                    <!-- Weight -->
-                  </td>
-                </tr>
-              </tbody>
             </table>
           </div>
         </div>
-        <div class="card-footer" *ngIf="dataLength > itemsPerPage">
+        <!-- <div class="card-footer" *ngIf="dataLength > itemsPerPage">
           <appPagination
             [dataLength]="dataLength"
             [itemsPerPage]="itemsPerPage"
             (pageChanged)="pageChanged($event)"
             (change)="setItemPerPage($event)"
           ></appPagination>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

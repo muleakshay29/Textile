@@ -338,23 +338,17 @@ export class AddDeliveryChalanComponent implements OnInit {
                   "fetch-delivery-chalan-sales-invoice-by-id"
                 )
                 .subscribe((content) => {
-                  const result = this.commonservice.openPrintModal(
+                  console.log("content", content);
+                  this.commonservice.openPrintModal(
                     content,
                     data._id,
                     DeliveryChalanPrintComponent
                   );
-                  result.content.onClose.subscribe((result: boolean) => {
+                  /* result.content.onClose.subscribe((result: boolean) => {
                     if (result == true) {
                       this.spinner.show();
-                      // this.toastr.success(
-                      //   "Record added successfuly",
-                      //   "Success"
-                      // );
-                      // this.deliveryChalan.reset();
-                      // this.router.navigate(["/transaction/delivery-chalan"]);
-                      // this.spinner.hide();
                     }
-                  });
+                  }); */
                 });
 
               this.toastr.success("Record added successfuly", "Success");

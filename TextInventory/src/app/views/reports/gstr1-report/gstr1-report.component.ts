@@ -66,6 +66,7 @@ export class Gstr1ReportComponent implements OnInit {
     this.commonservice
       .findData(formData, "fetch-gst1-report")
       .subscribe((result) => {
+        this.returnedArray = [];
         if (result) {
           this.returnedArray = result;
           this.spinner.hide();

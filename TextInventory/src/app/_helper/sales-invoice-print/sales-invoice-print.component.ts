@@ -105,6 +105,17 @@ export class SalesInvoicePrintComponent implements OnInit {
               console.log("Fold Amount is " + FOLD);
             }
 
+            const lessAmt =
+              Number(details.Second) +
+              Number(details.TP) +
+              Number(details.SL) +
+              Number(FOLD) +
+              Number(details.Second_Other);
+            const addAmt =
+              Number(details.Packing) +
+              Number(details.Checking) +
+              Number(details.Packing_Other);
+
             const invoiceData = {
               Firm_Name: details.From_Party["Company_Name"],
               Firm_Address: details.From_Party.Address,
@@ -127,36 +138,28 @@ export class SalesInvoicePrintComponent implements OnInit {
               Loom_No: details.Loom_No,
               HSN_NO: details.HSN_NO,
               No_Of_Pieces: details.No_Of_Pieces,
-              Total_Meters: details.Total_Meters,
+              Total_Meters: details.Total_Meters.toFixed(2),
               Rate: details.Rate,
-              Total_Amount: details.Total_Amount,
+              Total_Amount: details.Total_Amount.toFixed(2),
               Packing: details.Packing,
               Checking: details.Checking,
               Packing_Other: details.Packing_Other,
-              ADD:
-                Number(details.Packing) +
-                Number(details.Checking) +
-                Number(details.Packing_Other),
+              ADD: addAmt.toFixed(2),
               Second: details.Second,
               TP: details.TP,
               SL: details.SL,
               FOLD: details.FOLD,
               Second_Other: details.Second_Other,
-              LESS:
-                Number(details.Second) +
-                Number(details.TP) +
-                Number(details.SL) +
-                Number(FOLD) +
-                Number(details.Second_Other),
-              Taxable_Amount: details.Taxable_Amount,
-              CGST: details.CGST,
-              CGST_Amt: details.CGST_Amt,
-              SGST: details.SGST,
-              SGST_Amt: details.SGST_Amt,
-              IGST: details.IGST,
-              IGST_Amt: details.IGST_Amt,
-              Round_Off: details.Round_Off,
-              Grand_Total: details.Grand_Total,
+              LESS: lessAmt.toFixed(2),
+              Taxable_Amount: details.Taxable_Amount.toFixed(2),
+              CGST: details.CGST.toFixed(2),
+              CGST_Amt: details.CGST_Amt.toFixed(2),
+              SGST: details.SGST.toFixed(2),
+              SGST_Amt: details.SGST_Amt.toFixed(2),
+              IGST: details.IGST.toFixed(2),
+              IGST_Amt: details.IGST_Amt.toFixed(2),
+              Round_Off: details.Round_Off.toFixed(2),
+              Grand_Total: details.Grand_Total.toFixed(2),
               Amount_in_Words: converter.toWords(details.Grand_Total),
               Bank_Name:
                 details.From_Party.Bank_Name == ""

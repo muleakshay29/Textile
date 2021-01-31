@@ -1,0 +1,7 @@
+.bg-secondary {
+  background-color: #c8ced3 !important;
+}
+
+body {
+  -webkit-print-color-adjust: exact !important;
+}

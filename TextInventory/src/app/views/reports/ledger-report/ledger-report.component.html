@@ -131,12 +131,17 @@
               </thead>
               <tbody *ngFor="let key of keysArr">
                 <tr class="mt-2">
-                  <td colspan="8" class="bg-secondary p-0 pl-4">{{ key }}</td>
+                  <td
+                    colspan="8"
+                    class="bg-secondary font-weight-bold p-0 pl-4"
+                  >
+                    {{ key }}
+                  </td>
                 </tr>
                 <tr *ngFor="let content of returnedArray[key]">
                   <td>
                     {{
-                      content.Date | json | replaceQuotes | date: "MM/dd/yyyy"
+                      content.Date | json | replaceQuotes | date: "dd-MM-yyyy"
                     }}
                   </td>
                   <td class="text-center">

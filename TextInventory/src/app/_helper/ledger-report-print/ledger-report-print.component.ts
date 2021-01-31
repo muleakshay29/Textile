@@ -27,6 +27,18 @@ export class LedgerReportPrintComponent implements OnInit {
     }, {});
     this.returnArray = result;
     this.keysArr = Object.keys(this.returnArray);
+    console.log("this.keysArr", this.keysArr);
+
+    this.keysArr.sort(function (a, b) {
+      if (a < b) {
+        return -1;
+      }
+      if (a > b) {
+        return 1;
+      }
+      return 0;
+    });
+
     // console.log("this.returnArray", Array.from(this.returnArray));
     // console.log("this.returnArray keys", Object.keys(this.returnArray));
 
@@ -41,7 +53,8 @@ export class LedgerReportPrintComponent implements OnInit {
       specs: ["fullscreen=yes", "titlebar=yes", "scrollbars=yes"],
       replace: true,
       styles: [
-        "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css",
+        "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css",
+        "./ledger-report-print.component.css",
       ],
     };
 

@@ -31,8 +31,10 @@ export class SalesReceiptComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
-    this.fetchShed();
-    this.fetchFirm();
+    // this.fetchShed();
+    // this.fetchFirm();
+    this.getItemCount();
+    this.fetchAccountTransactions();
   }
 
   createForm() {
@@ -50,6 +52,164 @@ export class SalesReceiptComponent implements OnInit {
     return this.salesReceipt.get("Firm_Name");
   }
 
+  getItemCount() {
+    this.spinner.show();
+    this.commonservice
+      .getItemCount("sales-account-transaction-details-count")
+      .subscribe((count) => {
+        this.dataLength = count.count;
+        this.spinner.hide();
+      });
+  }
+
+  fetchAccountTransactions(pageIndex = 0, pageSize = this.itemsPerPage) {
+    this.spinner.show();
+    this.commonservice
+      .fetchData(
+        pageIndex,
+        pageSize,
+        "fetch-sales-account-transaction-details-without-filter"
+      )
+      .subscribe((data) => {
+        if (data.length > 0) {
+          /* data.forEach((element) => {
+            this.commonservice
+              .fetchDetails(element._id, "sales-receipt-details")
+              .subscribe((details) => {
+                let balance = 0;
+
+                if (details.length > 0) {
+                  const sum = details.reduce((next, prev) => {
+                    return next + Number(prev.Paying_Amount);
+                  }, 0);
+
+                  const totalAmount = details[details.length - 1].Amount;
+                  balance = totalAmount - sum;
+
+                  if (balance > 0) {
+                    const data = {
+                      _id: element._id,
+                      Invoice_No: element.Invoice_No,
+                      Party_Code: element.Party._id,
+                      Party_Name: element.Party.Company_Name,
+                      Balance: balance,
+                    };
+
+                    this.returnedArray.push(data);
+                  }
+                } else {
+                  if (element.AmtOut - element.AmtIn > 0) {
+                    balance = element.AmtOut - element.AmtIn;
+
+                    const data = {
+                      _id: element._id,
+                      Invoice_No: element.Invoice_No,
+                      Party_Code: element.Party._id,
+                      Party_Name: element.Party.Company_Name,
+                      Balance: balance,
+                    };
+                    this.returnedArray.push(data);
+                  }
+                }
+              });
+          }); */
+
+          this.returnedArray = this.processResult(data);
+
+          if (this.returnedArray && this.returnedArray.length > 0) {
+            this.returnedArray = data.slice(0, this.itemsPerPage);
+            this.spinner.hide();
+          }
+        } else {
+          this.returnedArray = null;
+          this.toastr.success("No data found.", "Information");
+        }
+
+        this.spinner.hide();
+      });
+  }
+
+  processResult(data) {
+    let tempResultArr = [];
+    data.forEach((element) => {
+      this.commonservice
+        .fetchDetails(element._id, "sales-receipt-details")
+        .subscribe((details) => {
+          let balance = 0;
+
+          if (details.length > 0) {
+            const sum = details.reduce((next, prev) => {
+              return next + Number(prev.Paying_Amount);
+            }, 0);
+
+            const totalAmount = details[details.length - 1].Amount;
+            balance = totalAmount - sum;
+
+            if (balance > 0) {
+              const data = {
+                _id: element._id,
+                Invoice_No: element.Invoice_No,
+                Party_Code: element.Party._id,
+                Party_Name: element.Party.Company_Name,
+                Balance: balance,
+              };
+
+              tempResultArr.push(data);
+            }
+          } else {
+            if (element.AmtOut - element.AmtIn > 0) {
+              balance = element.AmtOut - element.AmtIn;
+
+              const data = {
+                _id: element._id,
+                Invoice_No: element.Invoice_No,
+                Party_Code: element.Party._id,
+                Party_Name: element.Party.Company_Name,
+                Balance: balance,
+              };
+              tempResultArr.push(data);
+            }
+          }
+        });
+    });
+
+    return tempResultArr;
+  }
+
+  pageChanged(event: PageChangedEvent): void {
+    this.fetchAccountTransactions(event.page - 1, this.itemsPerPage);
+  }
+
+  setItemPerPage(event) {
+    this.itemsPerPage = event.target.value;
+    this.fetchAccountTransactions(event.page - 1, this.itemsPerPage);
+  }
+
+  searchRecord(event) {
+    const searchTxt = event.target.value;
+
+    if (searchTxt == "" || searchTxt.length == 0) {
+      this.fetchAccountTransactions();
+      this.getItemCount();
+      this.spinner.hide();
+    }
+
+    if (searchTxt.length >= 1) {
+      this.spinner.show();
+      this.commonservice
+        .findData(
+          { Invoice_No: searchTxt },
+          "find-sales-account-transaction-details"
+        )
+        .subscribe((result) => {
+          // this.returnedArray = result;
+          this.returnedArray = this.processResult(result);
+          this.dataLength = result.length;
+          this.spinner.hide();
+        });
+    }
+  }
+
   onSubmit() {
     this.spinner.show();
     this.selectedShed = this.Shed_Name.value;
@@ -65,7 +225,9 @@ export class SalesReceiptComponent implements OnInit {
           // this.returnedArray = this.filterData(data);
           this.returnedArray = [];
 
+          // data.slice(0, 10).forEach((element) => {
           data.forEach((element) => {
+            // console.log("element", element);
             this.commonservice
               .fetchDetails(element._id, "sales-receipt-details")
               .subscribe((details) => {
@@ -102,17 +264,15 @@ export class SalesReceiptComponent implements OnInit {
                       Party_Name: element.Party.Company_Name,
                       Balance: balance,
                     };
-
                     this.returnedArray.push(data);
                   }
                 }
-
-                if (this.returnedArray.length == 0) {
-                  this.returnedArray = null;
-                  this.toastr.success("No data found.", "Information");
-                }
               });
           });
+
+          if (this.returnedArray && this.returnedArray.length > 0) {
+            this.spinner.hide();
+          }
         } else {
           this.returnedArray = null;
           this.toastr.success("No data found.", "Information");

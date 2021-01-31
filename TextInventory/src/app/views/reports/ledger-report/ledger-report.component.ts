@@ -110,6 +110,15 @@ export class LedgerReportComponent implements OnInit {
                           }, {});
                           this.returnedArray = result;
                           this.keysArr = Object.keys(this.returnedArray);
+                          this.keysArr.sort(function (a, b) {
+                            if (a < b) {
+                              return -1;
+                            }
+                            if (a > b) {
+                              return 1;
+                            }
+                            return 0;
+                          });
                         }
                       }
                     });

@@ -9,7 +9,9 @@ import { HtmltopaperService } from "../../_services/htmltopaper.service";
 export class DashboardComponent implements OnInit {
   constructor(private htmltopaper: HtmltopaperService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(JSON.stringify(localStorage.getItem("selectedYear")));
+  }
 
   printPdf(element) {
     const options = {

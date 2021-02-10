@@ -4,20 +4,29 @@ import { Routes, RouterModule } from "@angular/router";
 import { DashboardComponent } from "./dashboard.component";
 import { AuthGuard } from "../../_guards/auth.guard";
 import { DefaultLayoutComponent } from "../../containers";
+import { YearSelectionComponent } from "./year-selection/year-selection.component";
 
 const routes: Routes = [
-  /* {
+  {
     path: "",
-    component: DefaultLayoutComponent,
+    component: YearSelectionComponent,
     data: {
-      title: "Home",
+      title: "Select Year",
     },
-  }, */
+  },
   {
     path: "dashboard",
     component: DashboardComponent,
     data: {
       title: "Dashboard",
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "year-selection",
+    component: YearSelectionComponent,
+    data: {
+      title: "Select Year",
     },
     canActivate: [AuthGuard],
   },

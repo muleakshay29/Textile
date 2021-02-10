@@ -1,20 +1,12 @@
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ChartsModule } from 'ng2-charts';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { NgModule } from "@angular/core";
+import { SharedModule } from "../../_shared/shared.module";
 
-import { DashboardComponent } from './dashboard.component';
-import { DashboardRoutingModule } from './dashboard-routing.module';
+import { DashboardComponent } from "./dashboard.component";
+import { DashboardRoutingModule } from "./dashboard-routing.module";
+import { YearSelectionComponent } from "./year-selection/year-selection.component";
 
 @NgModule({
-  imports: [
-    FormsModule,
-    DashboardRoutingModule,
-    ChartsModule,
-    BsDropdownModule,
-    ButtonsModule.forRoot()
-  ],
-  declarations: [ DashboardComponent ]
+  imports: [DashboardRoutingModule, SharedModule],
+  declarations: [DashboardComponent, YearSelectionComponent],
 })
-export class DashboardModule { }
+export class DashboardModule {}

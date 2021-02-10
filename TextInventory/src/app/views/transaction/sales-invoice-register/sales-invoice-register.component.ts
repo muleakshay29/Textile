@@ -5,6 +5,7 @@ import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import * as jsPDF from "jspdf";
 import { SalesInvoicePrintComponent } from "../../../_helper/sales-invoice-print/sales-invoice-print.component";
+import { ArIndusriesReceiptPrintComponent } from "../../../_helper/ar-indusries-receipt-print/ar-indusries-receipt-print.component";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 
 @Component({
@@ -80,12 +81,24 @@ export class SalesInvoiceRegisterComponent implements OnInit {
     }
   }
 
-  viewInvoice(content) {
-    const result = this.cmservice.openPrintModal(
-      "",
-      content,
-      SalesInvoicePrintComponent
-    );
+  viewInvoice(content, ReceiptDesign) {
+    let result;
+    if (ReceiptDesign == 1) {
+      result = this.cmservice.openPrintModal(
+        "",
+        content,
+        SalesInvoicePrintComponent
+      );
+    }
+
+    if (ReceiptDesign == 2) {
+      result = this.cmservice.openPrintModal(
+        "",
+        content,
+        ArIndusriesReceiptPrintComponent
+      );
+    }
+
     result.content.onClose.subscribe((result: boolean) => {
       if (result == true) {
         this.spinner.show();

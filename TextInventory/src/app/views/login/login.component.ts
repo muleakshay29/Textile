@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
         this.toastr.success("Logged in Successfuly!", "Sucess");
         this.userLogin.reset();
         this.router.navigate(["/dashboard"]);
+        // this.router.navigate(["/year-selection"]);
         this.spinner.hide();
       } else {
         this.toastr.error("Invalid Login Credentials!", "Error");

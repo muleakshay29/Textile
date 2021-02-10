@@ -1,0 +1,589 @@
+<div class="modal-body text-center">
+  <button
+    type="button"
+    printSectionId="print-section"
+    class="btn btn-info font-weight-bolder"
+    [useExistingCss]="true"
+    ngxPrint
+  >
+    Print Invoice
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-warning font-weight-bolder"
+    (click)="bsModalRef.hide()"
+  >
+    Cancel
+  </button>
+
+  <div
+    id="print-section"
+    class="table-responsive-sm"
+    width="2480"
+    height="3508"
+  >
+    <!-- pl-5 pr-5       style="
+        background: url(../../../assets/bgImg2.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+      "   8600540055 -->
+    <div>
+      <div
+        class="row pl-3 pt-3 pb-2"
+        style="background-color: rgb(50, 76, 109)"
+      >
+        <div class="col-2">
+          <img
+            class="mt-0 ml-3"
+            src="../../../assets/ARindustries.png"
+            height="150"
+            width="150"
+          />
+        </div>
+        <div class="col-10">
+          <div class="text-center display-4 font-weight-bolder">
+            <!-- <h1>{{ salesInvoiceDetails.Firm_Name }}</h1> -->
+            <h1 style="color: rgb(220, 221, 226)">
+              {{ salesInvoiceDetails.Firm_Name }}
+            </h1>
+          </div>
+          <div class="text-center">
+            <!-- <h4>{{ salesInvoiceDetails.Firm_Address }}</h4> -->
+            <h4 style="color: rgb(173, 167, 152)">
+              {{ salesInvoiceDetails.Firm_Address }}
+            </h4>
+          </div>
+          <hr style="width: 90%" class="ma-auto borderTop" />
+          <div class="text-center">
+            <div class="row" style="color: rgb(173, 167, 152)">
+              <div class="col-6 border-right pl-3">
+                <h5>Contact No</h5>
+                <div>
+                  <h6>
+                    {{ salesInvoiceDetails.Firm_Mobile }},
+                    {{ salesInvoiceDetails.Firm_Alternate_No }}
+                  </h6>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-3 pr-1 text-left">
+                    <h5>GSTIN :-</h5>
+                  </div>
+                  <div class="col-5 pl-1 pr-1 text-left">
+                    <h5>{{ salesInvoiceDetails.Firm_GST_No }}</h5>
+                  </div>
+                  <div class="col-4"></div>
+                </div>
+                <div class="row" style="color: rgb(173, 167, 152)">
+                  <div class="col-3 pr-1 text-left">
+                    <h5>PAN NO :-</h5>
+                  </div>
+                  <div class="col-5 pl-1 pr-1 text-left">
+                    <h5>{{ salesInvoiceDetails.Firm_Pan_No }}</h5>
+                  </div>
+                  <div class="col-4"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="row pt-2 pb-2"
+        style="
+          background: url(../../../assets/partyDetails.png);
+          background-repeat: no-repeat;
+          background-size: cover;
+        "
+      >
+        <div class="col-6">
+          <div class="row pl-4 pt-1" style="text-align: left">
+            <h5>
+              <b><i>Invoice To,</i></b>
+            </h5>
+          </div>
+          <div class="row ml-2 pt-2">
+            <h4>
+              <b>{{ salesInvoiceDetails.Party_Name }}</b>
+            </h4>
+          </div>
+          <div class="row pl-4 pt-2">
+            <div class="col-10 text-left" style="text-align: left">
+              <b>{{ salesInvoiceDetails.Party_Address }}</b>
+            </div>
+          </div>
+          <div class="row pt-2 pl-3">
+            <div class="col-8 text-left">
+              <strong>GSTN :</strong>
+              <span class="ml-1 mr-1">{{
+                salesInvoiceDetails.Party_GST_No
+              }}</span>
+              <strong>PAN :</strong>
+              <span class="ml-1 mr-1">{{
+                salesInvoiceDetails.Party_Pan_No
+              }}</span>
+            </div>
+          </div>
+          <div class="row pt-2 pl-3 pb-1">
+            <div class="col-8 text-left">
+              <strong>STATE & CODE :</strong>
+              <span class="ml-1 mr-1">{{
+                salesInvoiceDetails.Party_State_Code
+              }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 pl-3">
+          <div class="row pt-5 pb-2 pl-5 text-center" style="color: whitesmoke">
+            <b style="font-size: xx-large"
+              >TOTAL DUE :- ₹ {{ salesInvoiceDetails.Total_Due }}
+            </b>
+          </div>
+          <div class="row pt-2" style="font-size: 18px">
+            <div class="col-6 text-left">
+              <strong>INVOICE NO : </strong>
+              <span class="ml-2 mr-1">{{
+                salesInvoiceDetails.Invoice_No
+              }}</span>
+            </div>
+            <div class="col-6 text-left">
+              <strong>DATE : </strong>
+              <span class="ml-2 mr-1">{{
+                salesInvoiceDetails.Date | date: "MM/dd/yyyy"
+              }}</span>
+            </div>
+          </div>
+          <div class="row pt-2" style="font-size: 18px">
+            <div class="col-6 text-left">
+              <strong>PLACE OF DELIVERY : </strong>
+              <span class="ml-1 mr-1">ICHALKARANJI</span>
+            </div>
+            <div class="col-6 text-left">
+              <strong>BROKER :</strong>
+              <span class="ml-1 mr-1">{{
+                salesInvoiceDetails.Broker_Name
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="row pt-2 pb-2"
+        style="background: rgb(50, 76, 109); color: white"
+      >
+        <div class="col-2 text-center">
+          <h6 class="font-weight-bolder">SLIP NO</h6>
+        </div>
+        <div class="col-3 text-center">
+          <h6 class="font-weight-bolder">PERTICULARS</h6>
+        </div>
+        <div class="col-1 text-center">
+          <h6 class="font-weight-bolder">PIECES</h6>
+        </div>
+        <div class="col-2 text-center">
+          <h6 class="font-weight-bolder">METERS</h6>
+        </div>
+        <div class="col-2 text-center">
+          <h6 class="font-weight-bolder">RATE</h6>
+        </div>
+        <div class="col-2 text-center">
+          <h6 class="font-weight-bolder">AMOUNT</h6>
+        </div>
+      </div>
+      <div
+        style="
+          background: url(../../../assets/ARindustrieswatermark.png);
+          background-repeat: no-repeat;
+          background-size: 60%;
+          background-position-y: top;
+        "
+      >
+        <div class="row">
+          <div class="col-2 pt-4 pb-5 text-center">
+            <h6 class="font-weight-bolder">{{ salesInvoiceDetails.DC_NO }}</h6>
+          </div>
+          <div class="col-3 pt-4 pb-5 text-center">
+            <div class="row text-left pl-3">
+              <h6 class="font-weight-bolder">
+                {{ salesInvoiceDetails.Quality }}
+              </h6>
+            </div>
+            <div class="row text-left pt-1 pl-3">
+              <strong class="font-weight-bolder">LOOM NO: </strong>
+              <span class="mr-1 ml-1 font-weight-bolder">{{
+                salesInvoiceDetails.Loom_No
+              }}</span>
+            </div>
+            <div class="row text-left pt-1 pl-3">
+              <strong class="font-weight-bolder">HSN NO: </strong>
+              <span class="mr-1 ml-1 font-weight-bolder">{{
+                salesInvoiceDetails.HSN_NO
+              }}</span>
+            </div>
+          </div>
+          <div class="col-1 pt-4 pb-5 text-center">
+            <h6 class="font-weight-bolder">
+              {{ salesInvoiceDetails.No_Of_Pieces }}
+            </h6>
+          </div>
+          <div class="col-2 pt-4 pb-5 text-center">
+            <h6 class="font-weight-bolder">
+              {{ salesInvoiceDetails.Total_Meters }}
+            </h6>
+          </div>
+          <div
+            class="col-2 pt-4 pb-5 text-center"
+            style="background-color: rgb(220, 221, 223)"
+          >
+            <h6 class="font-weight-bolder">{{ salesInvoiceDetails.Rate }}</h6>
+          </div>
+          <div
+            class="col-2 pt-4 pb-5 text-center"
+            style="background-color: rgb(220, 221, 223)"
+          >
+            <h6 class="font-weight-bolder">
+              {{ salesInvoiceDetails.Total_Amount }}
+            </h6>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2 pt-5 pb-5"></div>
+          <div class="col-3 pt-5 pb-5"></div>
+          <div class="col-1 pt-5 pb-5"></div>
+          <div class="col-2 pt-5 pb-5"></div>
+          <div
+            class="col-2 pt-5 pb-5"
+            style="background-color: rgb(220, 221, 223)"
+          ></div>
+          <div
+            class="col-2 pt-5 pb-5"
+            style="background-color: rgb(220, 221, 223)"
+          ></div>
+        </div>
+        <div class="row border-top">
+          <div class="col-2 text-center pt-3 pb-1">
+            <h6 class="font-weight-bolder">ADD</h6>
+          </div>
+          <div class="col-2 text-center pt-3 pb-1">
+            <h6 class="font-weight-bolder">PACKING</h6>
+          </div>
+          <div class="col-2 text-center pt-3 pb-1">
+            <h6 class="font-weight-bolder">CHECKING</h6>
+          </div>
+          <div class="col-2 text-center pt-3 pb-1">
+            <h6 class="font-weight-bolder">OTHER</h6>
+          </div>
+          <div
+            class="col-2 text-center pt-3 pb-1 border-top"
+            style="background-color: rgb(220, 221, 223)"
+          >
+            <h6 class="font-weight-bolder">ADD :</h6>
+          </div>
+          <div
+            class="col-2 pt-3 pb-1 border-top"
+            style="background-color: rgb(220, 221, 223)"
+          >
+            .
+          </div>
+        </div>
+        <div class="row border-bottom">
+          <div class="col-2 text-center pt-1 pb-1"></div>
+          <div class="col-2 text-center pt-1 pb-1">
+            <h6 class="font-weight-bolder">
+              {{ salesInvoiceDetails.Packing }}
+            </h6>
+          </div>
+          <div class="col-2 text-center pt-1 pb-1">
+            <h6 class="font-weight-bolder">
+              {{ salesInvoiceDetails.Checking }}
+            </h6>
+          </div>
+          <div class="col-2 text-center pt-1 pb-1">
+            <h6 class="font-weight-bolder">
+              {{ salesInvoiceDetails.Packing_Other }}
+            </h6>
+          </div>
+          <div
+            class="col-2 text-center pt-1 pb-1"
+            style="background-color: rgb(220, 221, 223)"
+          ></div>
+          <div
+            class="col-2 text-center pt-1 pb-1"
+            style="background-color: rgb(220, 221, 223)"
+          >
+            <h6 class="font-weight-bolder">{{ salesInvoiceDetails.ADD }}</h6>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-1 text-center pt-3 pb-1">
+            <h6 class="font-weight-bolder">LESS</h6>
+          </div>
+          <div class="col-2 text-center pt-3 pb-1">
+            <h6 class="font-weight-bolder">SECAND</h6>
+          </div>
+          <div class="col-1 text-center pt-3 pb-1">
+            <h6 class="font-weight-bolder">T.P</h6>
+          </div>
+          <div class="col-1 text-center pt-3 pb-1">
+            <h6 class="font-weight-bolder">S.L</h6>
+          </div>
+          <div class="col-1 text-center pt-3 pb-1">
+            <h6 class="font-weight-bolder">FOLD</h6>
+          </div>
+          <div class="col-2 text-center pt-3 pb-1">
+            <h6 class="font-weight-bolder">OTHER</h6>
+          </div>
+          <div
+            class="col-2 text-center pt-3 pb-1 border-top"
+            style="background-color: rgb(220, 221, 223)"
+          >
+            <h6 class="font-weight-bolder">LESS :</h6>
+          </div>
+          <div
+            class="col-2 pt-3 pb-1 border-top"
+            style="background-color: rgb(220, 221, 223)"
+          >
+            .
+          </div>
+        </div>
+        <div class="row border-bottom">
+          <div class="col-1 text-center pt-1 pb-1"></div>
+          <div class="col-2 text-center pt-1 pb-1">
+            <h6 class="font-weight-bolder">{{ salesInvoiceDetails.Second }}</h6>
+          </div>
+          <div class="col-1 text-center pt-1 pb-1">
+            <h6 class="font-weight-bolder">{{ salesInvoiceDetails.TP }}</h6>
+          </div>
+          <div class="col-1 text-center pt-1 pb-1">
+            <h6 class="font-weight-bolder">{{ salesInvoiceDetails.SL }}</h6>
+          </div>
+          <div class="col-1 text-center pt-1 pb-1">
+            <h6 class="font-weight-bolder">{{ salesInvoiceDetails.FOLD }}</h6>
+          </div>
+          <div class="col-2 text-center pt-1 pb-1">
+            <h6 class="font-weight-bolder">
+              {{ salesInvoiceDetails.Second_Other }}
+            </h6>
+          </div>
+          <div
+            class="col-2 text-center pt-1 pb-1"
+            style="background-color: rgb(220, 221, 223)"
+          ></div>
+          <div
+            class="col-2 text-center pt-1 pb-1"
+            style="background-color: rgb(220, 221, 223)"
+          >
+            <h6 class="font-weight-bolder">{{ salesInvoiceDetails.LESS }}</h6>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-7">
+            <div class="row pl-4 pt-2 pb-1">
+              <span class="font-weight-bolder">AMOUNT IN WORDS</span>
+            </div>
+            <div class="row pl-4 pt-2 pb-2">
+              <h5 class="font-weight-bold">
+                {{ salesInvoiceDetails.Amount_in_Words | uppercase }}
+              </h5>
+            </div>
+            <div class="row pl-4 pt-2" style="background-color: white">
+              <div class="col-6">
+                <div class="row ml-4 pt-2 font-weight-bolder">BANK DETAILS</div>
+                <hr class="borderTop" />
+                <div class="row ml-4">
+                  <h6 class="font-weight-normal">
+                    {{ salesInvoiceDetails.Bank_Name }}
+                  </h6>
+                </div>
+                <div class="row ml-4" style="background-color: white">
+                  <h6 class="font-weight-normal">
+                    {{ salesInvoiceDetails.Account_No }}
+                  </h6>
+                </div>
+                <div class="row ml-4">
+                  <h6 class="font-weight-normal">
+                    {{ salesInvoiceDetails.IFSC_Code }}
+                  </h6>
+                </div>
+              </div>
+              <div class="col-6" style="background-color: white">
+                <div class="row ml-4 pt-2 font-weight-bolder">PAYMENT DUE</div>
+                <hr class="borderTop" />
+                <div class="row ml-4 font-weight-normal">
+                  30 Day's From Invoice
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-5">
+            <div class="row pr-2" style="color: white">
+              <div class="col-1"></div>
+              <div
+                class="col-6 pt-1 font-weight-bolder"
+                style="background-color: rgb(50, 76, 109)"
+              >
+                TAXABLE AMOUNT
+              </div>
+              <div
+                class="col-5 pt-1 text-right font-weight-bolder"
+                style="background-color: rgb(50, 76, 109)"
+              >
+                {{ salesInvoiceDetails.Taxable_Amount }}
+              </div>
+            </div>
+            <div class="row pr-2 border-right">
+              <div class="col-3 border-right"></div>
+              <div
+                class="col-4 border-right border-bottom font-weight-bolder"
+                style="background-color: rgb(220, 221, 223)"
+              >
+                CGST @ {{ salesInvoiceDetails.CGST }}
+              </div>
+              <div
+                class="col-5 text-right border-bottom font-weight-bolder"
+                style="background-color: rgb(220, 221, 223)"
+              >
+                {{ salesInvoiceDetails.CGST_Amt }}
+              </div>
+            </div>
+            <div class="row pr-2 border-right">
+              <div class="col-3 border-right"></div>
+              <div
+                class="col-4 border-right border-bottom font-weight-bolder"
+                style="background-color: rgb(220, 221, 223)"
+              >
+                SGST @ {{ salesInvoiceDetails.SGST }}
+              </div>
+              <div
+                class="col-5 text-right border-bottom font-weight-bolder"
+                style="background-color: rgb(220, 221, 223)"
+              >
+                {{ salesInvoiceDetails.SGST_Amt }}
+              </div>
+            </div>
+            <div class="row pr-2 border-right" style="background-color: white">
+              <div class="col-3 border-right"></div>
+              <div
+                class="col-4 border-right font-weight-bolder border-bottom"
+                style="background-color: rgb(220, 221, 223)"
+              >
+                IGST @ {{ salesInvoiceDetails.IGST }}
+              </div>
+              <div
+                class="col-5 text-right font-weight-bolder border-bottom"
+                style="background-color: rgb(220, 221, 223)"
+              >
+                {{ salesInvoiceDetails.IGST_Amt }}
+              </div>
+            </div>
+            <div class="row pr-2 border-right" style="background-color: white">
+              <div class="col-3 border-right"></div>
+              <div
+                class="col-4 border-right font-weight-bolder"
+                style="background-color: rgb(220, 221, 223)"
+              >
+                R/OFF
+              </div>
+              <div
+                class="col-5 text-right font-weight-bolder"
+                style="background-color: rgb(220, 221, 223)"
+              >
+                {{ salesInvoiceDetails.Round_Off }}
+              </div>
+            </div>
+
+            <div
+              class="row pb-4 pr-2"
+              style="background-color: white; color: white"
+            >
+              <div class="col-1" style="border-top: none; color: white"></div>
+              <div class="col-6" style="background-color: rgb(50, 76, 109)">
+                <b class="font-weight-bolder">GRAND TOTAL</b>
+              </div>
+              <div
+                class="col-5 text-right font-weight-bolder"
+                style="background-color: rgb(50, 76, 109)"
+              >
+                ₹ {{ salesInvoiceDetails.Grand_Total }}
+              </div>
+            </div>
+            <div class="row text-right pt-1" style="background-color: white">
+              <br />
+              <i>.</i>
+              <br />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="row pl-5 pt-2 pb-2"
+        style="background-color: white; color: rgb(50, 76, 135)"
+      >
+        <h2>THANK YOU FOR YOUR BUSINESS . . !</h2>
+      </div>
+      <div
+        class="row pt-3 pl-5 pb-3"
+        style="background-color: white; color: rgb(50, 76, 135)"
+      >
+        <b>TERMS & CONDITIONS :</b>
+      </div>
+
+      <div
+        class="row pt-2 pb-2 pl-3 text-left"
+        style="background-color: white; color: rgb(50, 76, 135)"
+      >
+        <div class="col-7">
+          1. Don't pay cash or goods to Agent. 2. Goods once's sold will not be
+          taken back. 3. Payment is requested by payee A/c Draft only. 4. 18%
+          interest will be charged on the net amount after due date. 5. All our
+          responsibility ceases as goods leave our godown premises
+        </div>
+      </div>
+      <div
+        class="row pt-4 pb-4 pl-3 text-center"
+        style="background-color: white; color: rgb(50, 76, 135)"
+      >
+        <div class="col-6 font-weight-bold text-left">
+          <b>Subject To Ichalkaranji Jurisdiction</b>
+        </div>
+        <div class="col-2"></div>
+        <div class="col-4 pl-4">
+          <b class="font-weight-bold">FOR :- </b>
+          <br />
+          <b class="font-weight-bold">{{ salesInvoiceDetails.Firm_Name }} </b>
+        </div>
+      </div>
+      <div
+        class="row pt-4 pb-4 pl-3 text-center"
+        style="
+          background: url(../../../assets/bottomAr.png);
+          background-repeat: no-repeat;
+          background-size: cover;
+        "
+      >
+        <div class="col-4 text-left pt-5">
+          <b class="font-weight-bolder">E. & O.E.</b>
+        </div>
+        <div class="col-4 pt-5 text-left" style="color: white">
+          <b class="font-weight-bolder">CHECKED BY</b>
+        </div>
+        <div class="col-4 pt-5">
+          <b class="font-weight-bolder">PROPRIETOR</b>
+          <b></b>
+        </div>
+      </div>
+      <div
+        class="row text-center pt-3 pb-3"
+        style="background-color: rgb(50, 76, 135); color: white"
+      >
+        <div class="col-12 font-weight-normal">
+          <b>THIS IS COMPUTER GENERATED INVOICE</b>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

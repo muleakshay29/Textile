@@ -1,0 +1,13 @@
+.border,
+.border-left,
+.border-right,
+.border-top,
+.border-bottom {
+  border-width: 0.5px !important;
+  border-color: rgb(1, 180, 121) !important;
+}
+
+.borderTop {
+  border-width: 0.5px !important;
+  border-color: rgb(220, 221, 223) !important;
+}

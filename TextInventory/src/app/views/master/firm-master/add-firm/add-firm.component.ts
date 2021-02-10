@@ -19,6 +19,12 @@ export class AddFirmComponent implements OnInit {
   Year_Id: any;
   UniqueCode: any;
   stateList = [];
+  designURL: string = "../../../../../assets/whitebg.jpg";
+  designArray = [
+    "../../../../../assets/Design01.png",
+    "../../../../../assets/Design02.png",
+  ];
+  selectedDesign = "";
 
   constructor(
     private fb: FormBuilder,
@@ -33,6 +39,7 @@ export class AddFirmComponent implements OnInit {
     this.createForm();
     this.getYearId();
     this.fetchState("5ea035da1492733c189e6ff2");
+    this.selectedDesign = this.designURL;
 
     this.route.params.subscribe((params: Params) => {
       this.firmID = params["id"] ? params["id"] : "";
@@ -57,6 +64,7 @@ export class AddFirmComponent implements OnInit {
       Branch: [""],
       Account_No: [""],
       IFSC_Code: [""],
+      ReceiptDesign: ["", Validators.required],
     });
   }
 
@@ -122,6 +130,10 @@ export class AddFirmComponent implements OnInit {
     return this.firmMaster.get("IFSC_Code");
   }
 
+  get ReceiptDesign() {
+    return this.firmMaster.get("ReceiptDesign");
+  }
+
   onSubmit() {
     this.spinner.show();
     const formData = this.firmMaster.value;
@@ -176,6 +188,13 @@ export class AddFirmComponent implements OnInit {
       this.cmaster
         .fetchDetails(this.firmID, "firm-details")
         .subscribe((details) => {
+          if (details.ReceiptDesign) {
+            this.selectedDesign = this.designArray[
+              Number(details.ReceiptDesign) - 1
+            ];
+          } else {
+            this.selectedDesign = this.designURL;
+          }
           this.firmMaster.setValue({
             Company_Name: details.Company_Name,
             Owner_Name: details.Owner_Name,
@@ -190,6 +209,7 @@ export class AddFirmComponent implements OnInit {
             Branch: details.Branch,
             Account_No: details.Account_No,
             IFSC_Code: details.IFSC_Code,
+            ReceiptDesign: details.ReceiptDesign || "",
           });
           this.spinner.hide();
         });
@@ -202,6 +222,15 @@ export class AddFirmComponent implements OnInit {
       .subscribe((list) => {
         this.stateList = list;
       });
+  }
+
+  selectDesign(event) {
+    const selectedDesign = event.target.value;
+    if (selectedDesign) {
+      this.selectedDesign = this.designArray[Number(selectedDesign) - 1];
+    } else {
+      this.selectedDesign = this.designURL;
+    }
   }
 
   onCancel() {

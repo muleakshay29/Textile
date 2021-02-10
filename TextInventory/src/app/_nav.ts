@@ -6,6 +6,11 @@ export const navItems: INavData[] = [
     url: "/dashboard",
     icon: "icon-chart",
   },
+  {
+    name: "Year",
+    url: "/year-selection",
+    icon: "icon-chart",
+  },
   /* {
     name: "Admin Specific",
     url: "/masters/common-master",

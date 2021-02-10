@@ -23,6 +23,7 @@ import { DeliveryChalanPrintComponent } from "./_helper/delivery-chalan-print/de
 import { ConfirmWindowComponent } from "./_helper/confirm-window/confirm-window.component";
 import { LedgerReportPrintComponent } from "./_helper/ledger-report-print/ledger-report-print.component";
 import { Gstr1ReportPrintComponent } from "./_helper/gstr1-report-print/gstr1-report-print.component";
+import { ArIndusriesReceiptPrintComponent } from "./_helper/ar-indusries-receipt-print/ar-indusries-receipt-print.component";
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { Gstr1ReportPrintComponent } from "./_helper/gstr1-report-print/gstr1-re
     ConfirmWindowComponent,
     LedgerReportPrintComponent,
     Gstr1ReportPrintComponent,
+    ArIndusriesReceiptPrintComponent,
   ],
   providers: [
     {
@@ -65,6 +67,7 @@ import { Gstr1ReportPrintComponent } from "./_helper/gstr1-report-print/gstr1-re
     ConfirmWindowComponent,
     LedgerReportPrintComponent,
     Gstr1ReportPrintComponent,
+    ArIndusriesReceiptPrintComponent,
   ],
   bootstrap: [AppComponent],
 })

@@ -1,0 +1,39 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <form [formGroup]="yearSelectionMaster" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <select class="form-control" formControlName="Year_ID">
+                <option value="">Select Year</option>
+                <option value="{{ year._id }}" *ngFor="let year of yearList">
+                  {{ year.CMC_Name }}
+                </option>
+              </select>
+
+              <app-error-message
+                class="d-block w-100"
+                [control]="Year_ID"
+              ></app-error-message>
+            </div>
+          </div>
+
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!yearSelectionMaster.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

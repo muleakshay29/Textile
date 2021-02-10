@@ -1,5 +1,5 @@
 <ngx-spinner type="ball-beat" [fullScreen]="true"
-  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
 >
 
 <div class="animated fadeIn">
@@ -133,8 +133,9 @@
                         <option
                           value="{{ state._id }}"
                           *ngFor="let state of stateList"
-                          >{{ state.CMC_Name }}</option
                         >
+                          {{ state.CMC_Name }}
+                        </option>
                       </select>
 
                       <app-error-message
@@ -203,6 +204,30 @@
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="">Select Receipt Design</label>
+                  <select
+                    class="form-control"
+                    formControlName="ReceiptDesign"
+                    (change)="selectDesign($event)"
+                  >
+                    <option value="">Select Receipt Design</option>
+                    <option value="1">Design 01</option>
+                    <option value="2">Design 02</option>
+                  </select>
+
+                  <app-error-message
+                    class="d-block w-100"
+                    [control]="ReceiptDesign"
+                  ></app-error-message>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <img [src]="selectedDesign" class="rounded img-thumbnail" />
               </div>
             </div>
           </div>

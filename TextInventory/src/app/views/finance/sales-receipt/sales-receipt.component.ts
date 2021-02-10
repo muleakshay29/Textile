@@ -151,6 +151,7 @@ export class SalesReceiptComponent implements OnInit {
                 Invoice_No: element.Invoice_No,
                 Party_Code: element.Party._id,
                 Party_Name: element.Party.Company_Name,
+                Firm_Name: element.Firm.Company_Name,
                 Balance: balance,
               };
 
@@ -165,6 +166,7 @@ export class SalesReceiptComponent implements OnInit {
                 Invoice_No: element.Invoice_No,
                 Party_Code: element.Party._id,
                 Party_Name: element.Party.Company_Name,
+                Firm_Name: element.Firm.Company_Name,
                 Balance: balance,
               };
               tempResultArr.push(data);

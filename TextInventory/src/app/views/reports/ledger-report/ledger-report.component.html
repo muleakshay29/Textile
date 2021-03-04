@@ -138,35 +138,118 @@
                     {{ key }}
                   </td>
                 </tr>
-                <tr *ngFor="let content of returnedArray[key]">
-                  <td>
+                <tr *ngFor="let content of returnedArray[key]; let i = index">
+                  <td
+                    [ngClass]="
+                      content.Quality !== ''
+                        ? 'table-light font-weight-normal'
+                        : 'table-secondary font-weight-bold total-row-border-none'
+                    "
+                  >
                     {{
                       content.Date | json | replaceQuotes | date: "dd-MM-yyyy"
                     }}
                   </td>
-                  <td class="text-center">
+                  <td
+                    class="text-center"
+                    [ngClass]="
+                      content.Quality !== ''
+                        ? 'table-light font-weight-normal'
+                        : 'table-secondary font-weight-bold total-row-border-none'
+                    "
+                  >
                     {{ content.Invoice_No | json | replaceQuotes }}
                   </td>
-                  <td class="text-center">
+                  <td
+                    class="text-center"
+                    [ngClass]="
+                      content.Quality !== ''
+                        ? 'table-light font-weight-normal'
+                        : 'table-secondary font-weight-bold total-row-border-none'
+                    "
+                  >
                     {{ content.Quality | json | replaceQuotes }}
                   </td>
-                  <td class="text-center">
-                    {{ content.Total_Meters | json | replaceQuotes }}
+                  <td
+                    class="text-center"
+                    [ngClass]="
+                      content.Quality !== ''
+                        ? 'table-light font-weight-normal'
+                        : 'table-secondary font-weight-bold row-border'
+                    "
+                  >
+                    {{
+                      content.Total_Meters
+                        | json
+                        | replaceQuotes
+                        | number: "1.0-2"
+                    }}
                   </td>
-                  <td class="text-center">
+                  <td
+                    class="text-center"
+                    [ngClass]="
+                      content.Quality !== ''
+                        ? 'table-light font-weight-normal'
+                        : 'table-secondary font-weight-bold total-row-border-none'
+                    "
+                  >
                     {{ content.Rate | json | replaceQuotes }}
                   </td>
-                  <td class="text-center">
+                  <td
+                    class="text-center"
+                    [ngClass]="
+                      content.Quality !== ''
+                        ? 'table-light font-weight-normal'
+                        : 'table-secondary font-weight-bold row-border'
+                    "
+                  >
                     {{ content.Credit | json | replaceQuotes }}
                   </td>
-                  <td class="text-center">
+                  <td
+                    class="text-center"
+                    [ngClass]="
+                      content.Quality !== ''
+                        ? 'table-light font-weight-normal'
+                        : 'table-secondary font-weight-bold row-border'
+                    "
+                  >
                     {{ content.Debit | json | replaceQuotes }}
                   </td>
-                  <td class="text-center">
+                  <td
+                    class="text-center"
+                    [ngClass]="
+                      content.Quality !== ''
+                        ? 'table-light font-weight-normal'
+                        : 'table-secondary font-weight-bold total-row-border-none'
+                    "
+                  >
                     {{ content.Firm_Name | json | replaceQuotes }}
                   </td>
                 </tr>
               </tbody>
+              <!-- <tbody
+                *ngIf="totalMeters > 0 || totalCredit > 0 || totalDebit > 0"
+              >
+                <tr>
+                  <td colspan="8" style="padding: 0">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td colspan="3" class="text-right font-weight-bold last-row">
+                    Total
+                  </td>
+                  <td class="text-center font-weight-bold last-row">
+                    {{ totalMeters }}
+                  </td>
+                  <td class="last-row">&nbsp;</td>
+                  <td class="text-center font-weight-bold last-row">
+                    {{ totalCredit }}
+                  </td>
+                  <td class="text-left font-weight-bold last-row" colspan="2">
+                    {{ totalDebit }}
+                  </td>
+                </tr>
+              </tbody> -->
+
               <!-- <tbody>
                 <tr *ngFor="let content of returnedArray">
                   <td class="text-center">

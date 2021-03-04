@@ -4,6 +4,7 @@ import { CommonService } from "../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { SalesInvoicePrintComponent } from "../../../_helper/sales-invoice-print/sales-invoice-print.component";
+import { ArIndusriesReceiptPrintComponent } from "../../../_helper/ar-indusries-receipt-print/ar-indusries-receipt-print.component";
 
 @Component({
   selector: "app-sales-invoice-manual",
@@ -14,6 +15,7 @@ export class SalesInvoiceManualComponent implements OnInit {
   returnedArray: any[];
   dataLength: number;
   itemsPerPage: number = 10;
+  firmDesign: number;
 
   constructor(
     private cmservice: CommonService,
@@ -77,8 +79,35 @@ export class SalesInvoiceManualComponent implements OnInit {
     }
   }
 
-  viewInvoice(content) {
-    const result = this.cmservice.openPrintModal(
+  viewInvoice(content, firmId) {
+    this.cmservice.fetchDetails(firmId, "firm-details").subscribe((details) => {
+      // this.firmDesign = details.ReceiptDesign;
+
+      let result;
+      if (details.ReceiptDesign == 1) {
+        result = this.cmservice.openPrintModal(
+          "",
+          content,
+          SalesInvoicePrintComponent
+        );
+      }
+
+      if (details.ReceiptDesign == 2) {
+        result = this.cmservice.openPrintModal(
+          "",
+          content,
+          ArIndusriesReceiptPrintComponent
+        );
+      }
+
+      result.content.onClose.subscribe((result: boolean) => {
+        if (result == true) {
+          this.spinner.show();
+        }
+      });
+    });
+
+    /* const result = this.cmservice.openPrintModal(
       "",
       content,
       SalesInvoicePrintComponent
@@ -88,5 +117,31 @@ export class SalesInvoiceManualComponent implements OnInit {
         this.spinner.show();
       }
     });
+
+    console.log("content", content); */
+    // console.log("ReceiptDesign", ReceiptDesign);
+
+    /* let result;
+    if (ReceiptDesign == 1) {
+      result = this.cmservice.openPrintModal(
+        "",
+        content,
+        SalesInvoicePrintComponent
+      );
+    }
+
+    if (ReceiptDesign == 2) {
+      result = this.cmservice.openPrintModal(
+        "",
+        content,
+        ArIndusriesReceiptPrintComponent
+      );
+    }
+
+    result.content.onClose.subscribe((result: boolean) => {
+      if (result == true) {
+        this.spinner.show();
+      }
+    }); */
   }
 }

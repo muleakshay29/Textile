@@ -1,0 +1,131 @@
+<ngx-spinner type="ball-beat" [fullScreen]="true"
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
+>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form [formGroup]="BrokerReport" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="From_Date">From Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="From Date"
+                  formControlName="From_Date"
+                  id="date-input"
+                />
+
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="From_Date"
+                ></app-error-message>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="To_Date">To Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="To Date"
+                  formControlName="To_Date"
+                  id="date-input"
+                />
+                <app-error-message
+                  class="d-block w-100"
+                  [control]="To_Date"
+                ></app-error-message>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-center">
+            <button
+              type="submit"
+              class="btn btn-primary m-2"
+              [disabled]="!BrokerReport.valid"
+            >
+              <i class="fa fa-dot-circle-o"></i> Search
+            </button>
+
+            <button type="reset" class="btn btn-danger m-2">
+              <i class="fa fa-ban"></i> Reset
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-primary m-2"
+              *ngIf="keysArr.length > 0"
+              (click)="printPdf()"
+            >
+              <i class="fa fa-print"></i> Print
+            </button>
+
+            <!-- <button
+              type="button"
+              class="btn btn-primary m-2"
+              *ngIf="returnedArray.length > 0"
+              (click)="generateDetailedExcel(returnedArray)"
+            >
+              <i class="fa fa-print"></i> Download Excel
+            </button> -->
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive-sm" id="print-html">
+            <table class="table table-hover table-outline mb-0 table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="text-center">Invoice No</th>
+                  <th class="text-center">Date</th>
+                  <th class="text-center">Party Name</th>
+                  <th class="text-center">Firm Name</th>
+                  <th class="text-center">Meters</th>
+                  <th class="text-center">Rate</th>
+                  <th class="text-center">Taxable Amount</th>
+                  <th class="text-center">GST</th>
+                  <th class="text-center">Invoice Amount</th>
+                </tr>
+              </thead>
+
+              <tbody *ngFor="let key of keysArr">
+                <tr class="mt-2">
+                  <td
+                    colspan="9"
+                    class="bg-secondary font-weight-bold p-0 pl-4"
+                  >
+                    {{ key }}
+                  </td>
+                </tr>
+                <tr *ngFor="let content of returnedArray[key]">
+                  <td class="text-center">{{ content.Invoice_No }}</td>
+                  <td class="text-center">
+                    {{ content.Date | date: "dd/MM/yyyy" }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Party_Name }}
+                  </td>
+                  <td>{{ content.Firm_Name }}</td>
+                  <td class="text-center">{{ content.Total_Meters }}</td>
+                  <td class="text-center">{{ content.Rate }}</td>
+                  <td class="text-center">{{ content.Taxable_Amount }}</td>
+                  <td class="text-center">{{ content.Total_GST_Amt }}</td>
+                  <td class="text-center">{{ content.Grand_Total }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -296,6 +296,11 @@ export const navItems: INavData[] = [
         icon: "icon-cursor",
       },
       {
+        name: "Broker Report",
+        url: "/reports/broker-report",
+        icon: "icon-cursor",
+      },
+      /* {
         name: "GST2 Report",
         url: "/reports/gst2-report",
         icon: "icon-cursor",
@@ -329,7 +334,7 @@ export const navItems: INavData[] = [
         name: "Stock Beam Report",
         url: "/reports/stock-beam-report",
         icon: "icon-cursor",
-      },
+      }, */
     ],
   },
 ];

@@ -16,8 +16,10 @@ export class Gstr1ReportComponent implements OnInit {
   firmList = [];
   buttonText = "View";
   returnedArray = [];
+  detailedExcelContent = [];
   dataLength: number;
   itemsPerPage: number = 10;
+  detailedExcel: boolean = false;
   // @ViewChild('printExcel', { static: false }) printExcel: ElementRef;
 
   /*name of the excel-file which will be downloaded. */
@@ -77,23 +79,69 @@ export class Gstr1ReportComponent implements OnInit {
       });
   }
 
+  generateDetailedExcel(content) {
+    this.detailedExcel = true;
+    this.spinner.show();
+
+    content.forEach((element) => {
+      const detailedContent = {
+        Invoice_No: element.Invoice_No,
+        Invoice_Date: element.Date,
+        Party: element.To_Party.Company_Name,
+        GST_NO: element.To_Party.GST_No,
+        Pices: element.No_Of_Pieces,
+        Meter: element.Total_Meters,
+        Rate: element.Rate,
+        Total: element.Total_Amount,
+        Taxable_Amount: element.Taxable_Amount,
+        CGST: element.CGST,
+        CGST_Amount: element.CGST_Amt,
+        SGST: element.SGST,
+        SGST_Amount: element.SGST_Amt,
+        IGST: element.IGST,
+        IGST_Amount: element.IGST_Amt,
+        Total_GST: element.Total_GST_Amt,
+        R_Off: element.Round_Off,
+        Invoice_Amount: element.Grand_Total,
+      };
+
+      this.detailedExcelContent.push(detailedContent);
+    });
+
+    setTimeout(() => {
+      this.fileName =
+        "GSTR1-Detail-Report-" +
+        this.From_Date.value +
+        "-to-" +
+        this.To_Date.value +
+        "-Report.xlsx";
+      let element = document.getElementById("printDetailedExcel");
+      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+      XLSX.writeFile(wb, this.fileName.replace(/ /g, "-"));
+      this.spinner.hide();
+    }, 3000);
+  }
+
   generatePdf(content) {
-    this.fileName =
-      "GSTR1-" +
-      this.From_Date.value +
-      "-to-" +
-      this.To_Date.value +
-      "-Report.xlsx";
-    console.log("this.To_Date", this.To_Date);
-    let element = document.getElementById("printExcel");
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-    XLSX.writeFile(wb, this.fileName.replace(/ /g, "-"));
-    /* const result = this.commonservice.openPrintModal(
-      content,
-      content,
-      Gstr1ReportPrintComponent
-    ); */
+    this.detailedExcel = false;
+    this.spinner.show();
+
+    setTimeout(() => {
+      this.fileName =
+        "GSTR1-" +
+        this.From_Date.value +
+        "-to-" +
+        this.To_Date.value +
+        "-Report.xlsx";
+      console.log("this.To_Date", this.To_Date);
+      let element = document.getElementById("printExcel");
+      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+      XLSX.writeFile(wb, this.fileName.replace(/ /g, "-"));
+      this.spinner.hide();
+    }, 3000);
   }
 }

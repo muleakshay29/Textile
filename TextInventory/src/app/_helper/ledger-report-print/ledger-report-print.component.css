@@ -5,3 +5,15 @@
 body {
   -webkit-print-color-adjust: exact !important;
 }
+
+td.total-row-border-none {
+  border-right: none;
+  border-left: none;
+  border-top: 3px solid #000;
+  border-bottom: 3px solid #000;
+}
+
+td.row-border,
+td.last-row {
+  border: 3px solid #000 !important;
+}

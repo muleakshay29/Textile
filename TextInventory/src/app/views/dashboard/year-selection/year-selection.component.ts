@@ -56,6 +56,7 @@ export class YearSelectionComponent implements OnInit {
     const selectedYear = this.Year_ID.value;
 
     if (selectedYear) {
+      localStorage.removeItem("selectedYear");
       localStorage.setItem("selectedYear", selectedYear);
       this.getYearId(selectedYear);
       this.router.navigate(["/dashboard"]);

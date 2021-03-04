@@ -11,6 +11,7 @@ import { BeamStockReportComponent } from "./stock/beam-stock-report/beam-stock-r
 import { TageStockReportComponent } from "./stock/tage-stock-report/tage-stock-report.component";
 import { YarnStockReportComponent } from "./stock/yarn-stock-report/yarn-stock-report.component";
 import { BeamPerformanceReportComponent } from "./beam-performance-report/beam-performance-report.component";
+import { BrokerReportComponent } from './broker-report/broker-report.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { BeamPerformanceReportComponent } from "./beam-performance-report/beam-p
     TageStockReportComponent,
     YarnStockReportComponent,
     BeamPerformanceReportComponent,
+    BrokerReportComponent,
   ],
   imports: [ReportRoutingModule, SharedModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

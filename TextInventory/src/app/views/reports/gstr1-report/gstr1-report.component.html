@@ -54,24 +54,33 @@
           <div class="card-footer text-center">
             <button
               type="submit"
-              class="btn btn-primary"
+              class="btn btn-primary m-2"
               [disabled]="!GST_Report.valid"
             >
               <i class="fa fa-dot-circle-o"></i> Search
             </button>
 
-            <button type="reset" class="btn btn-danger">
+            <button type="reset" class="btn btn-danger m-2">
               <i class="fa fa-ban"></i> Reset
             </button>
 
             <button
               type="button"
-              class="btn btn-primary"
+              class="btn btn-primary m-2"
               *ngIf="returnedArray.length > 0"
               (click)="generatePdf(returnedArray)"
             >
               <!-- <i class="fa fa-print"></i> Print -->
               <i class="fa fa-print"></i> Download Excel
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-primary m-2"
+              *ngIf="returnedArray.length > 0"
+              (click)="generateDetailedExcel(returnedArray)"
+            >
+              <i class="fa fa-print"></i> Download Detailed Excel
             </button>
           </div>
         </div>
@@ -83,7 +92,77 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-body">
-          <div class="table-responsive-sm" id="printExcel">
+          <div
+            class="table-responsive-sm"
+            id="printDetailedExcel"
+            *ngIf="detailedExcel"
+          >
+            <table class="table table-hover table-outline mb-0 table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="text-center">Invoice No</th>
+                  <th class="text-center">Invoice Date</th>
+                  <th class="text-center">Party</th>
+                  <th class="text-center">GST NO</th>
+                  <th class="text-center">Pices</th>
+                  <th class="text-center">Meter</th>
+                  <th class="text-center">Rate</th>
+                  <th class="text-center">Total</th>
+                  <th class="text-center">Taxable Amount</th>
+                  <th class="text-center">CGST %</th>
+                  <th class="text-center">CGST Amount</th>
+                  <th class="text-center">SGST %</th>
+                  <th class="text-center">SGST Amount</th>
+                  <th class="text-center">IGST %</th>
+                  <th class="text-center">IGST Amount</th>
+                  <th class="text-center">Total GST</th>
+                  <th class="text-center">R / OFF</th>
+                  <th class="text-center">Invoice Amount</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let content of detailedExcelContent">
+                  <td class="text-center">{{ content.Invoice_No }}</td>
+                  <td class="text-center">
+                    {{ content.Invoice_Date | date: "dd/MM/yyyy" }}
+                  </td>
+                  <td class="text-center">{{ content.Party }}</td>
+                  <td>{{ content.GST_NO }}</td>
+                  <td class="text-center">{{ content.Pices }}</td>
+                  <td class="text-center">{{ content.Meter }}</td>
+                  <td class="text-center">{{ content.Rate }}</td>
+                  <td class="text-center">{{ content.Total }}</td>
+                  <td class="text-center">
+                    {{ content.Taxable_Amount | number: "1.0-2" }}
+                  </td>
+                  <td class="text-center">{{ content.CGST }}</td>
+                  <td class="text-center">
+                    {{ content.CGST_Amount | number: "1.0-2" }}
+                  </td>
+                  <td class="text-center">{{ content.SGST }}</td>
+                  <td class="text-center">
+                    {{ content.SGST_Amount | number: "1.0-2" }}
+                  </td>
+                  <td class="text-center">{{ content.IGST }}</td>
+                  <td class="text-center">
+                    {{ content.IGST_Amount | number: "1.0-2" }}
+                  </td>
+                  <td class="text-center">
+                    {{ content.Total_GST | number: "1.0-2" }}
+                  </td>
+                  <td class="text-center">{{ content.R_Off }}</td>
+                  <td class="text-center">{{ content.Invoice_Amount }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div
+            class="table-responsive-sm"
+            id="printExcel"
+            *ngIf="!detailedExcel"
+          >
             <table class="table table-hover table-outline mb-0 table-bordered">
               <thead class="thead-dark">
                 <tr>
@@ -121,14 +200,6 @@
             </table>
           </div>
         </div>
-        <!-- <div class="card-footer" *ngIf="dataLength > itemsPerPage">
-          <appPagination
-            [dataLength]="dataLength"
-            [itemsPerPage]="itemsPerPage"
-            (pageChanged)="pageChanged($event)"
-            (change)="setItemPerPage($event)"
-          ></appPagination>
-        </div> -->
       </div>
     </div>
   </div>

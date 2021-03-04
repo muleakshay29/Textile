@@ -10,11 +10,18 @@ export class LedgerReportPrintComponent implements OnInit {
   content: any;
   returnArray: any = [];
   keysArr: any = [];
+  totalMeters: number = 0;
+  totalCredit: number = 0;
+  totalDebit: number = 0;
+  From_Date: any;
+  To_Date: any;
 
   constructor(private htmltopaper: HtmltopaperService) {}
 
   ngOnInit(): void {
     // console.log("this.content", this.content);
+    console.log(this.From_Date);
+    console.log(this.To_Date);
     this.groupLedgerData(this.content);
   }
 
@@ -38,6 +45,37 @@ export class LedgerReportPrintComponent implements OnInit {
       }
       return 0;
     });
+
+    for (const key in result) {
+      let meterSum = 0;
+      let creditSum = 0;
+      let debitSum = 0;
+      const party = result[key];
+      party.forEach((element) => {
+        // console.log(element);
+        meterSum = meterSum + element.Total_Meters;
+        creditSum = creditSum + element.Credit;
+        debitSum = debitSum + element.Debit;
+      });
+
+      this.totalMeters = +(this.totalMeters + meterSum).toFixed(2);
+      this.totalCredit = +(this.totalCredit + creditSum).toFixed(2);
+      this.totalDebit = +(this.totalDebit + debitSum).toFixed(2);
+
+      result[key].push({
+        To_Party: "",
+        Date: "",
+        Invoice_No: "",
+        Quality: "",
+        Total_Meters: meterSum,
+        Rate: "",
+        Credit: creditSum,
+        Debit: debitSum,
+        Firm_Name: "",
+      });
+    }
+
+    this.returnArray = result;
 
     // console.log("this.returnArray", Array.from(this.returnArray));
     // console.log("this.returnArray keys", Object.keys(this.returnArray));

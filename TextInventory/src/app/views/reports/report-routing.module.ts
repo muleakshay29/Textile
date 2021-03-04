@@ -10,6 +10,7 @@ import { TageStockReportComponent } from "./stock/tage-stock-report/tage-stock-r
 import { YarnStockReportComponent } from "./stock/yarn-stock-report/yarn-stock-report.component";
 import { AuthGuard } from "../../_guards/auth.guard";
 import { BeamPerformanceReportComponent } from "./beam-performance-report/beam-performance-report.component";
+import { BrokerReportComponent } from "./broker-report/broker-report.component";
 
 const routes: Routes = [
   {
@@ -149,6 +150,21 @@ const routes: Routes = [
         component: BeamStockReportComponent,
         data: {
           title: "Stock Beam Report",
+        },
+        canActivate: [AuthGuard],
+      },
+
+      {
+        path: "",
+        redirectTo: "broker-report",
+        pathMatch: "full",
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "broker-report",
+        component: BrokerReportComponent,
+        data: {
+          title: "Broker Report",
         },
         canActivate: [AuthGuard],
       },

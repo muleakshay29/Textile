@@ -24,6 +24,9 @@ export class LedgerReportComponent implements OnInit {
   keysArr = [];
   dataLength: number;
   itemsPerPage: number = 10;
+  totalMeters: number = 0;
+  totalCredit: number = 0;
+  totalDebit: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -54,40 +57,73 @@ export class LedgerReportComponent implements OnInit {
     return this.Ledger.get("To_Date");
   }
 
+  getItemCount(data) {
+    this.spinner.show();
+    this.commonservice
+      .findData(data, "ledger-details-count")
+      .subscribe((count) => {
+        this.dataLength = count.count;
+        this.spinner.hide();
+      });
+  }
+
   onSubmit() {
     this.spinner.show();
+    this.returnedArray = [];
+    this.keysArr = [];
+    this.totalMeters = 0;
+    this.totalCredit = 0;
+    this.totalDebit = 0;
     const formData = this.Ledger.value;
+    // this.getItemCount(formData);
+    // formData.pageIndex = 0;
+    // formData.pageSize = this.itemsPerPage;
+    this.legderDetails(formData);
+  }
 
+  /* pageChanged(event: PageChangedEvent): void {
+    const formData = this.Ledger.value;
+    formData.pageIndex = event.page - 1;
+    formData.pageSize = this.itemsPerPage;
+    this.legderDetails(formData);
+  }
+
+  setItemPerPage(event) {
+    this.itemsPerPage = event.target.value;
+    const formData = this.Ledger.value;
+    formData.pageIndex = event.page - 1;
+    formData.pageSize = this.itemsPerPage;
+    this.legderDetails(formData);
+  } */
+
+  legderDetails(formData) {
     this.commonservice
-      .findData(formData, "fetch-ledger-details")
+      .findData(formData, "fetch-ledger-details-new")
       .subscribe((data) => {
-        // this.returnedArray = data;
-
         if (data) {
+          console.log("data.length", data.length);
+          // let count = 1;
           data.forEach((element) => {
-            this.commonservice
-              .findData(
-                { _id: element._id },
-                "fetch-ledger-account-trans-details"
-              )
-              .subscribe((receiptDetails) => {
-                if (receiptDetails !== null) {
-                  this.commonservice
-                    .findData(
-                      { _id: receiptDetails[0]._id },
-                      "fetch-ledger-receipts-details"
-                    )
-                    .subscribe((details) => {
-                      if (details !== null) {
-                        let payingAmt = 0;
-                        details.forEach((element) => {
-                          payingAmt =
-                            payingAmt +
-                            element.Paying_Amount +
-                            element.Tds_Amount;
-                        });
-                        const debitAmt = element.Grand_Total - payingAmt;
+            if (element.AccTrans && element.AccTrans.length > 0) {
+              this.commonservice
+                .findData(
+                  { _id: element.AccTrans[0]._id },
+                  "fetch-ledger-receipts-details"
+                )
+                .subscribe((details) => {
+                  if (details !== null) {
+                    let payingAmt = 0;
+                    details.forEach((elementDetail) => {
+                      payingAmt =
+                        payingAmt +
+                        elementDetail.Paying_Amount +
+                        elementDetail.Tds_Amount;
+                    });
+                    const debitAmt = element.Grand_Total - payingAmt;
 
+                    this.commonservice
+                      .fetchDetails(element.AccTrans[0].Firm, "firm-details")
+                      .subscribe((details) => {
                         if (debitAmt > 0) {
                           const ledgerData = {
                             To_Party: element.To_Party.Company_Name,
@@ -98,7 +134,7 @@ export class LedgerReportComponent implements OnInit {
                             Rate: element.Rate,
                             Credit: payingAmt,
                             Debit: debitAmt,
-                            Firm_Name: receiptDetails[0].Firm.Company_Name,
+                            Firm_Name: details.Company_Name,
                           };
                           this.pdfData.push(ledgerData);
 
@@ -108,6 +144,7 @@ export class LedgerReportComponent implements OnInit {
                             prev[key].push(next);
                             return prev;
                           }, {});
+
                           this.returnedArray = result;
                           this.keysArr = Object.keys(this.returnedArray);
                           this.keysArr.sort(function (a, b) {
@@ -119,34 +156,51 @@ export class LedgerReportComponent implements OnInit {
                             }
                             return 0;
                           });
+
+                          for (const key in result) {
+                            let meterSum = 0;
+                            let creditSum = 0;
+                            let debitSum = 0;
+                            const party = result[key];
+                            party.forEach((element) => {
+                              // console.log(element);
+                              meterSum = meterSum + element.Total_Meters;
+                              creditSum = creditSum + element.Credit;
+                              debitSum = debitSum + element.Debit;
+                            });
+
+                            /* this.totalMeters = +(
+                              this.totalMeters + meterSum
+                            ).toFixed(2);
+                            this.totalCredit = +(
+                              this.totalCredit + creditSum
+                            ).toFixed(2);
+                            this.totalDebit = +(
+                              this.totalDebit + debitSum
+                            ).toFixed(2);
+
+                            console.log("totalMeters", this.totalMeters); */
+
+                            result[key].push({
+                              To_Party: "",
+                              Date: "",
+                              Invoice_No: "",
+                              Quality: "",
+                              Total_Meters: meterSum,
+                              Rate: "",
+                              Credit: creditSum,
+                              Debit: debitSum,
+                              Firm_Name: "",
+                            });
+                          }
+
+                          this.returnedArray = result;
+                          // console.log(this.returnedArray);
                         }
-                      }
-                    });
-                }
-
-                /* console.log("receiptDetails", receiptDetails);
-                const ledgerData = {
-                  To_Party: element.To_Party.Company_Name,
-                  Date: element.Date,
-                  Invoice_No: element.Invoice_No,
-                  Quality: element.Quality.Design_Name,
-                  Total_Meters: element.Total_Meters,
-                  Rate: element.Rate,
-                  Credit: element.Total_Amount + receiptDetails[0].Tds_Amount,
-                  Debit: receiptDetails[0].Amount,
-                  Firm_Name: receiptDetails[0].Firm.Company_Name,
-                };
-                this.pdfData.push(ledgerData);
-
-                const result = this.pdfData.reduce((prev, next) => {
-                  const key = `${next.To_Party}`;
-                  prev[key] = prev[key] || [];
-                  prev[key].push(next);
-                  return prev;
-                }, {});
-                this.returnedArray = result;
-                this.keysArr = Object.keys(this.returnedArray); */
-              });
+                      });
+                  }
+                });
+            }
           });
 
           this.spinner.hide();
@@ -155,6 +209,125 @@ export class LedgerReportComponent implements OnInit {
         }
       });
   }
+
+  /* ledgerAccTransDetails(data) {
+    data.forEach((element) => {
+      // console.log(e1.AccTrans);
+      this.commonservice
+        .findData(
+          { _id: element.AccTrans[0]._id },
+          "fetch-ledger-receipts-details"
+        )
+        .subscribe((details) => {
+          if (details !== null) {
+            // const element = e1.AccTrans[0];
+            let payingAmt = 0;
+            details.forEach((elementDetail) => {
+              payingAmt =
+                payingAmt +
+                elementDetail.Paying_Amount +
+                elementDetail.Tds_Amount;
+            });
+            const debitAmt = element.Grand_Total - payingAmt;
+
+            if (debitAmt > 0) {
+              const ledgerData = {
+                To_Party: element.To_Party.Company_Name,
+                Date: element.Date,
+                Invoice_No: element.Invoice_No,
+                Quality: element.Quality.Design_Name,
+                Total_Meters: element.Total_Meters,
+                Rate: element.Rate,
+                Credit: payingAmt,
+                Debit: debitAmt,
+                // Firm_Name: receiptDetails[0].Firm.Company_Name,
+                Firm_Name: "",
+              };
+              this.pdfData.push(ledgerData);
+
+              const result = this.pdfData.reduce((prev, next) => {
+                const key = `${next.To_Party}`;
+                prev[key] = prev[key] || [];
+                prev[key].push(next);
+                return prev;
+              }, {});
+              this.returnedArray = result;
+              this.keysArr = Object.keys(this.returnedArray);
+              this.keysArr.sort(function (a, b) {
+                if (a < b) {
+                  return -1;
+                }
+                if (a > b) {
+                  return 1;
+                }
+                return 0;
+              });
+            }
+          }
+
+          console.log("this.returnedArray", this.returnedArray);
+        });
+    });
+  } */
+
+  /* ledgerAccTransDetails1(data) {
+    data.forEach((element) => {
+      this.commonservice
+        .findData({ _id: element._id }, "fetch-ledger-account-trans-details")
+        .subscribe((receiptDetails) => {
+          if (receiptDetails !== null) {
+            this.commonservice
+              .findData(
+                { _id: receiptDetails[0]._id },
+                "fetch-ledger-receipts-details"
+              )
+              .subscribe((details) => {
+                if (details !== null) {
+                  let payingAmt = 0;
+                  details.forEach((element) => {
+                    payingAmt =
+                      payingAmt + element.Paying_Amount + element.Tds_Amount;
+                  });
+                  const debitAmt = element.Grand_Total - payingAmt;
+
+                  if (debitAmt > 0) {
+                    const ledgerData = {
+                      To_Party: element.To_Party.Company_Name,
+                      Date: element.Date,
+                      Invoice_No: element.Invoice_No,
+                      Quality: element.Quality.Design_Name,
+                      Total_Meters: element.Total_Meters,
+                      Rate: element.Rate,
+                      Credit: payingAmt,
+                      Debit: debitAmt,
+                      Firm_Name: receiptDetails[0].Firm.Company_Name,
+                    };
+                    this.pdfData.push(ledgerData);
+
+                    const result = this.pdfData.reduce((prev, next) => {
+                      const key = `${next.To_Party}`;
+                      prev[key] = prev[key] || [];
+                      prev[key].push(next);
+                      return prev;
+                    }, {});
+                    this.returnedArray = result;
+                    this.keysArr = Object.keys(this.returnedArray);
+                    this.keysArr.sort(function (a, b) {
+                      if (a < b) {
+                        return -1;
+                      }
+                      if (a > b) {
+                        return 1;
+                      }
+                      return 0;
+                    });
+                  }
+                }
+              });
+          }
+        });
+    });
+  } */
 
   fetchFirm() {
     this.spinner.show();
@@ -165,9 +338,14 @@ export class LedgerReportComponent implements OnInit {
   }
 
   generatePdf(content) {
-    const result = this.commonservice.openPrintModal(
-      content,
-      content,
+    const initialState = {
+      _id: content,
+      content: content,
+      From_Date: this.From_Date.value,
+      To_Date: this.To_Date.value,
+    };
+    const result = this.commonservice.customPrintModel(
+      initialState,
       LedgerReportPrintComponent
     );
     /* result.content.onClose.subscribe((result: boolean) => {

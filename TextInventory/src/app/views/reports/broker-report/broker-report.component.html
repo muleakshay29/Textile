@@ -54,14 +54,42 @@
               <i class="fa fa-ban"></i> Reset
             </button>
 
-            <button
+            <div class="btn-group" dropdown *ngIf="keysArr.length > 0">
+              <button
+                dropdownToggle
+                type="button"
+                class="btn btn-primary dropdown-toggle"
+              >
+                <i class="fa fa-print"></i> Print <span class="caret"></span>
+              </button>
+              <ul *dropdownMenu class="dropdown-menu" role="menu">
+                <li role="menuitem">
+                  <a
+                    class="dropdown-item"
+                    (click)="printPdf()"
+                    href="javascript:void(0)"
+                    >PDF</a
+                  >
+                </li>
+                <li role="menuitem">
+                  <a
+                    class="dropdown-item"
+                    (click)="printExcel()"
+                    href="javascript:void(0)"
+                    >EXCEL</a
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <!-- <button
               type="button"
               class="btn btn-primary m-2"
               *ngIf="keysArr.length > 0"
               (click)="printPdf()"
             >
               <i class="fa fa-print"></i> Print
-            </button>
+            </button> -->
 
             <!-- <button
               type="button"

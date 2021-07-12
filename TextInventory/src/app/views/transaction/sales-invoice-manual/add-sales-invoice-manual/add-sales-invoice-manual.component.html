@@ -476,6 +476,32 @@
                 </div>
 
                 <div class="row">
+                  <div class="form-group col-sm-8">
+                    <div class="row">
+                      <div class="col-sm-5 pr-0">
+                        <label for="CDPERCENTAGE">CD %</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="CD %"
+                          formControlName="CD_Percent"
+                          (blur)="calculateCDAmount($event)"
+                        />
+                      </div>
+
+                      <div class="col-sm-7 pl-1">
+                        <label for="CDAMOUNT">CD Amount</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="CD Amount"
+                          formControlName="CD_Amount"
+                          readonly
+                        />
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="form-group col-sm-4">
                     <label for="Taxable_Amount">Taxable Amount</label>
                     <input
@@ -491,44 +517,40 @@
                       [control]="Taxable_Amount"
                     ></app-error-message>
                   </div>
+                </div>
 
-                  <div class="form-group col-sm-8">
-                    <div class="row">
-                      <div class="col-sm-5 pr-0">
-                        <label for="CGST">CGST</label>
-                        <input
-                          type="number"
-                          class="form-control"
-                          placeholder="CGST"
-                          formControlName="CGST"
-                          (blur)="calculateCGST($event)"
-                          [readonly]="enableIGST"
-                        />
+                <div class="row">
+                  <div class="form-group col-sm-6">
+                    <label for="CGST">CGST</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="CGST"
+                      formControlName="CGST"
+                      (blur)="calculateCGST($event)"
+                      [readonly]="enableIGST"
+                    />
 
-                        <app-error-message
-                          class="d-block w-100"
-                          [control]="CGST"
-                        ></app-error-message>
-                      </div>
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="CGST"
+                    ></app-error-message>
+                  </div>
 
-                      <div class="col-sm-7 pl-1">
-                        <div class="form-group">
-                          <label for="CGSTAMOUNT">CGST AMOUNT</label>
-                          <input
-                            type="number"
-                            class="form-control"
-                            placeholder="CGST AMOUNT"
-                            formControlName="CGST_Amt"
-                            readonly
-                          />
+                  <div class="form-group col-sm-6">
+                    <label for="CGSTAMOUNT">CGST AMOUNT</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="CGST AMOUNT"
+                      formControlName="CGST_Amt"
+                      readonly
+                    />
 
-                          <app-error-message
-                            class="d-block w-100"
-                            [control]="CGST_Amt"
-                          ></app-error-message>
-                        </div>
-                      </div>
-                    </div>
+                    <app-error-message
+                      class="d-block w-100"
+                      [control]="CGST_Amt"
+                    ></app-error-message>
                   </div>
                 </div>
 

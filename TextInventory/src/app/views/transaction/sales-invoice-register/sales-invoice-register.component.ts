@@ -7,6 +7,7 @@ import * as jsPDF from "jspdf";
 import { SalesInvoicePrintComponent } from "../../../_helper/sales-invoice-print/sales-invoice-print.component";
 import { ArIndusriesReceiptPrintComponent } from "../../../_helper/ar-indusries-receipt-print/ar-indusries-receipt-print.component";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { InvoiceDesign3Component } from "../../../_helper/invoice-design3/invoice-design3.component";
 
 @Component({
   selector: "app-sales-invoice-register",
@@ -96,6 +97,14 @@ export class SalesInvoiceRegisterComponent implements OnInit {
         "",
         content,
         ArIndusriesReceiptPrintComponent
+      );
+    }
+
+    if (ReceiptDesign == 3) {
+      result = this.cmservice.openPrintModal(
+        "",
+        content,
+        InvoiceDesign3Component
       );
     }
 

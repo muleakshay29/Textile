@@ -1,5 +1,5 @@
 <ngx-spinner type="ball-beat" [fullScreen]="true"
-  ><p style="color: white;" class="lead">Loading...</p></ngx-spinner
+  ><p style="color: white" class="lead">Loading...</p></ngx-spinner
 >
 <div class="animated fadeIn">
   <div class="row">
@@ -74,6 +74,18 @@
           </div>
 
           <div class="card-footer text-center">
+            <!-- <button
+              class="btn btn-primary"
+              type="button"
+              *ngIf="!yarnMaster.valid"
+            >
+              <span
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              Loading...
+            </button> -->
             <button
               type="submit"
               class="btn btn-primary"

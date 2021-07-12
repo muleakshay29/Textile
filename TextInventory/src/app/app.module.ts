@@ -24,6 +24,7 @@ import { ConfirmWindowComponent } from "./_helper/confirm-window/confirm-window.
 import { LedgerReportPrintComponent } from "./_helper/ledger-report-print/ledger-report-print.component";
 import { Gstr1ReportPrintComponent } from "./_helper/gstr1-report-print/gstr1-report-print.component";
 import { ArIndusriesReceiptPrintComponent } from "./_helper/ar-indusries-receipt-print/ar-indusries-receipt-print.component";
+import { InvoiceDesign3Component } from "./_helper/invoice-design3/invoice-design3.component";
 
 @NgModule({
   imports: [
@@ -48,6 +49,7 @@ import { ArIndusriesReceiptPrintComponent } from "./_helper/ar-indusries-receipt
     LedgerReportPrintComponent,
     Gstr1ReportPrintComponent,
     ArIndusriesReceiptPrintComponent,
+    InvoiceDesign3Component,
   ],
   providers: [
     {
@@ -68,6 +70,7 @@ import { ArIndusriesReceiptPrintComponent } from "./_helper/ar-indusries-receipt
     LedgerReportPrintComponent,
     Gstr1ReportPrintComponent,
     ArIndusriesReceiptPrintComponent,
+    InvoiceDesign3Component,
   ],
   bootstrap: [AppComponent],
 })

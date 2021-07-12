@@ -33,6 +33,7 @@ export class EditSalesInvoiceComponent implements OnInit {
   selectedToPartyState: string = "";
   enableIGST = false;
   salesInvoiceDetails = [];
+  taxableAmtOrg: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -81,6 +82,8 @@ export class EditSalesInvoiceComponent implements OnInit {
       FOLD: [this.defaultValue],
       Second_Other: [this.defaultValue],
       Taxable_Amount: [this.defaultValue],
+      CD_Percent: [this.defaultValue],
+      CD_Amount: [this.defaultValue],
       CGST: [this.defaultValue],
       CGST_Amt: [this.defaultValue],
       SGST: [this.defaultValue],
@@ -190,6 +193,14 @@ export class EditSalesInvoiceComponent implements OnInit {
     return this.salesInvoice.get("Taxable_Amount");
   }
 
+  get CD_Percent() {
+    return this.salesInvoice.get("CD_Percent");
+  }
+
+  get CD_Amount() {
+    return this.salesInvoice.get("CD_Amount");
+  }
+
   get CGST() {
     return this.salesInvoice.get("CGST");
   }
@@ -231,13 +242,14 @@ export class EditSalesInvoiceComponent implements OnInit {
   }
 
   getYearId() {
-    let today = new Date();
+    this.Year_Id = localStorage.getItem("selectedYear");
+    /* let today = new Date();
     const year = today.getFullYear();
     this.commonservice
       .findData({ CMC_Name: year }, "find-cmcname")
       .subscribe((result) => {
         this.Year_Id = result[0]._id;
-      });
+      }); */
   }
 
   private initForm() {
@@ -275,6 +287,8 @@ export class EditSalesInvoiceComponent implements OnInit {
           this.Shed.disable();
         }
 
+        this.taxableAmtOrg = details.Total_Amount;
+
         this.salesInvoice.setValue({
           Invoice_No: details.Invoice_No,
           Date: formatedDate,
@@ -310,6 +324,8 @@ export class EditSalesInvoiceComponent implements OnInit {
           Round_Off: details.Round_Off,
           Grand_Total: details.Grand_Total,
           Shed: details.Shed || "",
+          CD_Percent: details.CD_Percent || 0,
+          CD_Amount: details.CD_Amount || 0,
         });
 
         this.fetchFirm(details.From_Party._id);
@@ -436,6 +452,15 @@ export class EditSalesInvoiceComponent implements OnInit {
       parseFloat(SECONDOTHER) -
       parseFloat(FOLD);
     this.Taxable_Amount.patchValue(taxAmt);
+  }
+
+  calculateCDAmount(event) {
+    const cdPercent = event.target.value;
+    const cdAmount = (this.taxableAmtOrg / 100) * cdPercent;
+    this.CD_Amount.patchValue(cdAmount.toFixed(2));
+    const newTaxAmt = this.taxableAmtOrg - cdAmount;
+    this.Taxable_Amount.patchValue(parseFloat(newTaxAmt.toFixed(2)));
+    this.calculateTotalAmount();
   }
 
   calculateCGST(event) {

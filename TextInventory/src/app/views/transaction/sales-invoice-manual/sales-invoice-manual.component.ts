@@ -5,6 +5,7 @@ import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { SalesInvoicePrintComponent } from "../../../_helper/sales-invoice-print/sales-invoice-print.component";
 import { ArIndusriesReceiptPrintComponent } from "../../../_helper/ar-indusries-receipt-print/ar-indusries-receipt-print.component";
+import { InvoiceDesign3Component } from "../../../_helper/invoice-design3/invoice-design3.component";
 
 @Component({
   selector: "app-sales-invoice-manual",
@@ -97,6 +98,14 @@ export class SalesInvoiceManualComponent implements OnInit {
           "",
           content,
           ArIndusriesReceiptPrintComponent
+        );
+      }
+
+      if (details.ReceiptDesign == 3) {
+        result = this.cmservice.openPrintModal(
+          "",
+          content,
+          InvoiceDesign3Component
         );
       }
 

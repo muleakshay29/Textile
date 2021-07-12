@@ -5,6 +5,9 @@ import { CommonService } from "../../../../_services/common.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { SalesInvoicePrintComponent } from "../../../../_helper/sales-invoice-print/sales-invoice-print.component";
+import { AuthenticationService } from "../../../../_services/authentication.service";
+import { ArIndusriesReceiptPrintComponent } from "../../../../_helper/ar-indusries-receipt-print/ar-indusries-receipt-print.component";
+import { InvoiceDesign3Component } from "../../../../_helper/invoice-design3/invoice-design3.component";
 
 @Component({
   selector: "app-add-sales-invoice-manual",
@@ -30,9 +33,14 @@ export class AddSalesInvoiceManualComponent implements OnInit {
   roundOff = 0;
   formCode;
   selectedShed: string;
+  selectedFirm: string;
+  receiptDesign: string;
   selectedFromPartyState: string = "";
   selectedToPartyState: string = "";
   enableIGST = false;
+  taxableAmtOrg: number = 0;
+  CompanyDetails = [];
+  currentUser: any;
 
   constructor(
     private fb: FormBuilder,
@@ -40,8 +48,15 @@ export class AddSalesInvoiceManualComponent implements OnInit {
     private router: Router,
     private commonservice: CommonService,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
-  ) {}
+    private spinner: NgxSpinnerService,
+    private auth: AuthenticationService
+  ) {
+    this.auth.currentUser.subscribe((x) => {
+      if (x) {
+        this.currentUser = x["user"];
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.createForm();
@@ -51,6 +66,7 @@ export class AddSalesInvoiceManualComponent implements OnInit {
     this.fetchFirm();
     this.fetchBroker();
     this.fetchShed();
+    this.companyDetails();
 
     this.route.params.subscribe((params: Params) => {
       this.salesInvoiceID = params["id"] ? params["id"] : "";
@@ -96,6 +112,8 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       Round_Off: [this.defaultValue],
       Grand_Total: [this.defaultValue],
       Shed: ["", Validators.required],
+      CD_Percent: [this.defaultValue],
+      CD_Amount: [this.defaultValue],
     });
   }
 
@@ -235,14 +253,23 @@ export class AddSalesInvoiceManualComponent implements OnInit {
     return this.salesInvoice.get("Shed");
   }
 
+  get CD_Percent() {
+    return this.salesInvoice.get("CD_Percent");
+  }
+
+  get CD_Amount() {
+    return this.salesInvoice.get("CD_Amount");
+  }
+
   getYearId() {
-    let today = new Date();
+    this.Year_Id = localStorage.getItem("selectedYear");
+    /* let today = new Date();
     const year = today.getFullYear();
     this.commonservice
       .findData({ CMC_Name: year }, "find-cmcname")
       .subscribe((result) => {
         this.Year_Id = result[0]._id;
-      });
+      }); */
   }
 
   getInvoice(firm) {
@@ -278,6 +305,14 @@ export class AddSalesInvoiceManualComponent implements OnInit {
         }
       });
   } */
+
+  companyDetails() {
+    this.commonservice
+      .fetchDetails(this.currentUser.Company_Id, "company-details")
+      .subscribe((details) => {
+        console.log(details);
+      });
+  }
 
   onSubmit() {
     this.spinner.show();
@@ -331,7 +366,42 @@ export class AddSalesInvoiceManualComponent implements OnInit {
               .addData(accountTrans, "add-account-transaction")
               .subscribe();
 
-            const data = this.commonservice.openPrintModal(
+            let data;
+            if (this.receiptDesign == "1") {
+              data = this.commonservice.openPrintModal(
+                "",
+                result._id,
+                SalesInvoicePrintComponent
+              );
+            }
+
+            if (this.receiptDesign == "2") {
+              data = this.commonservice.openPrintModal(
+                "",
+                result._id,
+                ArIndusriesReceiptPrintComponent
+              );
+            }
+
+            if (this.receiptDesign == "3") {
+              data = this.commonservice.openPrintModal(
+                "",
+                result._id,
+                InvoiceDesign3Component
+              );
+            }
+
+            console.log("this.receiptDesign", this.receiptDesign);
+            console.log("data", data);
+            console.log("result._id", result._id);
+
+            data.content.onClose.subscribe((detail: boolean) => {
+              if (detail == true) {
+                this.spinner.show();
+              }
+            });
+
+            /* const data = this.commonservice.openPrintModal(
               "",
               result._id,
               SalesInvoicePrintComponent
@@ -340,7 +410,7 @@ export class AddSalesInvoiceManualComponent implements OnInit {
               if (result == true) {
                 this.spinner.show();
               }
-            });
+            }); */
 
             this.toastr.success("Record added successfully", "Success");
             this.salesInvoice.reset();
@@ -489,6 +559,8 @@ export class AddSalesInvoiceManualComponent implements OnInit {
             this.Shed.disable();
           }
 
+          this.taxableAmtOrg = details.Total_Amount;
+
           this.salesInvoice.setValue({
             Invoice_No: details.Invoice_No,
             Date: formatedDate,
@@ -524,6 +596,8 @@ export class AddSalesInvoiceManualComponent implements OnInit {
             Round_Off: details.Round_Off,
             Grand_Total: details.Grand_Total,
             Shed: details.Shed || "",
+            CD_Percent: details.CD_Percent || 0,
+            CD_Amount: details.CD_Amount || 0,
           });
           this.spinner.hide();
         });
@@ -566,6 +640,8 @@ export class AddSalesInvoiceManualComponent implements OnInit {
     this.commonservice
       .fetchDetails(event.target.value, "firm-details")
       .subscribe((details) => {
+        this.selectedFirm = details._id;
+        this.receiptDesign = details.ReceiptDesign;
         this.selectedFromPartyState = details.State;
         if (
           String(this.selectedFromPartyState) !=
@@ -658,6 +734,17 @@ export class AddSalesInvoiceManualComponent implements OnInit {
       parseFloat(SECONDOTHER) -
       parseFloat(FOLD);
     this.Taxable_Amount.patchValue(taxAmt);
+  }
+
+  calculateCDAmount(event) {
+    const cdPercent = event.target.value;
+    this.calculateTotalAmt(this.Rate.value);
+    this.taxableAmtOrg = this.Taxable_Amount.value;
+    const cdAmount = (this.taxableAmtOrg / 100) * cdPercent;
+    this.CD_Amount.patchValue(cdAmount.toFixed(2));
+    const newTaxAmt = this.taxableAmtOrg - cdAmount;
+    this.Taxable_Amount.patchValue(parseFloat(newTaxAmt.toFixed(2)));
+    this.calculateTotalAmount();
   }
 
   calculateCGST(event) {

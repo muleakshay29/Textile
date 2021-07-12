@@ -19,6 +19,7 @@ export class BrokerReportComponent implements OnInit {
   keysArr = [];
   dataLength: number;
   itemsPerPage: number = 10;
+  fileName: string = "";
 
   constructor(
     private fb: FormBuilder,
@@ -114,5 +115,24 @@ export class BrokerReportComponent implements OnInit {
     };
 
     this.htmltopaper.HtmlToPaper("print-html", options);
+  }
+
+  printExcel() {
+    this.spinner.show();
+
+    setTimeout(() => {
+      this.fileName =
+        "Broker-" +
+        this.From_Date.value +
+        "-to-" +
+        this.To_Date.value +
+        "-Report.xlsx";
+      let element = document.getElementById("print-html");
+      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+      XLSX.writeFile(wb, this.fileName.replace(/ /g, "-"));
+      this.spinner.hide();
+    }, 3000);
   }
 }

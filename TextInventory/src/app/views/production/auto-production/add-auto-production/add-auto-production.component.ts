@@ -78,13 +78,14 @@ export class AddAutoProductionComponent implements OnInit {
   }
 
   getYearId() {
-    let today = new Date();
+    this.Year_Id = localStorage.getItem("selectedYear");
+    /* let today = new Date();
     const year = today.getFullYear();
     this.cmaster
       .findData({ CMC_Name: year }, "find-cmcname")
       .subscribe((result) => {
         this.Year_Id = result[0]._id;
-      });
+      }); */
   }
 
   get From_Date() {
@@ -204,44 +205,36 @@ export class AddAutoProductionComponent implements OnInit {
       formData.Updated_By = this.cmaster.currentUser.Company_Id;
       formData.Updated_Date = new Date();
 
-      
-       this.cmaster
-      // .addData(this.autoProductionID,tagaStock, "add-stock-taga")
+      this.cmaster
+        // .addData(this.autoProductionID,tagaStock, "add-stock-taga")
         .updateData(this.autoProductionID, formData, "update-auto-production")
         .subscribe((data) => {
           if (data != null) {
-           
             const tagaStock = {
-           // ProductionID: data._id, //this.autoProductionID,
+              // ProductionID: data._id, //this.autoProductionID,
               TAGA_Meter: formData.Meter,
-             
+
               TAGA_Weight: formData.Weight,
               Updated_By: this.cmaster.currentUser.Company_Id,
               Updated_Date: new Date(),
-           
-            };     
-           
+            };
+
             this.cmaster
-              .updateData(this.autoProductionID,tagaStock, "update-stock-taga")
+              .updateData(this.autoProductionID, tagaStock, "update-stock-taga")
               .subscribe((tagaStockDetails) => {
                 if (tagaStockDetails != null) {
                   this.toastr.success("Record updated successfuly", "Success");
                   this.autoProduction.reset();
                   this.router.navigate(["/production/auto-production"]);
                   this.spinner.hide();
-                }
-                else
-                {
+                } else {
                   this.toastr.error(
                     "Error updating record. Please try again.",
                     "Error"
                   );
                   this.spinner.hide();
                 }
-              
               });
-            
-            
           } else {
             this.toastr.error(
               "Error updating record. Please try again.",
@@ -287,8 +280,8 @@ export class AddAutoProductionComponent implements OnInit {
 
           this.fetchLoomNoList(details.Shed, details.Loom_Type);
           this.fetchLoomTypes(details.Shed);
-           this.fetchParty(details.Party_Name);
-           this.fetchQuality(details.Quality);
+          this.fetchParty(details.Party_Name);
+          this.fetchQuality(details.Quality);
 
           this.autoProduction.setValue({
             From_Date: FromDate,

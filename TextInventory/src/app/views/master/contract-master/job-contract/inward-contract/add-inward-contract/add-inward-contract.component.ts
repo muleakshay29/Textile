@@ -69,13 +69,14 @@ export class AddInwardContractComponent implements OnInit {
   }
 
   getYearId() {
-    let today = new Date();
+    this.Year_Id = localStorage.getItem("selectedYear");
+    /* let today = new Date();
     const year = today.getFullYear();
     this.cmaster
       .findData({ CMC_Name: year }, "find-cmcname")
       .subscribe((result) => {
         this.Year_Id = result[0]._id;
-      });
+      }); */
   }
 
   get Contract_No() {

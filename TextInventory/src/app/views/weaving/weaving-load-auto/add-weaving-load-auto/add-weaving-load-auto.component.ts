@@ -62,13 +62,14 @@ export class AddWeavingLoadAutoComponent implements OnInit {
   }
 
   getYearId() {
-    let today = new Date();
+    this.Year_Id = localStorage.getItem("selectedYear");
+    /* let today = new Date();
     const year = today.getFullYear();
     this.cmaster
       .findData({ CMC_Name: year }, "find-cmcname")
       .subscribe((result) => {
         this.Year_Id = result[0]._id;
-      });
+      }); */
   }
 
   generateBICode() {
@@ -337,7 +338,7 @@ export class AddWeavingLoadAutoComponent implements OnInit {
       const party = this.Party_Name.value;
 
       this.cmaster
-        .findData({ SAT_NO: satno, Party_Name:party }, "fetch-common-beams")
+        .findData({ SAT_NO: satno, Party_Name: party }, "fetch-common-beams")
         // .findData({ SAT_NO: satno, Shed: shed }, "fetch-common-beams")
         .subscribe((list) => {
           list.forEach((element) => {

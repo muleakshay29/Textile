@@ -5,6 +5,7 @@
 
 export const environment = {
   production: true,
-  API_URL: "http://localhost:5000/",
-  // API_URL: "https://textile-app95.herokuapp.com/",
+  // API_URL: "http://localhost:5000/",
+  API_URL: "https://textile-app95.herokuapp.com/",
+  // API_URL: "https://textile-testing.herokuapp.com/",
 };
